@@ -14,6 +14,7 @@ class TextaseDataset(BaseDataset):
             raise AssertionError
         
     def get_questions(self):
+        """输出list格式 """
         if type(self.questions)==type(None):
             self.questions = {}
             for label,rows in self.dataset_content.items():
@@ -29,6 +30,9 @@ class TextaseDataset(BaseDataset):
                     self.questions[label].append(question)
         return self.questions
     
+    def get_answer(self):
+        dataset_dict = self.dataset_to_dict()
+        return dataset_dict
         
 if __name__ == "__main__":
     td = TextaseDataset("knowledge")

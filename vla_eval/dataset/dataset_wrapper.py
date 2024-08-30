@@ -2,7 +2,6 @@
 获取数据集的api
 """
 
-
 from pathlib import Path,PosixPath
 from utils import utils
 from vla_eval.dataset.image_base import ImageBaseDataset
@@ -30,4 +29,3 @@ def make(dataset_name:str):
     else:
         raise AssertionError
     return dataset
-    

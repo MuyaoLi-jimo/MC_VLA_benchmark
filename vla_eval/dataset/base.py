@@ -44,6 +44,20 @@ class BaseDataset(abc.ABC):
     @abc.abstractmethod
     def get_questions(self):
         pass
+    
+    @abc.abstractmethod
+    def get_answers(self):
+        pass  
+    
+    def dataset_to_dict(self):
+        """用id来索引 """
+        dataset_dict = {}
+        for label, rows in self.dataset_content.items():
+            for row in rows:
+                dataset_dict[row["id"]] = row
+                dataset_dict[row["id"]]["label"] = [self.dataset_name,label]
+        return dataset_dict
+        
 
             
 if __name__ == "__main__":

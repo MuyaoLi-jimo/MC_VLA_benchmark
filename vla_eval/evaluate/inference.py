@@ -5,7 +5,6 @@ benchmark输出应该是什么呢？
 TODO: 暂时按照label来生成吧，后期考虑其他形式（先做出来再说）,然后暂时不做并行，都串行
 """
 from rich import print
-import pickle
 from pathlib import Path
 from utils import utils
 from vla_eval.dataset import dataset_wrapper
