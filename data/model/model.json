@@ -1,0 +1,32 @@
+{
+    "llama3-llava-next-8b-hf": {
+        "id": "49915e5c-74cd-491f-a1bf-80233148085a",
+        "insert_time": "2024-08-27 08:49:08",
+        "path": "/nfs-shared/models/llama3-llava-next-8b-hf",
+        "elo rating": 1000,
+        "task": [],
+        "task score": {},
+        "running": false,
+        "pid": 0,
+        "port": 9001,
+        "host": "localhost"
+    },
+    "gpt-4o": {
+        "id": "6ddfc833-99c0-478a-bfb1-4be1bad78944",
+        "insert_time": "2024-08-29 21:18:41",
+        "path": "openai/gpt-4o",
+        "elo rating": 1000,
+        "task": [],
+        "task score": {},
+        "running": true
+    },
+    "gpt-4o-mini": {
+        "id": "e74d0cf6-394b-4b4a-802c-69c03c746e41",
+        "insert_time": "2024-08-29 21:18:41",
+        "path": "openai/gpt-4o-mini",
+        "elo rating": 1000,
+        "task": [],
+        "task score": {},
+        "running": true
+    }
+}

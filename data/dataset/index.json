@@ -1,0 +1,44 @@
+{
+    "reason": {
+        "id": "07604f38-c734-4fb6-a643-849d2ccc7bd4",
+        "name": "reason",
+        "timestamp": "2024-08-29 05:58:49",
+        "type":"text",
+        "label": {
+            "math": 5,
+            "commonsense": 3,
+            "counterfactual": 2,
+            "intuitive": 4
+        },
+        "attrs": [
+            "question",
+            "answer",
+            "precondition"
+        ],
+        "num": 14,
+        "available": true
+    },
+    "knowledge": {
+        "id": "56f0ffef-0012-469e-a364-d46b5afa283d",
+        "name": "knowledge",
+        "timestamp": "2024-08-29 05:58:49",
+        "type":"text",
+        "label": {
+            "mine": 11,
+            "craft": 9,
+            "plant": 5,
+            "mobs": 12,
+            "kill": 3,
+            "enchant": 3,
+            "potion": 4,
+            "biomes": 4,
+            "architecture": 7
+        },
+        "attrs": [
+            "question",
+            "answer"
+        ],
+        "num": 58,
+        "available": true
+    }
+}

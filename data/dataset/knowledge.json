@@ -1,0 +1,310 @@
+{
+    "mine": [
+        {
+            "question": "Can a stone pickaxe be used to mine diamonds in Minecraft?\n",
+            "answer": "No, a stone pickaxe cannot be used to mine diamonds. If you attempt to mine diamond ore with a stone pickaxe, the block will break, but it will not drop any diamonds. You need to use an iron pickaxe or a better one (such as a diamond or netherite pickaxe) to successfully mine and collect diamonds.",
+            "id": "7ffb452d-780e-4680-ad27-0a58107362c6"
+        },
+        {
+            "question": "In Minecraft, what type of tool is best suited for digging Mycelium?\n",
+            "answer": "shovel",
+            "id": "b2b036ba-4947-4517-8b2f-baf5497a3857"
+        },
+        {
+            "question": "Which kind of tree leaves can drop apples in Minecraft?\n",
+            "answer": "Oak tree and dark oak tree",
+            "id": "16d76098-2bc8-4165-8a72-ff52c126c3aa"
+        },
+        {
+            "question": "Can sword catch fish in Minecraft?\n",
+            "answer": "Yes",
+            "id": "3d273754-bdb2-4c2e-b839-423d13543674"
+        },
+        {
+            "question": "At what height (Y-coordinate) do diamonds appear most?\n",
+            "answer": "12",
+            "id": "ee82af07-9df3-4093-80d8-059213a52f39"
+        },
+        {
+            "question": "Can egg stack to 64 in the inventory?\n",
+            "answer": "No",
+            "id": "74c7af75-f532-424e-9fd1-ffd58ad772d3"
+        },
+        {
+            "question": "Which Pickaxe mines the fastest?\n",
+            "answer": "Gold Pickaxe",
+            "id": "662ae59b-d000-48a9-b057-2cbbe16302f5"
+        },
+        {
+            "question": "Can you find the chorus flower in the End?\n",
+            "answer": "Yes",
+            "id": "3e302482-7805-4ee8-bcc8-9e35767dc2ec"
+        },
+        {
+            "question": "What is the name of the technique where you mine in straight lines to find ores?\n",
+            "answer": "Branch Mining",
+            "id": "33a32fd1-1ad9-4914-955f-5caf2b689948"
+        },
+        {
+            "question": "Can diamonds give experience when mined?\n",
+            "answer": "Yes",
+            "id": "9781ce5f-55b7-41e4-be9e-f8780d17b74d"
+        },
+        {
+            "question": "What is the deepest layer you can mine in Minecraft\n",
+            "answer": "0",
+            "id": "d361541c-3b0e-450a-bd91-8f43f1fbc261"
+        }
+    ],
+    "craft": [
+        {
+            "question": "What materials are needed to craft a jukebox in Minecraft?\n",
+            "answer": "8 Planks and 1 Diamond",
+            "id": "16e81598-6008-462c-9b07-8723e8404f04"
+        },
+        {
+            "question": "What is the crafting recipe for a beacon?\n",
+            "answer": "5 pieces of Glass, 3 blocks of Obsidian, and a Nether Star",
+            "id": "baf243de-0daa-454f-9021-b7c82810f375"
+        },
+        {
+            "question": "What is used as fuel for brewing stand\n",
+            "answer": "blaze powder",
+            "id": "116b3727-5686-4849-bd28-bdd58c0c6f43"
+        },
+        {
+            "question": "Which flowers are used to craft Blue Dye in Minecraft?\n",
+            "answer": "Cornflower",
+            "id": "5674f27f-ac41-4665-bb3d-74060b7a9ced"
+        },
+        {
+            "question": "What is a green dye made out of?\n",
+            "answer": "Cactus",
+            "id": "07cd459a-fb01-4ce5-9ea4-548c90764e58"
+        },
+        {
+            "question": "How much sugar is needed to complete the pumpkin pie in Minecraft?\n",
+            "answer": "1",
+            "id": "cd036f3d-d21e-44de-ad02-06d38367a8d6"
+        },
+        {
+            "question": "What does command block do in Minecraft?\n",
+            "answer": "allows the use of console commands in-game",
+            "id": "44cbf84a-0f5e-4afc-b843-8ff449b583c4"
+        },
+        {
+            "question": "In Minecraft, what is used to rename items?\n",
+            "answer": "Anvil",
+            "id": "0b18df84-7639-497c-8b63-25dd94679856"
+        },
+        {
+            "question": "In Minecraft, can you get a baby Chicken if you throw an egg?\n",
+            "answer": "Probably",
+            "id": "cb27bae5-73a3-4bea-a0bc-95f14cc2c153"
+        }
+    ],
+    "plant": [
+        {
+            "question": "What is the maximum height sugarcane can reach in Minecraft?\n",
+            "answer": "3",
+            "id": "3971650c-4ce5-4b30-a0a6-1b670f9b831d"
+        },
+        {
+            "question": "How many dirt blocks around the water source get hydrated if you use a hoe on dirt in Minecraft?\n",
+            "answer": "4",
+            "id": "7a053345-eaf9-4008-b982-b4dcf481b027"
+        },
+        {
+            "question": "In Minecraft, can player eat Wheat?\n",
+            "answer": "No",
+            "id": "7e1d64b3-3223-4e0f-9cf5-70e70b95c549"
+        },
+        {
+            "question": "Which direction does a Sunflower always face?\n",
+            "answer": "East",
+            "id": "5be064f6-704c-42ef-9c97-adbae3e98e0f"
+        },
+        {
+            "question": "Do Cactus have seeds in Minecraft\n",
+            "answer": "No",
+            "id": "bb42644d-9dc9-4ed4-8c99-c2621abab35d"
+        }
+    ],
+    "mobs": [
+        {
+            "question": "What happens when a creeper gets struck by lightning in Minecraft?\n",
+            "answer": "a creeper becomes a charged creeper",
+            "id": "095ff278-ad8c-4421-aad9-2c5191d937a3"
+        },
+        {
+            "question": "What will happen when zombies stay under daylight\n",
+            "answer": "They start to burn until they die unless they find shadows or water",
+            "id": "b0db2a82-36b7-49e7-afbb-27007f6d192d"
+        },
+        {
+            "question": "Which mobs are Creepers afraid of in Minecraft?\n",
+            "answer": "ocelot",
+            "id": "6815ad47-14d9-4f82-8139-58344c3b338d"
+        },
+        {
+            "question": "Do Skeleton attack villagers in Minecraft?\n",
+            "answer": "No",
+            "id": "bbbe2d12-a79e-4aac-9b47-d0e6f2850e0d"
+        },
+        {
+            "question": "How many types of slime sizes exist in Minecraft?\n",
+            "answer": "3",
+            "id": "88576d56-4a84-4f13-8532-76a2889a7b3e"
+        },
+        {
+            "question": "In Minecraft, under what effect can using a golden apple turn a zombie villager back into a villager?\n",
+            "answer": "Weakness",
+            "id": "3638508e-1ce1-4991-bb31-2e379ee65397"
+        },
+        {
+            "question": "What do spiders drop in Minecraft, excluding Experience Orbs?\n",
+            "answer": "string and spider eyes",
+            "id": "db981782-c539-457f-b3f6-fcfe718cafe0"
+        },
+        {
+            "question": "What does Ender Dragon drop when defeated in Minecraft?\n",
+            "answer": "XP and Dragon egg",
+            "id": "b6d6e4e4-41d1-44fa-8584-6c13de3315b6"
+        },
+        {
+            "question": "What happens if you feed a wolf with a bone in Minecraft\n",
+            "answer": "it will become a dog and have a colored ring around the wolf's neck",
+            "id": "92bb27f3-fad0-4feb-b91a-8d46dbf07f43"
+        },
+        {
+            "question": "In Minecraft, what will happen if you feed parrot with cookies?\n",
+            "answer": "It get poisoned and die",
+            "id": "85d5e156-694e-4bff-9184-a2a0594cc5b9"
+        },
+        {
+            "question": "What will the enderman do if a player looks at its face in Minecraft?\n",
+            "answer": "Attack the player",
+            "id": "27dfe4a5-8036-4569-9637-11e383eea65e"
+        },
+        {
+            "question": "How do iron golems spawn naturally?\n",
+            "answer": "In a village if it has 21 doors and 15 villagers",
+            "id": "bf62d8c7-9e81-4da2-9d49-e63f30f4c2b5"
+        }
+    ],
+    "kill": [
+        {
+            "question": "Can shield block crossbow attack in Minecraft?\n",
+            "answer": "No",
+            "id": "cf27d1a7-504c-4bb8-984b-bef1bf89b43d"
+        },
+        {
+            "question": "Is it okay to jump into the water from a high place in Minecraft?\n",
+            "answer": "Yes",
+            "id": "c1953ea7-be88-4437-b185-01cfb6ce1c57"
+        },
+        {
+            "question": "In Minecraft, which mineral-based tools and armor have the lowest durability (discussing minerals only)?\n",
+            "answer": "Gold",
+            "id": "ea665393-bf98-4046-899d-28b66d081a1e"
+        }
+    ],
+    "enchant": [
+        {
+            "question": "What happens if the player put on an item with Curse of Binding enchant in Minecraft?\n",
+            "answer": "it can not be removed until the item breaks or the player dies",
+            "id": "64e3456d-3e6b-4556-8c46-fe299446c449"
+        },
+        {
+            "question": "What does fire aspect enchant cause if used via a sword in Minecraft?\n",
+            "answer": "sets the target on fire",
+            "id": "cf1c1a8b-5a84-4fac-90f2-7c8e039d09db"
+        },
+        {
+            "question": "What does loyalty trident enchant cause to happen in Minecraft?\n",
+            "answer": "trident returns after being thrown",
+            "id": "48290bb5-e434-48d9-a40f-33b52322481f"
+        }
+    ],
+    "potion": [
+        {
+            "question": "What materials are needed to craft a potion of poison in Minecraft?\n",
+            "answer": "water bottle, Nether wart, blaze powder, spider eye",
+            "id": "909abd74-8af5-4687-99f7-9e4db766b05c"
+        },
+        {
+            "question": "What is one of the materials for a potion of swiftness?\n",
+            "answer": "sugar",
+            "id": "3faf8d4a-2d71-465e-8f45-2c0d7d3a3659"
+        },
+        {
+            "question": "What is one of the materials for a potion of regeneration?\n",
+            "answer": "Ghast tear",
+            "id": "7725c6fc-d1d9-4a50-a4de-ae812b6f4024"
+        },
+        {
+            "question": "What is lingering potion's effect in Minecraft?\n",
+            "answer": "They explode, creating a cloud",
+            "id": "85b6e80d-951b-42fb-94df-baf9e137c2fc"
+        }
+    ],
+    "biomes": [
+        {
+            "question": "Which biome is the only place you can find blue orchids in Minecraft?\n",
+            "answer": "Swamp",
+            "id": "c09f4a59-9852-4971-afee-03bec993146e"
+        },
+        {
+            "question": "Which biome is the only place you can find the woodland mansion in Minecraft?\n",
+            "answer": "Roofed Forest",
+            "id": "b6d81db6-b085-4856-bfe0-bf4ee8c0be6f"
+        },
+        {
+            "question": "Which biomes is the only place you can find the desert pyramid in Minecraft?\n",
+            "answer": "Desert",
+            "id": "ca77f8bb-247c-4e02-a22c-11d66735cbc7"
+        },
+        {
+            "question": "Which biomes is the only place you can find the desert pyramid in witch hut?\n",
+            "answer": "Swamp",
+            "id": "e244809c-f255-43b6-b3e8-4d8f8a42784d"
+        }
+    ],
+    "architecture": [
+        {
+            "question": "How many chests are typically found in a shipwreck in Minecraft?\n",
+            "answer": "1 to 3",
+            "id": "c895da6e-4b23-4b35-b396-9e837e65dfe8"
+        },
+        {
+            "question": "What happens if flowing water touches a lava source in Minecraft?\n",
+            "answer": "created Obsidian",
+            "id": "2a72e4cb-97ff-4778-a1c6-3d2e6e486022"
+        },
+        {
+            "question": "How to create a simple infinite water pool with buckets in Minecraft?\n",
+            "answer": "Dig a 2x2 hole, placing 2 water sources on opposite corners",
+            "id": "f26e7f40-2785-4da7-8401-0790e4f36bfb"
+        },
+        {
+            "question": "How many soul sand blocks are needed to summon Wither in Minecraft?\n",
+            "answer": "4",
+            "id": "87c1114f-7605-43c5-9540-f2eade605826"
+        },
+        {
+            "question": "What is the correct amount of blocks needed to spawn Iron Golem in Minecraft?\n",
+            "answer": "2 iron, 1 pumpkin",
+            "id": "31f1a52c-ca97-4a83-ae4d-bda7fd1c6569"
+        },
+        {
+            "question": "How many bees can each Bee nest or beehive hold in Minecraft?\n",
+            "answer": "3",
+            "id": "19a8cab2-0b97-429d-8118-bcc1da830a55"
+        },
+        {
+            "question": "What is the maximum build height at which you can place blocks in Minecraft?\n",
+            "answer": "320",
+            "id": "f54597ff-697f-4c6a-8998-def5d3dd112a"
+        }
+    ]
+}
