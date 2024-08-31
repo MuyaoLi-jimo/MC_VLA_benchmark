@@ -68,7 +68,7 @@ def _create_responce(data:dict):
         model = models.data[0].id
 
     try:                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
         chat_completion = client.chat.completions.create(
             messages=data["messages"],
             model=model)
@@ -110,7 +110,7 @@ class Model:
     ]
     MODEL_FOLD = Path(__file__).parent.parent.parent / "data" / "model"
     MODEL_INDEX_PATH = MODEL_FOLD / "model.json"
-    def __init__(self,model_name,model_fold = "/nfs-shared/models",batch_size:int=60):
+    def __init__(self,model_name,model_fold = "/nfs-shared/models",batch_size:int=80):
         assert model_name in self.LEGAL_MODEL
         self.model_index = utils.load_json_file(self.MODEL_INDEX_PATH)
         self.model_name = model_name
@@ -201,7 +201,7 @@ class Model:
         
         print(f"[red]Stop {self.pid} service {self.model_name}")
     
-    def inference(self,datas,batch_size:int=60):
+    def inference(self,datas,batch_size:int=80):
         """_summary_
         Args:
             datas (list): id,image,content or id content

@@ -7,6 +7,7 @@ TODO: 暂时按照label来生成吧，后期考虑其他形式（先做出来再
 from rich import print
 from pathlib import Path
 from utils import utils
+from vla_eval.dataset.base import BaseDataset
 from vla_eval.dataset import dataset_wrapper
 from vla_eval.model import model
 import copy
@@ -17,15 +18,14 @@ SYSTEM_PROMPT += "####################\n"
 
 LOG_FOLD = Path(__file__).parent.parent.parent / "data" / "log"
 
-def inference(database_name,inference_model:model.Model,timestamp,port):
-    test_jsonl_path = LOG_FOLD / f"{timestamp}_{inference_model.model_name}.jsonl"
+def inference(database:BaseDataset,inference_model:model.Model,timestamp,port):
+    test_jsonl_path = LOG_FOLD / f"{timestamp}_{inference_model.model_name}_{database.dataset_name}.jsonl"
     test_jp = utils.JsonlProcessor(test_jsonl_path,if_backup=False)
     inference_model.launch(devices=["5"],port=port) 
-    database = dataset_wrapper.make(database_name)
     questions = database.get_questions()
     for label,label_questions in questions.items():
         
-        inputs = create_input(label_questions, database_name)
+        inputs = create_input(label_questions)
         outputs = inference_model.inference(inputs,batch_size=40)
         qas = []
         for label_question,output in zip(label_questions,outputs):
@@ -34,7 +34,7 @@ def inference(database_name,inference_model:model.Model,timestamp,port):
                 "id": label_question["id"],
                 "q":label_question["message"],
                 "a":output["message"],
-                "label":[database_name,label],
+                "label":[database.dataset_name,label],
                 "input_tokens":output["input_tokens"],
                 "output_tokens":output["output_tokens"],
             }
@@ -43,7 +43,7 @@ def inference(database_name,inference_model:model.Model,timestamp,port):
     return True
         
 
-def create_input(label_questions,database_name):
+def create_input(label_questions):
     """
     制造问题的输入，
     TODO:注意SYSTEM_PROMPT可以因任务而各异，这个后续再说 

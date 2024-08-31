@@ -13,10 +13,11 @@
         "attrs": [
             "question",
             "answer",
-            "precondition"
+            "explanation"
         ],
         "num": 14,
-        "available": true
+        "available": true,
+        "validate requirement prompt": "Your judgement should consider factors such as accuracy, reasonable, criticality, creativity\n"
     },
     "knowledge": {
         "id": "56f0ffef-0012-469e-a364-d46b5afa283d",
@@ -39,6 +40,15 @@
             "answer"
         ],
         "num": 58,
-        "available": true
-    }
+        "available": true,  
+        "validate requirement prompt": "Your judgement should consider factors such as accuracy and relevance.\n",
+        "validate example prompt":"For example, if you decide A’s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n",
+        "validate shot prompt":{
+            "question":"Which kind of tree leaves can drop apples in Minecraft?",
+            "answer":"Oak tree and dark oak tree",
+            "A":"Oak and dark oak leaves, \n\nOak and dark oak leaves have a chance to drop apples when they decay or are broken. This drop rate is relatively low, so you may need to break or wait for a large number of leaves to get a significant amount of apples. No other types of tree leaves in Minecraft drop apples.",
+            "B":"Apple trees, also known as fruit-bearing trees, can drop apples in Minecraft.\nExplanation: Apple trees are a type of fruit-bearing tree found in the game, and they produce apples that can be collected and used for various purposes, such as crafting or eating. When an apple tree is fully grown and has reached its maturity, it may drop apples upon being broken, providing players with a valuable resource.",
+            "evaluation":"Answer A provided an accurate and relevant response, directly addressing the question by correctly identifying that only oak and dark oak leaves can drop apples in Minecraft. They included additional information about the drop rate and the conditions under which apples drop, enhancing the usefulness of their answer.\nAnswer B, however, contains a factual error. There are no specific “apple trees” or “fruit-bearing trees” in Minecraft as described in the response. The game does not feature trees explicitly labeled or functioning as fruit-bearing apple trees. Therefore, this response is misleading and incorrect regarding the game’s mechanics.\nConsidering these points, Answer A is more accurate and relevant to the actual gameplay mechanics of Minecraft. [A is better]\n"
+            }
+        }
 }

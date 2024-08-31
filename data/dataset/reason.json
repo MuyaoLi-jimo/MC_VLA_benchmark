@@ -3,31 +3,31 @@
         {
             "question": "How many iron ingots are needed to craft an iron pickaxe and an iron axe in Minecraft?",
             "answer": "6 iron ingots.",
-            "precondition": "To craft an iron pickaxe and an iron axe in Minecraft, you need the following: Iron Pickaxe: Requires 3 iron ingots. Iron Axe: Requires 3 iron ingots. So, to craft both an iron pickaxe and an iron axe, you would need a total of 6 iron ingots.",
+            "explanation": "To craft an iron pickaxe and an iron axe in Minecraft, you need the following: Iron Pickaxe: Requires 3 iron ingots. Iron Axe: Requires 3 iron ingots. So, to craft both an iron pickaxe and an iron axe, you would need a total of 6 iron ingots.",
             "id": "3b0973e3-57d9-4c4e-9fdd-a390c350af79"
         },
         {
             "question": "Assuming you are playing on the 'Hard' difficulty setting and the player is equipped with a full set of iron armor, how many health points will the player lose if hit by a Creeper explosion at close range in Minecraft?",
             "answer": "19.6 health points",
-            "precondition": "A Creeper explosion can deal up to 49 damage (24.5 hearts) at point-blank range without any armor. However, with a full set of iron armor, which reduces incoming damage by 60%, the damage from such an explosion would be mitigated substantially.",
+            "explanation": "A Creeper explosion can deal up to 49 damage (24.5 hearts) at point-blank range without any armor. However, with a full set of iron armor, which reduces incoming damage by 60%, the damage from such an explosion would be mitigated substantially.",
             "id": "e43a4542-4374-43da-889f-9115b18391c1"
         },
         {
             "question": "How many melon slices can the player get if break 6 melon in tatol in maximum in Minecraft?",
             "answer": "42",
-            "precondition": "A melon drops 3 to 7 melon slices when broken by hand. There are 6 melon. So the player can get 42 slice in total by hand.",
+            "explanation": "A melon drops 3 to 7 melon slices when broken by hand. There are 6 melon. So the player can get 42 slice in total by hand.",
             "id": "9c1ed636-6461-4466-8ec8-02f7b2042d9e"
         },
         {
             "question": "In Minecraft, how many times do you need to hit a cow with a stone axe to kill it at a minimum?",
             "answer": "2",
-            "precondition": "A cow has 20 health points, and a stone axe deals 10 damages.",
+            "explanation": "A cow has 20 health points, and a stone axe deals 10 damages.",
             "id": "9f1b0be1-df11-4258-8392-6293c4eaa030"
         },
         {
             "question": "In Minecraft, if a player with no bad effect has only 3 hunger points left and has 3 loaves of bread in their inventory, can the player restore their hunger to 20 points?",
             "answer": "No",
-            "precondition": "A bread restores 5 hunger points, there are 3 breads, the player left 3 hunger point, so it gets 18 hunger points in total",
+            "explanation": "A bread restores 5 hunger points, there are 3 breads, the player left 3 hunger point, so it gets 18 hunger points in total",
             "id": "3446e2ba-ef0d-4983-ac62-377a106e3cb0"
         }
     ],
@@ -35,19 +35,19 @@
         {
             "question": "In Minecraft, I am currently at height 30. Can I find diamonds at this level?",
             "answer": "No",
-            "precondition": "You need to be at height 16 or lower to find diamond ore effectively. At height 30, you are too high up to encounter diamond ore.",
+            "explanation": "You need to be at height 16 or lower to find diamond ore effectively. At height 30, you are too high up to encounter diamond ore.",
             "id": "b16e8c3f-8a01-4fc3-8184-9ec124a17908"
         },
         {
             "question": "Which biome has the tallest trees in Minecraft?",
             "answer": "jungle",
-            "precondition": "Jungle trees are features native to the jungle biome. Jungle trees range from short bushes to tall trees that reach up to 31 blocks in height, which are the tallest trees in jungle.",
+            "explanation": "Jungle trees are features native to the jungle biome. Jungle trees range from short bushes to tall trees that reach up to 31 blocks in height, which are the tallest trees in jungle.",
             "id": "ee1485b6-09f2-4450-8c3c-09d84b1ee688"
         },
         {
             "question": "I need to make a wooden pickaxe. How many stones do I need to collect in Minecraft?",
             "answer": "0",
-            "precondition": "Wooden pickaxe only needs crafting Sticks and wood Planks, so you don't need to get stones.",
+            "explanation": "Wooden pickaxe only needs crafting Sticks and wood Planks, so you don't need to get stones.",
             "id": "418044b3-cbf0-4740-b4ad-5bd00442bf28"
         }
     ],
@@ -55,13 +55,13 @@
         {
             "question": "In my Minecraft, I was chopping trees when an Enderman appeared beside me. I accidentally looked at its face, and then it attacked me. What would have happened to me if I hadn\u2019t turn to watch at it?",
             "answer": "Without looking at its face, you would have been able to continue your activities without any hostility from the enderman.",
-            "precondition": "In Minecraft, Endermen are neutral mobs, meaning they won\u2019t attack players unless provoked. If you hadn\u2019t looked directly at the Enderman\u2019s face or eyes, it would not have become hostile towards you. Endermen only become aggressive when a player makes eye contact with them\u2014this is interpreted as a challenge or threat.",
+            "explanation": "In Minecraft, Endermen are neutral mobs, meaning they won\u2019t attack players unless provoked. If you hadn\u2019t looked directly at the Enderman\u2019s face or eyes, it would not have become hostile towards you. Endermen only become aggressive when a player makes eye contact with them\u2014this is interpreted as a challenge or threat.",
             "id": "a32bae97-9d89-4b70-88ba-054e41e06e55"
         },
         {
             "question": "While exploring a cave system in Minecraft, I accidentally stepped on a pressure plate that triggered a dispenser filled with arrows, which injured me. What would have happened if I had noticed the pressure plate and avoided stepping on it?",
             "answer": "If you had noticed the pressure plate and avoided stepping on it, the dispenser would not have been triggered, and you would not have been hit by the arrows.",
-            "precondition": " Pressure plates in Minecraft are often used in traps or mechanisms to trigger events such as dispensing arrows or activating other traps.",
+            "explanation": " Pressure plates in Minecraft are often used in traps or mechanisms to trigger events such as dispensing arrows or activating other traps.",
             "id": "6c2cd59d-0e68-4cf9-a095-9c014c37cc6b"
         }
     ],
@@ -69,25 +69,25 @@
         {
             "question": "In Minecraft, what happens when I hit a pig twice with a diamond sword?",
             "answer": "You will kill the pig.",
-            "precondition": "Pigs actually have 10 health points, equivalent to 5 hearts. Given that a diamond sword deals 7 damage points (or 3.5 hearts) per hit:The first hit with a diamond sword will reduce the pig\u2019s health from 10 to 3. The second hit will then reduce the remaining health from 3 to -4, effectively killing the pig.",
+            "explanation": "Pigs actually have 10 health points, equivalent to 5 hearts. Given that a diamond sword deals 7 damage points (or 3.5 hearts) per hit:The first hit with a diamond sword will reduce the pig\u2019s health from 10 to 3. The second hit will then reduce the remaining health from 3 to -4, effectively killing the pig.",
             "id": "6898a125-8651-45bc-9894-c15fe95f24cc"
         },
         {
             "question": "In Minecraft, if I am in a mine and there is a stone above my head with two gravels on top of the stone, what will happen if I dig out the stone?",
             "answer": "The gravel will fall on you, it can cause suffocation damage ",
-            "precondition": "Gravel is a gravity-affected block, meaning it will fall if there are no solid blocks underneath it to support it.When you remove the stone block, the gravel blocks that were resting on it will lose their support.The two gravel blocks will then fall into the space where the stone block was previously located. If you are standing directly underneath the stone block when you mine it, the gravel could fall on you. If gravel falls on the player, it can cause suffocation damage if the player remains trapped inside it. ",
+            "explanation": "Gravel is a gravity-affected block, meaning it will fall if there are no solid blocks underneath it to support it.When you remove the stone block, the gravel blocks that were resting on it will lose their support.The two gravel blocks will then fall into the space where the stone block was previously located. If you are standing directly underneath the stone block when you mine it, the gravel could fall on you. If gravel falls on the player, it can cause suffocation damage if the player remains trapped inside it. ",
             "id": "fdc975de-7420-4ff4-8c09-cf20416af43c"
         },
         {
             "question": "In Minecraft, if I currently have 10 oak logs in my inventory and I use some of them to make 8planks, now what is in my inventory?",
             "answer": "You should have 8 oak logs and 8 oak planks.",
-            "precondition": "In Minecraft, you can craft planks from logs at a ratio of 1 log to 4 planks. If you started with 10 oak logs and used some to make 8 planks, here\u2019s how it breaks down\uff1a1. Crafting 8 planks requires 2 oak logs (since each log gives 4 planks).2. You used 2 out of your 10 logs, leaving you with 8 logs.3.  You have 8 newly crafted oak planks.",
+            "explanation": "In Minecraft, you can craft planks from logs at a ratio of 1 log to 4 planks. If you started with 10 oak logs and used some to make 8 planks, here\u2019s how it breaks down\uff1a1. Crafting 8 planks requires 2 oak logs (since each log gives 4 planks).2. You used 2 out of your 10 logs, leaving you with 8 logs.3.  You have 8 newly crafted oak planks.",
             "id": "63623e58-819f-434e-89d5-1ad970254e71"
         },
         {
             "question": "In Minecraft, if I currently have 7 diamonds, 10 birch planks, and 1 diamond sword in my inventory, and I now make a diamond pickaxe, what remains in my inventory?",
             "answer": "4 diamonds, 9 birch planks, 2 sticks, 1 diamond sword, 1 diamond pickaxe",
-            "precondition": "Crafting a diamond pickaxe requires 3 diamonds and 2 sticks, but there is not any sticks, so you have to craft sticks first. 2 logs can create 4 sticks, and you use 2 of them to create a diamond pickaxe, so there are 2 left.",
+            "explanation": "Crafting a diamond pickaxe requires 3 diamonds and 2 sticks, but there is not any sticks, so you have to craft sticks first. 2 logs can create 4 sticks, and you use 2 of them to create a diamond pickaxe, so there are 2 left.",
             "id": "4ccc7f0f-7016-4fbb-a14c-b0bc05527a65"
         }
     ]

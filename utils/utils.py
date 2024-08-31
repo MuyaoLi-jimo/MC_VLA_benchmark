@@ -153,6 +153,17 @@ class JsonlProcessor:
             rich.print(f"[red]无法打开文件{self.file_path}：{e}")
             return None
 
+    def load_lines(self):
+        """获取jsonl中的line，直到结尾"""
+        lines = []
+        while True:
+            line = self.load_line()
+            if line ==None:
+                break
+            lines.append(line)
+        return lines
+        
+
     def load_restart(self):
         self.close(mode="r")
         self._read_position = 0
@@ -531,4 +542,17 @@ def image_crop_inventory(image):
 
 
 if __name__ == "__main__":
-    zip_fold("..","../../test.zip")
+    jp = JsonlProcessor("temp/1.jsonl")
+    jp.dump_restart()
+    list1 = [a for a in range(10)]
+    jp.dump_lines(list1)
+    lines = jp.load_lines()
+    print(lines)
+    list2 = [a for a in range(10,20)]
+    jp.dump_lines(list2)
+    lines = jp.load_lines()
+    print(lines)
+    jp.dump_lines(list2)
+    lines = jp.load_lines()
+    print(lines)
+    jp.close()

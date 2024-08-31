@@ -30,9 +30,11 @@ class TextaseDataset(BaseDataset):
                     self.questions[label].append(question)
         return self.questions
     
-    def get_answer(self):
+    def get_answers(self):
         dataset_dict = self.dataset_to_dict()
         return dataset_dict
+    
+    
         
 if __name__ == "__main__":
     td = TextaseDataset("knowledge")
