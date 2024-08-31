@@ -25,30 +25,42 @@ FORMAT_PROMPT = "Output your final evaluation by strictly following this format:
 DIVIDE_PROMPT = "#############################\n"
 
 
-def validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model,timestamp,judge_name = "gpt-4o",batch_size=10):
+def validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model,timestamp,judge_model:model.Model,batch_size=10):
     """负责比较两者，同时需要它把所有信息记录下来,并记录所有token使用情况(return即可) """
     modelA_log_path = LOG_FOLD / f"{timestamp}_{test_model_A.model_name}_{dataset.dataset_name}.jsonl"
     modelB_log_path = LOG_FOLD / f"{timestamp}_{test_model_B.model_name}_{dataset.dataset_name}.jsonl"
     modelA_jp = utils.JsonlProcessor(modelA_log_path)
     modelB_jp = utils.JsonlProcessor(modelB_log_path)
-    evaluate_log_path = LOG_FOLD / f"{timestamp}_{dataset.dataset_name}.json"  #记录
-    judge_model = model.Model(judge_name)
-    judge_model.launch()
+    judgement_log_path = LOG_FOLD / f"{timestamp}_{dataset.dataset_name}.json"  #记录
     dataset_content_dict = dataset.dataset_to_dict() 
     total_id = set(dataset_content_dict.keys())
 
     visited_datas = {}
+    output = {
+        "score":{},
+        "token":{"a_in":0,"a_out":0,"b_in":0,"b_out":0,"j_in":0,"j_out":0,},#记录一下总花费
+    }  
     unvisited_datas_A = {}
     unvisited_datas_B = {}
     
+    time_flag = False
     while set(visited_datas.keys())!=total_id: #获取inference得到的数据,每一个batch获取一次
         batch_datas = {}
+        start_time = time.time()
         while len(batch_datas)<batch_size:
             lineA = modelA_jp.load_lines()
             lineB = modelB_jp.load_lines()
             unvisited_datas_A = add_unvisited_datas(lineA,unvisited_datas_A)
             unvisited_datas_B = add_unvisited_datas(lineB,unvisited_datas_B)
             batch_datas = get_shared_data(unvisited_datas_A,unvisited_datas_B,batch_datas,q_a_datas=dataset_content_dict,content_attrs=dataset.dataset_attribute["attrs"]) #得到重合的部分
+            if len(batch_datas)!=0 and time.time()-start_time > 30: #如果暂时还没凑够数据,但是已经很久了，那先break（有可能到结尾了）
+                break
+            if time.time()-start_time > 360: #如果里面什么都没有，还等了6分钟，斩了
+                time_flag = True
+                break
+            time.sleep(5)
+        if len(batch_datas)==0:
+            break
         # 接下来，制造传递给judge的数据
         input_datas = []
         for id,data in batch_datas.items():
@@ -58,9 +70,40 @@ def validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Mo
             }
             input_datas.append(input_data)
         print(input_datas)
-        batch_results = judge_model.inference(datas = input_datas)
-        print(batch_results)
-    return
+        try: #处理数据
+            batch_results = judge_model.inference(datas = input_datas)
+            for result in batch_results:
+                try:
+                    judgement = result["message"]["content"]
+                    score = analyze_evaluation(judgement)
+                except:
+                    score = 0
+                # 如果失败，还需要再次尝试，但在此之前，先记录一下花费
+                if score == 0:
+                    output["token"]["j_in"]+=result["input_tokens"]
+                    output["token"]["j_out"]+=result["output_tokens"]
+                    continue
+                # 如果一切正常，记录最终score和其他数据
+                id = result["id"]
+                visited_datas[id] = batch_datas[id]
+                visited_datas[id]["judgement"] = judgement
+                visited_datas[id]["score"] = score
+                visited_datas[id]["token"]["j_in"] =  result["input_tokens"]
+                visited_datas[id]["token"]["j_out"] =  result["output_tokens"]
+                # 再记录一下花费和结果：
+                output["score"][id] = score
+                output["token"]["a_in"]+=visited_datas[id]["token"]["a_in"]
+                output["token"]["a_out"]+=visited_datas[id]["token"]["a_out"]
+                output["token"]["b_in"]+=visited_datas[id]["token"]["b_in"]
+                output["token"]["b_out"]+=visited_datas[id]["token"]["b_out"]
+                output["token"]["j_in"]+=result["input_tokens"]
+                output["token"]["j_out"]+=result["output_tokens"]  
+        except Exception as e:
+            print(e)
+        if time_flag: #肯定不会到这里，只是提高鲁棒性
+            break   
+    utils.dump_json_file(visited_datas,judgement_log_path)
+    return output
 
 def add_unvisited_datas(lines:list,unvisited_datas:dict):
     for line in lines:
@@ -156,5 +199,9 @@ def analyze_evaluation(evaluation):
 if __name__ == "__main__":
     model_A = model.Model("llama3-llava-next-8b-hf")
     model_B = model.Model("gpt-4o")
+    judge_model = model.Model("gpt-4o")
+    judge_model.launch()
     dataset = dataset_wrapper.make(dataset_name="knowledge")
-    validate(dataset=dataset,test_model_A=model_A,test_model_B=model_B,timestamp="2024-08-29 21:13:49")
+    validate_output = validate(dataset=dataset,test_model_A=model_A,test_model_B=model_B,timestamp="2024-08-29 21:13:49",judge_model=judge_model)
+    print(validate_output)
+    judge_model.stop()

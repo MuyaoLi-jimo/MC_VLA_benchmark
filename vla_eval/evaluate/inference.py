@@ -26,7 +26,11 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,port):
     for label,label_questions in questions.items():
         
         inputs = create_input(label_questions)
-        outputs = inference_model.inference(inputs,batch_size=40)
+        try:
+            outputs = inference_model.inference(inputs,batch_size=40)
+        except Exception as e:
+            print(e)
+            continue
         qas = []
         for label_question,output in zip(label_questions,outputs):
             assert label_question["id"]==output["id"]
