@@ -7,12 +7,6 @@
             "id": "3b0973e3-57d9-4c4e-9fdd-a390c350af79"
         },
         {
-            "question": "Assuming you are playing on the 'Hard' difficulty setting and the player is equipped with a full set of iron armor, how many health points will the player lose if hit by a Creeper explosion at close range in Minecraft?",
-            "answer": "19.6 health points",
-            "explanation": "A Creeper explosion can deal up to 49 damage (24.5 hearts) at point-blank range without any armor. However, with a full set of iron armor, which reduces incoming damage by 60%, the damage from such an explosion would be mitigated substantially.",
-            "id": "e43a4542-4374-43da-889f-9115b18391c1"
-        },
-        {
             "question": "How many melon slices can the player get if break 6 melon in tatol in maximum in Minecraft?",
             "answer": "42",
             "explanation": "A melon drops 3 to 7 melon slices when broken by hand. There are 6 melon. So the player can get 42 slice in total by hand.",
@@ -25,9 +19,9 @@
             "id": "9f1b0be1-df11-4258-8392-6293c4eaa030"
         },
         {
-            "question": "In Minecraft, if a player with no bad effect has only 3 hunger points left and has 3 loaves of bread in their inventory, can the player restore their hunger to 20 points?",
+            "question": "In Minecraft, if a player with no bad effect has only 3 hunger points left, when he eats 3 loaves of bread, can he restores the hunger to 20 points?",
             "answer": "No",
-            "explanation": "A bread restores 5 hunger points, there are 3 breads, the player left 3 hunger point, so it gets 18 hunger points in total",
+            "explanation": "A bread restores 5 hunger points, there are 3 breads, the player left 3 hunger point, so he gets 18 hunger points in total",
             "id": "3446e2ba-ef0d-4983-ac62-377a106e3cb0"
         }
     ],

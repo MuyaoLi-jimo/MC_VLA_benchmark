@@ -2,43 +2,43 @@
 让待测试模型运行某个benchmark的数据，然后将运行的结果返回
 输入：model和banchmark名称，输出答案，并存储
 benchmark输出应该是什么呢？
-TODO: 暂时按照label来生成吧，后期考虑其他形式（先做出来再说）,然后暂时不做并行，都串行
+TODO: 暂时按照task来生成吧，后期考虑其他形式（先做出来再说）,然后暂时不做并行，都串行
 """
 from rich import print
-from pathlib import Path
+from pathlib import Path,PosixPath
 from utils import utils
 from vla_eval.dataset.base import BaseDataset
 from vla_eval.dataset import dataset_wrapper
 from vla_eval.model import model
 import copy
 
-SYSTEM_PROMPT  = "As an expert in Minecraft, you have a deep understanding of the game’s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a precise and helpful response, this is the general format:\n"
-SYSTEM_PROMPT += "A: [answer], [explanation]\n"
-SYSTEM_PROMPT += "####################\n" 
+
 
 LOG_FOLD = Path(__file__).parent.parent.parent / "data" / "log"
 
-def inference(database:BaseDataset,inference_model:model.Model,timestamp,port):
-    test_jsonl_path = LOG_FOLD / f"{timestamp}_{inference_model.model_name}_{database.dataset_name}.jsonl"
-    test_jp = utils.JsonlProcessor(test_jsonl_path,if_backup=False)
-    inference_model.launch(devices=["5"],port=port) 
+def inference(database:BaseDataset,inference_model:model.Model,timestamp,test_jsonl_path:PosixPath=None):
+    inference_model.launch()
+    if type(test_jsonl_path) == type(None):  #如果没有提供路径，那么放到 data/log/ 文件夹下
+        test_jsonl_path = LOG_FOLD / f"{timestamp}_{database.dataset_name}_{inference_model.model_name}.jsonl"
+    test_jp = utils.JsonlProcessor(test_jsonl_path,if_backup=False) 
+    test_jp.dump_restart()
     questions = database.get_questions()
-    for label,label_questions in questions.items():
+    for task,task_questions in questions.items():
         
-        inputs = create_input(label_questions)
+        inputs = create_input(task_questions,database)
         try:
             outputs = inference_model.inference(inputs,batch_size=40)
         except Exception as e:
             print(e)
             continue
         qas = []
-        for label_question,output in zip(label_questions,outputs):
-            assert label_question["id"]==output["id"]
+        for task_question,output in zip(task_questions,outputs):
+            assert task_question["id"]==output["id"]
             q_a = {
-                "id": label_question["id"],
-                "q":label_question["message"],
+                "id": task_question["id"],
+                "q":task_question["message"],
                 "a":output["message"],
-                "label":[database.dataset_name,label],
+                "label":[database.dataset_name,task],
                 "input_tokens":output["input_tokens"],
                 "output_tokens":output["output_tokens"],
             }
@@ -47,26 +47,27 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,port):
     return True
         
 
-def create_input(label_questions):
+def create_input(task_questions,database:BaseDataset):
     """
     制造问题的输入，
     TODO:注意SYSTEM_PROMPT可以因任务而各异，这个后续再说 
     """
+    system_prompt = database.get_inference_prompt()
     input_questions = []
-    for label_question in label_questions:
+    for task_question in task_questions:
         input_question = dict()
-        input_question["id"] = label_question["id"]
+        input_question["id"] = task_question["id"]
         input_question["messages"] = copy.deepcopy([{
             "role": "system",
-            "content":SYSTEM_PROMPT
+            "content":system_prompt
             }])
-        input_question["messages"].append(copy.deepcopy(label_question["message"]))
+        input_question["messages"].append(copy.deepcopy(task_question["message"]))
 
         input_questions.append(input_question)
     return input_questions
 
 if __name__ in "__main__":
     #model2 = model.Model("gpt-4o")
-    #inference(database_name="knowledge",inference_model=model2,timestamp=utils.get_timestamp(),port=9002)
+    #inference(database_name="knowledge",inference_model=model2,timestamp=utils.generate_timestamp(),port=9002)
     model1 = model.Model("llama3-llava-next-8b-hf")
     model1.stop()

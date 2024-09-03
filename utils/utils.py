@@ -16,7 +16,7 @@ from datetime import datetime
 def generate_uuid():
     return str(uuid.uuid4())
 
-def get_timestamp():
+def generate_timestamp():
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 ########################################################################
 
@@ -152,7 +152,7 @@ class JsonlProcessor:
             self.close()
             rich.print(f"[red]无法打开文件{self.file_path}：{e}")
             return None
-
+    
     def load_lines(self):
         """获取jsonl中的line，直到结尾"""
         lines = []

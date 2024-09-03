@@ -1,22 +1,18 @@
-import argparse
-from vla_eval.file_interacting import get_models
+import numpy as np
+from vla_eval.evaluate.elo_evaluate import online_elo_evaluate
+from vla_eval.dataset import dataset_wrapper 
+from vla_eval.model import model
 
+def run():
+    model_set = model.get_avaliable_model_set()
+    #dataset_names = dataset_wrapper.get_avaliable_dataset_names()
+    # 跑10次
+    for i in range(1):
+        model_A_name = "10003" #np.random.choice(list(model_set))
+        online_elo_evaluate(dataset_name="knowledge",model_A_name=model_A_name,motion="detailed")
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    # Essential Args
-    parser.add_argument('--bench', type=str, nargs='+', required=True)  #list
-    parser.add_argument('--models', type=str, nargs='+', required=True) #list
-    # Explicitly Set the Judge Model
-    parser.add_argument('--judge', type=str, default=None)
-    args = parser.parse_args()
-    return args
-    
-def main():
-    args = parse_args()
-    get_models()
-    
-    
 if __name__ == "__main__":
-    main()
+    run()
+
+
     

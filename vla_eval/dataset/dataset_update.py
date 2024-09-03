@@ -20,9 +20,9 @@ def update_index():
     dataset_index = utils.load_json_file(database_index_path)
     DATASET_LIST = get_dataset_names(dataset_index)
     
-    def count_total_num(dataset_labels:dict):
+    def count_total_num(dataset_tasks:dict):
         total_num = 0
-        for num in dataset_labels.values():
+        for num in dataset_tasks.values():
             total_num += num
         return total_num
             
@@ -32,24 +32,24 @@ def update_index():
     for json_file_path in json_file_paths:
         if json_file_path.name == "index.json":
             continue
-        dataset,dataset_labels = get_dataset_label(json_file_path)
+        dataset,dataset_tasks = get_dataset_task(json_file_path)
         dataset_name = json_file_path.stem
         if dataset_name not in DATASET_LIST:
             DATASET_LIST.add(dataset_name)
             dataset_index[dataset_name] = {
                 "id":utils.generate_uuid(),
                 "name":dataset_name,
-                "timestamp":utils.get_timestamp(),
-                "label":dataset_labels,
+                "timestamp":utils.generate_timestamp(),
+                "task":dataset_tasks,
                 "attrs":list(list(dataset.values())[0][0].keys()),
-                "num":count_total_num(dataset_labels),
+                "num":count_total_num(dataset_tasks),
                 "available":True
             }
             update_flag = True
-        elif dataset_index[dataset_name]["label"] != dataset_labels:
-            dataset_index[dataset_name]["label"] = dataset_labels
-            dataset_index[dataset_name]["timestamp"] = utils.get_timestamp()
-            dataset_index[dataset_name]["num"] = count_total_num(dataset_labels)
+        elif dataset_index[dataset_name]["task"] != dataset_tasks:
+            dataset_index[dataset_name]["task"] = dataset_tasks
+            dataset_index[dataset_name]["timestamp"] = utils.generate_timestamp()
+            dataset_index[dataset_name]["num"] = count_total_num(dataset_tasks)
             update_flag = True
         visited_dataset.add(dataset_name)
     for dataset_name in DATASET_LIST:
@@ -69,12 +69,12 @@ def get_dataset_names(dataset_index):
             dataset_names.add(dataset_name)
     return dataset_names
 
-def get_dataset_label(json_path:PosixPath):
+def get_dataset_task(json_path:PosixPath):
     json_file = utils.load_json_file(json_path)
-    labels = {}
-    for label,qas in json_file.items():
-        labels[label] = len(qas)
-    return json_file,labels
+    tasks = {}
+    for task,qas in json_file.items():
+        tasks[task] = len(qas)
+    return json_file,tasks
 
 def update_dataset_id(dataset_path):
     dataset_content = utils.load_json_file(dataset_path)
@@ -102,6 +102,25 @@ def update():
         dataset_path = DATASET_FOLD / f"{args.name}.json"
         update_dataset_id(dataset_path)
     
+def image_update(dataset_name:str):
+    dataset_path = DATASET_FOLD / f"{dataset_name}.json"
+    dataset = utils.load_json_file(dataset_path)
+    for task,lines in dataset.items():
+        for idx,_ in enumerate(lines):
+            lines[idx]["id"] = utils.generate_uuid()
+            lines[idx]["image_base64"] = utils.encode_image_to_base64(lines[idx]["image_path"])
+        dataset[task] = lines
+    utils.dump_json_file(dataset,dataset_path)
     
+def image_no_base64(dataset_name:str):
+    dataset_path = DATASET_FOLD / f"{dataset_name}.json"
+    dataset = utils.load_json_file(dataset_path)
+    for task,lines in dataset.items():
+        for idx,_ in enumerate(lines):
+            
+            del lines[idx]["image_base64"]
+        dataset[task] = lines
+    utils.dump_json_file(dataset,dataset_path)
+
 if __name__ == "__main__":
-    update()
+    update_index()

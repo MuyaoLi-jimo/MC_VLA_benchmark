@@ -3,9 +3,9 @@
         "id": "07604f38-c734-4fb6-a643-849d2ccc7bd4",
         "name": "reason",
         "timestamp": "2024-08-29 05:58:49",
-        "type":"text",
-        "label": {
-            "math": 5,
+        "type": "text",
+        "task": {
+            "math": 4,
             "commonsense": 3,
             "counterfactual": 2,
             "intuitive": 4
@@ -15,16 +15,17 @@
             "answer",
             "explanation"
         ],
-        "num": 14,
+        "num": 13,
         "available": true,
+        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a well-rounded, logical response and outline the thought process involved in reaching the conclusion,this is the general format:\n A: [explanation], [answer] \n####################\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy, reasonable, criticality, creativity\n"
     },
     "knowledge": {
         "id": "56f0ffef-0012-469e-a364-d46b5afa283d",
         "name": "knowledge",
         "timestamp": "2024-08-29 05:58:49",
-        "type":"text",
-        "label": {
+        "type": "text",
+        "task": {
             "mine": 11,
             "craft": 9,
             "plant": 5,
@@ -40,15 +41,41 @@
             "answer"
         ],
         "num": 58,
-        "available": true,  
+        "available": true,
+        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a precise and helpful response, this is the general format:\nA: [answer], [explanation]\n####################\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy and relevance.\n",
-        "validate example prompt":"For example, if you decide A’s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n",
-        "validate shot prompt":{
-            "question":"Which kind of tree leaves can drop apples in Minecraft?",
-            "answer":"Oak tree and dark oak tree",
-            "A":"Oak and dark oak leaves, \n\nOak and dark oak leaves have a chance to drop apples when they decay or are broken. This drop rate is relatively low, so you may need to break or wait for a large number of leaves to get a significant amount of apples. No other types of tree leaves in Minecraft drop apples.",
-            "B":"Apple trees, also known as fruit-bearing trees, can drop apples in Minecraft.\nExplanation: Apple trees are a type of fruit-bearing tree found in the game, and they produce apples that can be collected and used for various purposes, such as crafting or eating. When an apple tree is fully grown and has reached its maturity, it may drop apples upon being broken, providing players with a valuable resource.",
-            "evaluation":"Answer A provided an accurate and relevant response, directly addressing the question by correctly identifying that only oak and dark oak leaves can drop apples in Minecraft. They included additional information about the drop rate and the conditions under which apples drop, enhancing the usefulness of their answer.\nAnswer B, however, contains a factual error. There are no specific “apple trees” or “fruit-bearing trees” in Minecraft as described in the response. The game does not feature trees explicitly labeled or functioning as fruit-bearing apple trees. Therefore, this response is misleading and incorrect regarding the game’s mechanics.\nConsidering these points, Answer A is more accurate and relevant to the actual gameplay mechanics of Minecraft. [A is better]\n"
-            }
+        "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n",
+        "validate shot prompt": {
+            "question": "Which kind of tree leaves can drop apples in Minecraft?",
+            "answer": "Oak tree and dark oak tree",
+            "A": "Oak and dark oak leaves, \n\nOak and dark oak leaves have a chance to drop apples when they decay or are broken. This drop rate is relatively low, so you may need to break or wait for a large number of leaves to get a significant amount of apples. No other types of tree leaves in Minecraft drop apples.",
+            "B": "Apple trees, also known as fruit-bearing trees, can drop apples in Minecraft.\nExplanation: Apple trees are a type of fruit-bearing tree found in the game, and they produce apples that can be collected and used for various purposes, such as crafting or eating. When an apple tree is fully grown and has reached its maturity, it may drop apples upon being broken, providing players with a valuable resource.",
+            "evaluation": "Answer A provided an accurate and relevant response, directly addressing the question by correctly identifying that only oak and dark oak leaves can drop apples in Minecraft. They included additional information about the drop rate and the conditions under which apples drop, enhancing the usefulness of their answer.\nAnswer B, however, contains a factual error. There are no specific \u201capple trees\u201d or \u201cfruit-bearing trees\u201d in Minecraft as described in the response. The game does not feature trees explicitly labeled or functioning as fruit-bearing apple trees. Therefore, this response is misleading and incorrect regarding the game\u2019s mechanics.\nConsidering these points, Answer A is more accurate and relevant to the actual gameplay mechanics of Minecraft. [A is better]\n"
         }
+    },
+    "visual": {
+        "id": "8d244659-c5da-4c78-8bf5-c8d57c37b693",
+        "name": "visual",
+        "timestamp": "2024-09-02 16:51:32",
+        "type": "visual",
+        "task": {
+            "object": 5,
+            "info": 5,
+            "high level": 5,
+            "inventory": 5,
+            "spatial": 5
+        },
+        "attrs": [
+            "image_path",
+            "question",
+            "answer",
+            "id"
+        ],
+        "num": 25,
+        "available": true,
+        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a few questions related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. A: [answer], [explanation]\n2. A: [answer], [explanation]\n####################\n",
+        "validate requirement prompt": "Your judgement should consider factors such as accuracy and reasonable.\n",
+        "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n"
+
+    }
 }

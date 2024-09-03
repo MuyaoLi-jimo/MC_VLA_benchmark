@@ -21,6 +21,7 @@ class BaseDataset(abc.ABC):
         self.dataset_path = self.database_fold / f"{self.dataset_name}.json"
         self.dataset_attribute = self.get_dataset_attribute()
         self.dataset_content = self.get_dataset_content()
+        self.dataset_content_dict = None
         self.questions = None
         
     @classmethod
@@ -37,9 +38,27 @@ class BaseDataset(abc.ABC):
         """获取当前dataset的属性 """
         return self.dataset_index[self.dataset_name]
     
+    def __len__(self):
+        """获取dataset条目"""
+        return self.dataset_attribute["num"]
+    
+    @property
+    def type(self):
+        return self.dataset_attribute["type"]
+    
     def get_dataset_content(self):
         return utils.load_json_file(self.dataset_path)
 
+    def get_dataset_content_as_dict(self):
+        """用id来索引 """
+        if type(self.dataset_content_dict)!=type(None):
+            return self.dataset_content_dict
+        self.dataset_content_dict = {}
+        for task, rows in self.dataset_content.items():
+            for row in rows:
+                self.dataset_content_dict[row["id"]] = row
+                self.dataset_content_dict[row["id"]]["label"] = [self.dataset_name,task]
+        return self.dataset_content_dict
 
     @abc.abstractmethod
     def get_questions(self):
@@ -48,17 +67,19 @@ class BaseDataset(abc.ABC):
     @abc.abstractmethod
     def get_answers(self):
         pass  
-    
-    def dataset_to_dict(self):
-        """用id来索引 """
-        dataset_dict = {}
-        for label, rows in self.dataset_content.items():
-            for row in rows:
-                dataset_dict[row["id"]] = row
-                dataset_dict[row["id"]]["label"] = [self.dataset_name,label]
-        return dataset_dict
         
+    def get_task(self,id):
+        """从id到task """
+        if type(self.dataset_content_dict)==type(None):
+            self.get_dataset_content_as_dict() 
+        return self.dataset_content_dict[id]["label"][1]
+
+    def get_tasks(self):
+        """拿到所有的tasks"""
+        return list(self.dataset_attribute["task"].keys())
         
+    def get_inference_prompt(self):
+        return self.dataset_attribute["inference prompt"]
             
 if __name__ == "__main__":
     bd = BaseDataset("reason")

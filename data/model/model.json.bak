@@ -3,20 +3,98 @@
         "id": "49915e5c-74cd-491f-a1bf-80233148085a",
         "insert_time": "2024-08-27 08:49:08",
         "path": "/nfs-shared/models/llama3-llava-next-8b-hf",
-        "elo rating": 1000,
-        "task": [],
+        "avaliable": true,
+        "runable": true,
+        "type": "pretrained",
+        "support vision": true,
+        "done": [
+            "knowledge",
+            "visual",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 994,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 820,
+                "mine": 1036,
+                "craft": 945,
+                "plant": 943,
+                "mobs": 999,
+                "kill": 986,
+                "enchant": 968,
+                "potion": 942,
+                "biomes": 1010,
+                "architecture": 972
+            },
+            "reason": {
+                "total": 1012,
+                "intuitive": 970,
+                "commonsense": 971,
+                "math": 1068,
+                "counterfactual": 1012
+            },
+            "visual": {
+                "total": 940,
+                "info": 984,
+                "spatial": 969,
+                "inventory": 981
+            }
+        },
         "task score": {},
-        "running": true,
-        "pid": 2928463,
-        "port": 9001,
+        "running": false,
+        "pid": 0,
+        "port": 9008,
         "host": "localhost"
     },
     "gpt-4o": {
         "id": "6ddfc833-99c0-478a-bfb1-4be1bad78944",
         "insert_time": "2024-08-29 21:18:41",
         "path": "openai/gpt-4o",
-        "elo rating": 1000,
-        "task": [],
+        "avaliable": true,
+        "runable": true,
+        "type": "commercial",
+        "support vision": true,
+        "done": [
+            "visual",
+            "knowledge",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 1002,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 1308,
+                "mine": 1269,
+                "craft": 1331,
+                "plant": 1227,
+                "mobs": 1341,
+                "kill": 1166,
+                "enchant": 1172,
+                "potion": 1199,
+                "biomes": 1185,
+                "architecture": 1245
+            },
+            "reason": {
+                "total": 1177,
+                "intuitive": 1086,
+                "commonsense": 1098,
+                "counterfactual": 1030,
+                "math": 1030
+            },
+            "visual": {
+                "total": 1117,
+                "info": 1054,
+                "spatial": 1042,
+                "inventory": 1030,
+                "object": 1028,
+                "high level": 1015
+            }
+        },
         "task score": {},
         "running": true
     },
@@ -24,9 +102,309 @@
         "id": "e74d0cf6-394b-4b4a-802c-69c03c746e41",
         "insert_time": "2024-08-29 21:18:41",
         "path": "openai/gpt-4o-mini",
-        "elo rating": 1000,
-        "task": [],
+        "avaliable": true,
+        "runable": true,
+        "type": "commercial",
+        "support vision": true,
+        "done": [
+            "knowledge",
+            "visual",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 1002,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 1254,
+                "mine": 1190,
+                "craft": 1210,
+                "plant": 1183,
+                "mobs": 1232,
+                "kill": 1134,
+                "enchant": 1183,
+                "potion": 1184,
+                "biomes": 1138,
+                "architecture": 1256
+            },
+            "reason": {
+                "total": 1169,
+                "intuitive": 1125,
+                "commonsense": 1040,
+                "counterfactual": 1054,
+                "math": 1041
+            },
+            "visual": {
+                "total": 1003,
+                "object": 1000,
+                "high level": 1040,
+                "spatial": 1012,
+                "info": 1003,
+                "inventory": 968
+            }
+        },
         "task score": {},
         "running": true
+    },
+    "fuyu-8b": {
+        "id": "f69d5757-62df-4395-b944-5e707e769766",
+        "insert_time": "2024-09-01 11:47:57",
+        "path": "/nfs-shared/models/fuyu-8b",
+        "avaliable": false,
+        "runable": false,
+        "type": "pretrained",
+        "support vision": true,
+        "elo rating": {
+            "total": {
+                "mu": 1000,
+                "sigma": 333
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 3492917,
+        "port": 9010,
+        "host": "localhost"
+    },
+    "llava-1.5-13b-hf": {
+        "id": "079779c3-19c3-4a87-b5ed-f7998fc6441a",
+        "insert_time": "2024-09-01 11:56:26",
+        "path": "/nfs-shared/models/llava-1.5-13b-hf",
+        "avaliable": true,
+        "runable": true,
+        "type": "pretrained",
+        "support vision": false,
+        "done": [
+            "knowledge",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 976,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 455,
+                "mine": 681,
+                "craft": 755,
+                "plant": 770,
+                "mobs": 731,
+                "kill": 837,
+                "enchant": 847,
+                "potion": 807,
+                "biomes": 808,
+                "architecture": 737
+            },
+            "reason": {
+                "total": 855,
+                "commonsense": 967,
+                "math": 952,
+                "intuitive": 951,
+                "counterfactual": 964
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 3328523,
+        "port": 9008,
+        "host": "localhost"
+    },
+    "llava-1.5-7b-hf": {
+        "id": "f0615f21-3fc0-4230-ab57-9f3d60f0a28e",
+        "insert_time": "2024-09-01 12:01:00",
+        "path": "/nfs-shared/models/llava-1.5-7b-hf",
+        "avaliable": true,
+        "runable": true,
+        "type": "pretrained",
+        "support vision": false,
+        "done": [
+            "knowledge",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 982,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 599,
+                "mine": 805,
+                "craft": 766,
+                "plant": 899,
+                "mobs": 755,
+                "kill": 895,
+                "enchant": 873,
+                "potion": 921,
+                "biomes": 865,
+                "architecture": 765
+            },
+            "reason": {
+                "total": 897,
+                "math": 957,
+                "commonsense": 969,
+                "intuitive": 969,
+                "counterfactual": 981
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 3320150,
+        "port": 9008,
+        "host": "localhost"
+    },
+    "llava-v1.6-mistral-7b-hf": {
+        "id": "87808958-a503-42aa-a38a-a1f37c2f18d7",
+        "insert_time": "2024-09-01 12:22:38",
+        "path": "/nfs-shared/models/llava-v1.6-mistral-7b-hf",
+        "avaliable": false,
+        "runable": false,
+        "type": "pretrained",
+        "support vision": true,
+        "elo rating": {
+            "total": {
+                "mu": 1000,
+                "sigma": 333
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 0,
+        "port": 0,
+        "host": ""
+    },
+    "llava-v1.6-vicuna-13b-hf": {
+        "id": "0592741c-c9d2-4193-85d1-f3ad4a5df412",
+        "insert_time": "2024-09-01 12:31:40",
+        "path": "/nfs-shared/models/llava-v1.6-vicuna-13b-hf",
+        "avaliable": false,
+        "runable": false,
+        "type": "pretrained",
+        "support vision": true,
+        "elo rating": {
+            "total": {
+                "mu": 1000,
+                "sigma": 333
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 3470494,
+        "port": 9010,
+        "host": "localhost"
+    },
+    "llava-v1.6-vicuna-7b-hf": {
+        "id": "e799539e-c300-41d9-abea-80fda7daa861",
+        "insert_time": "2024-09-01 13:24:05",
+        "path": "/nfs-shared/models/llava-v1.6-vicuna-7b-hf",
+        "avaliable": false,
+        "runable": false,
+        "type": "pretrained",
+        "support vision": true,
+        "elo rating": {
+            "total": {
+                "mu": 1000,
+                "sigma": 333
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 0,
+        "port": 0,
+        "host": ""
+    },
+    "MiniCPM-V-2_6": {
+        "id": "d4537350-26e2-4939-8632-77e2f7f48c21",
+        "insert_time": "2024-09-01 14:04:15",
+        "path": "/nfs-shared/models/MiniCPM-V-2_6",
+        "avaliable": true,
+        "runable": true,
+        "type": "pretrained",
+        "support vision": false,
+        "done": [
+            "knowledge",
+            "reason"
+        ],
+        "elo rating": {
+            "total": {
+                "mu": 986,
+                "sigma": 1
+            },
+            "knowledge": {
+                "total": 738,
+                "mine": 912,
+                "craft": 902,
+                "plant": 935,
+                "mobs": 886,
+                "kill": 960,
+                "enchant": 953,
+                "potion": 899,
+                "biomes": 931,
+                "architecture": 982
+            },
+            "reason": {
+                "total": 889,
+                "counterfactual": 945,
+                "commonsense": 986,
+                "intuitive": 924,
+                "math": 971
+            }
+        },
+        "task score": {},
+        "running": true,
+        "pid": 3323179,
+        "port": 9008,
+        "host": "localhost"
+    },
+    "10003-2024-09-02 09:46:53": {
+        "id": "64d65f9b-5363-4b86-980d-8811a87355e3",
+        "insert_time": "2024-09-02 09:46:53",
+        "path": "",
+        "avaliable": true,
+        "runable": false,
+        "type": "temp",
+        "support vision": true,
+        "elo rating": {
+            "total": {
+                "mu": 996,
+                "sigma": 2
+            },
+            "knowledge": {
+                "total": 924,
+                "potion": 1014,
+                "craft": 1021,
+                "architecture": 997,
+                "mobs": 947,
+                "biomes": 1013,
+                "mine": 995,
+                "kill": 992,
+                "enchant": 991
+            },
+            "visual": {
+                "total": 912,
+                "object": 970,
+                "high level": 941,
+                "info": 952,
+                "spatial": 971,
+                "inventory": 1016
+            },
+            "reason": {
+                "total": 945,
+                "counterfactual": 998,
+                "commonsense": 957,
+                "intuitive": 961,
+                "math": 984
+            }
+        },
+        "task score": {},
+        "running": false,
+        "pid": 0,
+        "port": 10003,
+        "host": "localhost",
+        "done": [
+            "reason",
+            "visual",
+            "knowledge"
+        ]
     }
 }
