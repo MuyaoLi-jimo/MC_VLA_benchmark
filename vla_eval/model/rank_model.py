@@ -12,7 +12,10 @@ NAN = 10000
 def rank(ranking_type:str="elo"):
     if ranking_type == "elo":
         elo_rank(choice="total",if_print_elo=True)
-    pass
+        elo_rank(choice="knowledge",if_print_elo=True)
+        elo_rank(choice="reason",if_print_elo=True)
+        elo_rank(choice="visual",if_print_elo=True)
+    return
 
 def elo_rank(choice:str = "total",if_print_elo=False)->pd.DataFrame:
     """

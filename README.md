@@ -9,7 +9,8 @@ conda install numpy==1.26.3
 + 使用python vla_eval/model/insert_model.py 记得加入命令行参数
 ## TODO
 - [ ] 调试其他模型
-- [ ] 扩大benchmark
 - [ ] 增加人工比较
-- [ ] 增加客观benchmark
 - [ ] 完成前端
+- [ ] 扩大benchmark
+- [ ] 增加客观benchmark
+
