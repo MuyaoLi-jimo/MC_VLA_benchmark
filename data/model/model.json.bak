@@ -49,13 +49,21 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 819,
+                "sigma": 204.93826363165877,
                 "win": 0
             },
             "reason": {
                 "total": 984,
                 "intuitive": 984
+            },
+            "visual": {
+                "total": 984,
+                "info": 984
+            },
+            "knowledge": {
+                "total": 1000,
+                "kill": 1000
             }
         },
         "task score": {},
@@ -113,13 +121,15 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 258.78677617668836,
+                "mu": 1037,
+                "sigma": 197.38693497369897,
                 "win": 0
             },
             "knowledge": {
-                "total": 1000,
-                "craft": 1000
+                "total": 1015,
+                "craft": 1000,
+                "mine": 1016,
+                "architecture": 1000
             }
         },
         "task score": {},
@@ -174,17 +184,18 @@
         },
         "human rating": {
             "total": {
-                "mu": 1186,
-                "sigma": 285.470790564227,
-                "win": 0
+                "mu": 1365,
+                "sigma": 231.58826246065223,
+                "win": 1.0
             },
             "reason": {
                 "total": 1016,
                 "intuitive": 1016
             },
             "knowledge": {
-                "total": 1016,
-                "mobs": 1016
+                "total": 1045,
+                "mobs": 1031,
+                "plant": 1016
             }
         },
         "task score": {},
@@ -228,9 +239,14 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 911,
+                "sigma": 222.3649322855759,
                 "win": 0
+            },
+            "knowledge": {
+                "total": 984,
+                "plant": 984,
+                "mine": 1000
             }
         },
         "task score": {},
@@ -293,9 +309,18 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 821,
+                "sigma": 184.10447466912447,
                 "win": 0
+            },
+            "knowledge": {
+                "total": 984,
+                "mine": 984,
+                "craft": 1000
+            },
+            "visual": {
+                "total": 999,
+                "info": 999
             }
         },
         "task score": {},
@@ -354,9 +379,18 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 903,
+                "sigma": 205.2085899718786,
                 "win": 0
+            },
+            "knowledge": {
+                "total": 968,
+                "mine": 984,
+                "architecture": 984
+            },
+            "visual": {
+                "total": 1016,
+                "info": 1016
             }
         },
         "task score": {},
@@ -411,8 +445,8 @@
         },
         "human rating": {
             "total": {
-                "mu": 998,
-                "sigma": 208.6665297029172,
+                "mu": 941,
+                "sigma": 168.35646174110707,
                 "win": 0
             },
             "visual": {
@@ -420,8 +454,10 @@
                 "inventory": 984
             },
             "knowledge": {
-                "total": 1000,
-                "craft": 1000
+                "total": 984,
+                "craft": 1000,
+                "mine": 1000,
+                "mobs": 984
             }
         },
         "task score": {},
@@ -482,8 +518,8 @@
         },
         "human rating": {
             "total": {
-                "mu": 812,
-                "sigma": 285.470790564227,
+                "mu": 887,
+                "sigma": 185.5009012973038,
                 "win": 0.0
             },
             "visual": {
@@ -493,6 +529,11 @@
             "reason": {
                 "total": 984,
                 "math": 984
+            },
+            "knowledge": {
+                "total": 1000,
+                "architecture": 1000,
+                "kill": 1000
             }
         },
         "task score": {},
@@ -551,9 +592,18 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 1128,
+                "sigma": 215.8739021701593,
                 "win": 0
+            },
+            "knowledge": {
+                "total": 1015,
+                "mine": 1016,
+                "mobs": 1000
+            },
+            "visual": {
+                "total": 1032,
+                "info": 1032
             }
         },
         "task score": {},
@@ -616,9 +666,13 @@
         },
         "human rating": {
             "total": {
-                "mu": 999,
-                "sigma": 333.33,
+                "mu": 905,
+                "sigma": 246.1364946722029,
                 "win": 0
+            },
+            "knowledge": {
+                "total": 999,
+                "craft": 1000
             }
         },
         "task score": {},
@@ -671,13 +725,22 @@
         },
         "human rating": {
             "total": {
-                "mu": 1187,
-                "sigma": 285.470790564227,
+                "mu": 1086,
+                "sigma": 193.67534578007445,
                 "win": 1.0
             },
             "reason": {
                 "total": 1016,
                 "math": 1016
+            },
+            "visual": {
+                "total": 968,
+                "info": 968
+            },
+            "knowledge": {
+                "total": 1000,
+                "mine": 1000,
+                "mobs": 1000
             }
         },
         "task score": {},
@@ -737,13 +800,15 @@
         },
         "human rating": {
             "total": {
-                "mu": 811,
-                "sigma": 285.470790564227,
-                "win": 0
+                "mu": 994,
+                "sigma": 172.50498536185003,
+                "win": 0.0
             },
             "knowledge": {
-                "total": 984,
-                "mobs": 984
+                "total": 999,
+                "mobs": 984,
+                "mine": 1000,
+                "architecture": 1016
             }
         },
         "task score": {},

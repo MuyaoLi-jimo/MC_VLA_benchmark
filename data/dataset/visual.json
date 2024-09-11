@@ -41,7 +41,7 @@
         {
             "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/7.png",
             "question": "1. Q: What is the current health status of the player?\n 2. Q:  Is the player currently holding a tool or a weapon?",
-            "answer": "1. A: The player has 3 and a half hearts remaining.\n 2. A: The player is currently holding a tool (a wooden hoe).",
+            "answer": "1. A: The player has 3 hearts remaining.\n 2. A: The player is currently holding a tool (a wooden hoe).",
             "id": "4e188257-3585-4403-bb07-fda2852b9e76"
         },
         {

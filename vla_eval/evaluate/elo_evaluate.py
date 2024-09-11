@@ -217,7 +217,8 @@ def estimated_win_loss_rate(A_rating,B_rating):
     return e_A
 
 def update_elo_rating(A_rating,B_rating,outcome):
-    
+    if outcome==4:  #在这里差当做平局处理
+        outcome = 2
     e_A = estimated_win_loss_rate(A_rating,B_rating)
     s_A = (outcome - 1) / 2
     update_A = K*(s_A-e_A)
@@ -243,7 +244,7 @@ def init_elo_rating(model_elo_rating:dict,dataset:BaseDataset,my_task:str="total
 def cal_trueskill_rating(score,rate_A:trueskill.Rating,rate_B:trueskill.Rating):
     if score==3: #赢了
         rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,env=model.MY_ENV)
-    elif score==2: #平
+    elif score==2 or score==4: #平
         rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,drawn=True,env=model.MY_ENV)
     elif score==1: #输了
         rate_B,rate_A = trueskill.rate_1vs1( rate_B,rate_A,env=model.MY_ENV)

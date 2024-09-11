@@ -1,11 +1,12 @@
 import gradio as gr
 from pathlib import Path
+from functools import partial
+import time
 from vla_eval.model.model import get_avaliable_model_set,get_model_ratings
 from vla_eval.model.insert_model import insert_model_wrapper   # 确保导入你需要的函数
 from vla_eval.model.rank_model import elo_rank
 from vla_eval.evaluate.human_evaluate import get_validate_qa,cal_human_elo
 from vla_eval.evaluate.elo_evaluate import history_elo_evaluate
-from functools import partial
 from utils import utils
 
 DATA_FOLD = Path(__file__).parent.parent / "data"
@@ -21,7 +22,7 @@ def update_leaderboard(choice, if_print_elo,if_human):
     rank_elo_pd = elo_rank(choice=choice, if_print_elo=if_print_elo,if_human=if_human)
     return rank_elo_pd
    
-init_dataset_name,init_A_name,init_B_name,init_validate_qa = get_validate_qa("random",human_model_ratings)
+init_dataset_name,init_A_name,init_B_name,init_validate_qa = get_validate_qa("knowledge",human_model_ratings)
    
 def validate_qa_wrapper(hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain):
     validate_qa = {
@@ -41,15 +42,29 @@ def validate_qa_wrapper(hidden_idx,model_A_response,model_B_response,hidden_imag
 def cal_vote(score,human_model_ratings,human_history_jp,dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain,model_A_name,model_B_name):
     validate_qa = validate_qa_wrapper(hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain)
     model_A_name,model_B_name,human_model_ratings,human_history_jp = cal_human_elo(score,dataset_name,validate_qa,model_A_name,model_B_name,human_model_ratings,human_history_jp)
-    return model_A_name,model_B_name
+    leftvote_btn = gr.Button(
+        value="👈  A is better", visible=True, interactive=False
+    )
+    rightvote_btn = gr.Button(
+        value="👉  B is better", visible=True, interactive=False
+    )
+    tie_btn = gr.Button(
+        value="🤝  Tie",         visible=True, interactive=False
+    )
+    bothbad_btn = gr.Button(
+        value="👎  Both are bad", visible=True, interactive=False
+    )
+    return model_A_name,model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn
 
 cal_leftvote = partial(cal_vote, 3,human_model_ratings,human_history_jp)
 cal_rightvote = partial(cal_vote, 1,human_model_ratings,human_history_jp)
 cal_tievote = partial(cal_vote, 2,human_model_ratings,human_history_jp)
-cal_badvote = partial(cal_vote, 0,human_model_ratings,human_history_jp)
+cal_badvote = partial(cal_vote, 4,human_model_ratings,human_history_jp)
    
 def newround_response(setting_drop):
     dataset_name,A_name,B_name,validate_qa = get_validate_qa(setting_drop,human_model_ratings)
+    if setting_drop=="random":
+        dataset_name = gr.Textbox(label= "setting name",value=dataset_name,visible=True, interactive=False)
     gr.update(elem_id='model_a_from', visible=False)
     gr.update(elem_id='model_b_from', visible=False)
     
@@ -72,7 +87,20 @@ def newround_response(setting_drop):
         hidden_image_path =  gr.Textbox(value = "",visible=False, interactive=False)
         hidden_image = gr.Image(value = "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/10.png",visible=False, interactive=False)
     
-    return dataset_name,validate_qa['question'], A_name, validate_qa['A'], "[MASK]", B_name, validate_qa['B'], "[MASK]",validate_qa["id"],hidden_answer,hidden_explain,hidden_image_path,hidden_image# visible
+    leftvote_btn = gr.Button(
+        value="👈  A is better", visible=True, interactive=True
+    )
+    rightvote_btn = gr.Button(
+        value="👉  B is better", visible=True, interactive=True
+    )
+    tie_btn = gr.Button(
+        value="🤝  Tie",         visible=True, interactive=True
+    )
+    bothbad_btn = gr.Button(
+        value="👎  Both are bad", visible=True, interactive=True
+    )
+    question = gr.Textbox(lines=len(validate_qa['question'])//100, label="Question", value = validate_qa['question'], interactive=True)
+    return dataset_name,question, A_name, validate_qa['A'], "[MASK]", B_name, validate_qa['B'], "[MASK]",validate_qa["id"],hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn# visible
  
 
 notice_markdown = """
@@ -129,35 +157,32 @@ with gr.Blocks(title="MC Arena") as page:
             hidden_dataset_name = gr.Textbox(value=init_dataset_name,visible=False, interactive=False)
             
         with gr.Row():
-            instruction_box = gr.Textbox(lines=5, label="Question", value = init_validate_qa['question'], interactive=True)
+            #!先验：一开始处于knowledge界面
+            instruction_box = gr.Textbox(lines=1, label="Question", value = init_validate_qa['question'], interactive=True)
         
         with gr.Row():
             with gr.Row():
+                #!先验：一开始处于knowledge界面
                 hidden_image = gr.Image(label="Image",visible=False, interactive=False)
-                hidden_answer = gr.Textbox(label="Answer",value = init_validate_qa.get('answer',""),visible=False, interactive=False)
-                hidden_explain = gr.Textbox(label="Explain",value = init_validate_qa.get('explanation',""),visible=False, interactive=False)
-                hidden_image_path = gr.Textbox(label="Image Path",value = init_validate_qa.get('image_path',""),visible=False, interactive=False)
+                hidden_answer = gr.Textbox(label="Answer",value = init_validate_qa['answer'],visible=True, interactive=False)
+                hidden_explain = gr.Textbox(label="Explain",value = "",visible=False, interactive=False)
+                hidden_image_path = gr.Textbox(label="Image Path",value = "",visible=False, interactive=False)
         
         with gr.Row():
             hidden_idx = gr.Textbox(value = init_validate_qa['id'],visible=False, interactive=False) #永远hidden
 
             with gr.Column():
                 model_A_name = gr.Textbox(elem_id="model_a_from", label="Model A From:", value="[MASK]", visible=True, interactive=False)
-                model_A_response = gr.Textbox(lines=25, label="Model A Response:", value = init_validate_qa['A'], visible = True, interactive=False)
+                model_A_response = gr.Textbox(lines=15, label="Model A Response:", value = init_validate_qa['A'], visible = True, interactive=False)
                 hidden_A_name = gr.Textbox(elem_id="model_a_from", label="Model A From:", value=init_A_name,visible=False, interactive=False)
                 
                 # model_A_name = gr.Markdown(elem_id="model_a_from", label="A From:", value=init_data['model_a'], visible=True)
             with gr.Column():
                 model_B_name = gr.Textbox(elem_id="model_a_from", label="Model B From:", value="[MASK]", visible=True, interactive=False)
-                model_B_response = gr.Textbox(lines=25, label="Model B Response:", value = init_validate_qa['B'], visible = True, interactive=False)
+                model_B_response = gr.Textbox(lines=15, label="Model B Response:", value = init_validate_qa['B'], visible = True, interactive=False)
                 hidden_B_name = gr.Textbox(elem_id="model_b_from", label="Model B From:", value=init_B_name,visible=False, interactive=False)
-                
-                
-        setting_drop.change(newround_response,
-                            inputs=[setting_drop],
-                            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image])
-        
-        with gr.Row():
+                        
+        with gr.Row(show_progress=True):
             leftvote_btn = gr.Button(
                 value="👈  A is better", visible=True, interactive=True
             )
@@ -171,6 +196,11 @@ with gr.Blocks(title="MC Arena") as page:
                 value="👎  Both are bad", visible=True, interactive=True
             )
 
+        setting_drop.change(newround_response,
+                            inputs=[setting_drop],
+                            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn])
+
+
         with gr.Row():
             skip_btn = gr.Button(
                 value="👋  Skip", visible=True, interactive=True
@@ -181,33 +211,33 @@ with gr.Blocks(title="MC Arena") as page:
         leftvote_btn.click(
             fn = cal_leftvote,
             inputs = [hidden_dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,instruction_box,hidden_answer,hidden_explain,hidden_A_name,hidden_B_name],
-            outputs = [model_A_name, model_B_name]
+            outputs = [model_A_name, model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         rightvote_btn.click(
             fn = cal_rightvote,
             inputs = [hidden_dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,instruction_box,hidden_answer,hidden_explain,hidden_A_name,hidden_B_name],
-            outputs = [model_A_name, model_B_name]
+            outputs = [model_A_name, model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         tie_btn.click(
             fn = cal_tievote,
             inputs = [hidden_dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,instruction_box,hidden_answer,hidden_explain,hidden_A_name,hidden_B_name],
-            outputs = [model_A_name, model_B_name]
+            outputs = [model_A_name, model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         bothbad_btn.click(
             fn = cal_badvote,
             inputs = [hidden_dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,instruction_box,hidden_answer,hidden_explain,hidden_A_name,hidden_B_name],
-            outputs = [model_A_name, model_B_name]
+            outputs = [model_A_name, model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         ####################
         new_round_btn.click(
             fn = newround_response,
             inputs = [setting_drop],
-            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image]
+            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         skip_btn.click(
             fn = newround_response,
             inputs=[setting_drop],
-            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image]
+            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
     with gr.Tab("Insert Model"):
         with gr.Row():
