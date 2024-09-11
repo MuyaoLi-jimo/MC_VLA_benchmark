@@ -7,7 +7,7 @@ import argparse
 import time
 from pathlib import Path
 from rich import print
-from vla_eval.model import model
+from vla_eval.model import model,inference_model
 from utils import utils
 
 MODEL_FOLD = Path("/nfs-shared/models")
@@ -16,44 +16,63 @@ MODEL_INDEX_PATH = MODEL_ATTR_FOLD / "model.json"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="10003")
-    parser.add_argument("--model_path", type=str, default="") #默认是MODEL_FOLD/model_name
-    parser.add_argument("--model_type", type=str, default="temp")
+    parser.add_argument("--model_name", type=str, default="gpt-4o")
+    parser.add_argument("--model_path", type=str, default="openai/gpt-4o") #默认是MODEL_FOLD/model_name
+    parser.add_argument("--model_type", type=str, default="commercial")
     parser.add_argument("--support_vision", type=bool, default=True)
+    parser.add_argument("--chat_template",type=str, default="")
+    parser.add_argument("--model_base",type=str,default="")
     args = parser.parse_args()
     return args
 
-def insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp):
-    
+def insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template=None,model_base=None):
     model_index = utils.load_json_file(MODEL_INDEX_PATH)
     if model_name in model_index:
-        print(f"[red]你确定要重置{model_name}吗？")
-        raise AssertionError
-    
-    log_path = MODEL_ATTR_FOLD / "log" / f"{model_name}.log"
-    
+        if model_name!="gpt-4o-mini":
+            error_message = f"你确定要重置{model_name}吗？"
+            print(f"[red]{error_message}")
+            return False,error_message
+        else:
+            try:
+                inference_model.inference_model(model_name) #内部已经停止
+                return True,"regenerate"
+            except Exception as e:
+                return False,e
+            
     # 验证
     if model_type != "temp":
-        pid,_ = model.run_vllm_server(devices=[],device_num=1,model_path=model_path,log_path=log_path,port=9009,max_model_len=2048,gpu_memory_utilization=0.95)
-        model.stop_vllm_server(pid)
+        try: 
+            pid,_ = model.run_vllm_server(devices=[],device_num=1,model_path=model_path,log_path=log_path,port=9009,max_model_len=2048,gpu_memory_utilization=0.95)
+        except Exception as e:
+            print(e)
+            return False,e
     
     # 填充信息：
     model_attr = {
         "id":utils.generate_uuid(),
         "insert_time":timestamp,
         "path":model_path,
-        "avaliable":True,
+        "avaliable":True, #是否可以测评
+        "runable":True,   #是否可以online推理
         "type":model_type,
         "support vision":support_vision,
         "elo rating":{"total":{"mu":model.MY_MU,
-                               "sigma":model.MY_SIGMA,}},
+                               "sigma":model.MY_SIGMA,
+                               "win":0,}},
+        "human rating":{"total":{"mu":model.MY_MU,
+                               "sigma":model.MY_SIGMA,
+                               "win":0,}},
         "task score":{},
-        "running":False,
     }
+    if chat_template!="":
+        model_attr["template"] = chat_template
+    if model_base:
+        model_attr["base"] = model_base
+    model_attr["running"]=True
     if model_type != "commercial":
-        model_attr["pid"] = 0
-        model_attr["port"] = 0
-        model_attr["host"] = ""
+        model_attr["pid"] = pid
+        model_attr["port"] = 9009
+        model_attr["host"] = "localhost"
     if model_type == "temp":
         model_attr["running"] =True
         model_attr["pid"] = 0
@@ -65,17 +84,31 @@ def insert_model(model_name,model_path,model_type,support_vision,model_port,time
     model_index[model_name] = model_attr
     utils.dump_json_file(model_index,MODEL_INDEX_PATH)
     print(f"[bold blue]已完成 {model_name} 的注册")
+    
+    #进行测试：
+    try:
+        inference_model.inference_model(model_name) #内部已经停止
+    except Exception as e:
+        return False,e
+    print(f"[bold blue]已完成 {model_name} 的推理")
+    return True,"success"
+
+def insert_model_wrapper(model_name,model_path,model_type,support_vision,model_base,chat_template):
+    log_path = MODEL_ATTR_FOLD / "log" / f"{model_name}.log"  #放在这里是能方便的保证前端也能找到这个文件
+    model_port = None
+    timestamp = utils.generate_timestamp()
+    model_path = str(model_path) if model_path else str(MODEL_FOLD / model_name)
+    if model_type == "temp":
+        model_port = int(model_name)
+        model_name = model_name + "-" + f"{timestamp}"
+        model_path = ""
+    if chat_template=="default":
+        chat_template = "/scratch2/limuyao/workspace/VLA_benchmark/data/model/template/template_llava.jinja"
+    flag,message = insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template,model_base)
+    return flag,message
+    
 
 if __name__ == "__main__":
     args = parse_args() #得到参数
-    timestamp = utils.generate_timestamp()
-    model_name = args.model_name
-    model_path = str(args.model_path) if args.model_path != "" else str(MODEL_FOLD / model_name)
-    model_type = args.model_type
-    model_port = None
-    if model_type == "temp":
-        model_name = model_name + "-" + f"{timestamp}"
-        model_path = ""
-        model_port = int(model_name)
-    support_vision = args.support_vision
-    insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp)
+    insert_model_wrapper(args.model_name,args.model_path,args.model_type,args.support_vision,args.model_base,args.chat_template)
+    

@@ -1,5 +1,6 @@
 import abc
 from pathlib import Path,PosixPath
+from vla_eval.model.model import Model
 from utils import utils
 
 DATASET_FOLD = Path(__file__).parent.parent.parent / "data" / "dataset"
@@ -61,7 +62,7 @@ class BaseDataset(abc.ABC):
         return self.dataset_content_dict
 
     @abc.abstractmethod
-    def get_questions(self):
+    def get_questions(self,model:Model):
         pass
     
     @abc.abstractmethod

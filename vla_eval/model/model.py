@@ -27,7 +27,7 @@ MY_MU = 1000
 MY_SIGMA = 333.33
 MY_BETA = 166.66
 MY_TAU = 3.333
-MY_DRAW_P = 0.1
+MY_DRAW_P = 0.25
 MY_ENV = trueskill.TrueSkill(mu=MY_MU,sigma=MY_SIGMA,beta=MY_BETA,tau=MY_TAU,draw_probability=MY_DRAW_P) #TrueSkill的更新参数
 
 
@@ -60,7 +60,8 @@ def get_avaliable_gpus(cuda_num:int):
         raise Exception
     return avaliable_gpus
 
-def run_vllm_server(devices:list,device_num:int,model_path, log_path,port, max_model_len, gpu_memory_utilization):
+def run_vllm_server(devices:list,device_num:int,model_path, log_path,port, max_model_len, gpu_memory_utilization,
+                    chat_template:str=""):
     
     if devices==[]:
         devices = get_avaliable_gpus(device_num)
@@ -69,8 +70,10 @@ def run_vllm_server(devices:list,device_num:int,model_path, log_path,port, max_m
     utils.dump_txt_file("",log_path)
     
     # 构建命令
-    command = f"CUDA_VISIBLE_DEVICES={devices_str} nohup vllm serve {model_path} --port {port} --max-model-len {max_model_len} --gpu-memory-utilization {gpu_memory_utilization} --trust-remote-code > {log_path} 2>&1 &"
-    
+    command = f"CUDA_VISIBLE_DEVICES={devices_str} nohup vllm serve {model_path} --port {port} --max-model-len {max_model_len} --gpu-memory-utilization {gpu_memory_utilization} --trust-remote-code "
+    if chat_template!="":
+        command += f"--chat-template {chat_template}"
+    command += f" > {log_path} 2>&1 &"
     # 使用 shell=True 来运行 nohup 命令
     subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     
@@ -105,10 +108,16 @@ def _create_responce(data:dict):
         model = models.data[0].id
 
     try:                 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-        chat_completion = client.chat.completions.create(
-            messages=data["messages"],
-            model=model)
+        if data.get("max_new_tokens",None):
+            chat_completion = client.chat.completions.create(
+                messages=data["messages"],
+                model=model,
+                max_tokens=data["max_new_tokens"]
+                )
+        else:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+            chat_completion = client.chat.completions.create(
+                messages=data["messages"],
+                model=model)
         #print(chat_completion)dict(chat_completion.choices[0].message)
         response = {
             "role":str(chat_completion.choices[0].message.role),
@@ -122,6 +131,9 @@ def _create_responce(data:dict):
         return None
 
 def _create_responce_wrapper(data:dict):
+    #id = data["id"]
+    #utils.dump_txt_file(data,f"{id}.txt")
+    #exit()
     response,input_tokens_num,output_tokens_num = _create_responce(data)
     return {"id":data["id"],"message":response,"input_tokens":input_tokens_num,"output_tokens":output_tokens_num}
     
@@ -272,6 +284,8 @@ class Model:
                 data["openai_api_base"] = self.openai_api_base
             else:
                 data["model"] = str(self.model)
+            if self.model_attr.get("max_new_tokens",None):
+                data["max_new_tokens"]=self.model_attr["max_new_tokens"]
             data["openai_api_key"] = str(self.openai_api_key)
             
             datas[i] = data
@@ -305,9 +319,14 @@ class Model:
             self.model_attr["pid"]=0
         self.upload_model_attr()
     
-    def upload_elo_rating(self,rating:trueskill.Rating):
-        self.model_attr["elo rating"]["total"]["mu"] = int(rating.mu)
-        self.model_attr["elo rating"]["total"]["sigma"] = int(rating.sigma)
+    def upload_elo_rating(self,rating:trueskill.Rating,if_human=False):
+        """注意，这里把所有elo指数（包括某task）都更新了，只不过只有trueskill引导的rating是显示更新"""
+        if not if_human:
+            key_elo_rating = "elo rating"
+        else:
+            key_elo_rating = "human rating"
+        self.model_attr[key_elo_rating]["total"]["mu"] = int(rating.mu)
+        self.model_attr[key_elo_rating]["total"]["sigma"] = rating.sigma #不要int
         self.upload_model_attr()
     
     def upload_model_attr(self):
@@ -329,7 +348,10 @@ class Model:
         
         log_file = self._MODEL_FOLD / "log" / f"{self.model_name}.log"
         
-        pid,devices_str = run_vllm_server(devices,device_num,self.model_path,log_file,port=self.port,max_model_len=max_model_len,gpu_memory_utilization=gpu_memory_utilization)
+        chat_template =  self.model_attr.get("template","")
+        
+        pid,devices_str = run_vllm_server(devices,device_num,self.model_path,log_file,port=self.port,max_model_len=max_model_len,gpu_memory_utilization=gpu_memory_utilization,
+                                          chat_template=chat_template)
             
         print(f"Started {self.model_name} on GPU {devices_str} with PID {pid}. Logs are being written to {log_file}")
         return pid
@@ -356,14 +378,18 @@ def get_runable_model_set(model_index:dict={},type="total"):
             runable_models.add(model_name)
     return runable_models
  
-def get_model_ratings(model_index:dict={},type="total"):
+def get_model_ratings(model_index:dict={},type="total",if_human=False):
+    if not if_human:
+        key_elo_rating = "elo rating"
+    else:
+        key_elo_rating = "human rating"
     if model_index=={}:
         model_index_path = Path(__file__).parent.parent.parent / "data" / "model" / "model.json"
         model_index = utils.load_json_file(model_index_path)
     avaliable_models = get_avaliable_model_set(model_index)
     model_ratings = {}
     for avaliable_model in avaliable_models:
-        model_ratings[avaliable_model] = MY_ENV.create_rating(model_index[avaliable_model]["elo rating"]["total"]["mu"],model_index[avaliable_model]["elo rating"]["total"]["sigma"])
+        model_ratings[avaliable_model] = MY_ENV.create_rating(model_index[avaliable_model][key_elo_rating]["total"]["mu"],model_index[avaliable_model][key_elo_rating]["total"]["sigma"])
     return model_ratings
         
 if __name__ == "__main__":

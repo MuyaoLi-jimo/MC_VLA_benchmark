@@ -1,6 +1,5 @@
 """
 把得到的结果交给gpt-4o来评价
-先验：每一个log文件只会存储一个dataset的数据（方便处理），注意要考虑两个模型一样的情况
 需要进行一个多步推理，保证gpt-4o按照规定格式输出
 """
 import numpy as np
@@ -39,6 +38,17 @@ def sample_validate_qa(dataset:BaseDataset, test_model_A:model.Model,test_model_
     input_source = get_validate_qa(model_A_response,model_B_response,q_a,content_attrs=dataset.dataset_attribute["attrs"])
     return input_source
 
+def record_validate(score,dataset:BaseDataset, validate_qa:dict, test_model_A:model.Model,test_model_B:model.Model,):
+    """将选择的结果转换成固定的格式"""
+    output_data = {
+        "score":score,
+        "dataset":dataset.dataset_name,
+        "model_A":test_model_A.model_name,
+        "model_B":test_model_B.model_name,
+    }
+    output_data.update(validate_qa)
+    return output_data
+
 def offline_validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model,judge_model:model.Model):
     validate_qa = sample_validate_qa(dataset,test_model_A,test_model_B)
     input_data = [{
@@ -57,21 +67,18 @@ def offline_validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:
         score = analyze_evaluation(judgement)
     except:
         score = 0
-    output_data = {
-        "score":score,
-        "dataset":dataset.dataset_name,
-        "model_A":test_model_A.model_name,
-        "model_B":test_model_B.model_name,
+    output_data = record_validate(score,dataset,validate_qa,test_model_A,test_model_B)
+    output_data.update({
         "half_judge":half_result[0]["message"]["content"],
         "final_judge":judgement,
         "token":{
             "input":int(half_result[0]["input_tokens"]) + int(final_result["input_tokens"]),
             "output":int(half_result[0]["output_tokens"]) + int(final_result["output_tokens"]),
         },
-    }
-    output_data.update(validate_qa)
+    })
     return output_data
-    
+
+
 
 def online_validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model,timestamp,judge_model:model.Model,batch_size=10):
     """负责比较两者，同时需要它把所有信息记录下来,并记录所有token使用情况(return即可) """
@@ -280,6 +287,13 @@ def analyze_evaluation(evaluation):
     return judgement_num
         
 if __name__ == "__main__":
+    dataset = dataset_wrapper.make("visual")
+    model_A = model.Model("gpt-4o-mini")
+    model_B = model.Model("gpt-4o")
+    
+    
+    print(sample_validate_qa(dataset,model_A,model_B))
+    exit()
     #timestamp = utils.generate_timestamp()
     model_A = model.Model("10003-2024-09-02 09:46:53")
     model_B = model.Model("gpt-4o-mini")

@@ -35,7 +35,7 @@
         {
             "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/6.png",
             "question": "1. Q: Is the player's hunger bar full?",
-            "answer": "1. A: No, the player's hunger bar is not full; it is missing ",
+            "answer": "1. A: No",
             "id": "7d37ff53-1b4a-46cb-97d1-15e5b2e91149"
         },
         {

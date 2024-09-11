@@ -511,12 +511,14 @@ def rm_folder(folder_path:Union[str , pathlib.PosixPath]):
 
 ################################################
 
-def encode_image_to_base64(image_path:Union[str , pathlib.PosixPath]):
+def encode_image_to_base64(image:Union[str , pathlib.PosixPath, np.ndarray]):
     """将数据处理为base64 """
-    if isinstance(image_path, str):
-        image_path = pathlib.Path(image_path)
-
-    with image_path.open('rb') as image_file:
+    if isinstance(image, str):
+        image = pathlib.Path(image)
+    if isinstance(image,np.ndarray):
+        result = base64.b64encode(image).decode('utf-8')
+        return result
+    with image.open('rb') as image_file:
         # 对图片数据进行base64编码，并解码为utf-8字符串
         result = base64.b64encode(image_file.read()).decode('utf-8')
         

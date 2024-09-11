@@ -22,7 +22,7 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,test_js
         test_jsonl_path = LOG_FOLD / f"{timestamp}_{database.dataset_name}_{inference_model.model_name}.jsonl"
     test_jp = utils.JsonlProcessor(test_jsonl_path,if_backup=False) 
     test_jp.dump_restart()
-    questions = database.get_questions()
+    questions = database.get_questions(inference_model)
     for task,task_questions in questions.items():
         
         inputs = create_input(task_questions,database)
@@ -34,9 +34,12 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,test_js
         qas = []
         for task_question,output in zip(task_questions,outputs):
             assert task_question["id"]==output["id"]
+            q = task_question["message"]
+            if type(q["content"])==list: #存了脏乱的信息
+                q["content"] = q["content"][0]
             q_a = {
                 "id": task_question["id"],
-                "q":task_question["message"],
+                "q":q,
                 "a":output["message"],
                 "label":[database.dataset_name,task],
                 "input_tokens":output["input_tokens"],

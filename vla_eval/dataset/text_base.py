@@ -1,5 +1,6 @@
 from rich import print
 from vla_eval.dataset.base import BaseDataset
+from vla_eval.model.model import Model
 
 class TextbaseDataset(BaseDataset):
     MODALITY = 'text'
@@ -13,7 +14,7 @@ class TextbaseDataset(BaseDataset):
             print(f"[red] {dataset_name}没有注册类别")
             raise AssertionError
         
-    def get_questions(self):
+    def get_questions(self,model:Model):
         """输出list格式 """
         if type(self.questions)==type(None):
             self.questions = {}
