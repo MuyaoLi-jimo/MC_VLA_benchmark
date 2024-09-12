@@ -56,6 +56,7 @@ def insert_model(model_name,model_path,model_type,support_vision,model_port,time
         "runable":True,   #是否可以online推理
         "type":model_type,
         "support vision":support_vision,
+        "done":[],
         "elo rating":{"total":{"mu":model.MY_MU,
                                "sigma":model.MY_SIGMA,
                                "win":0,}},

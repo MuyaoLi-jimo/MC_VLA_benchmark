@@ -53,29 +53,48 @@
             "evaluation": "Answer A provided an accurate and relevant response, directly addressing the question by correctly identifying that only oak and dark oak leaves can drop apples in Minecraft. They included additional information about the drop rate and the conditions under which apples drop, enhancing the usefulness of their answer.\nAnswer B, however, contains a factual error. There are no specific \u201capple trees\u201d or \u201cfruit-bearing trees\u201d in Minecraft as described in the response. The game does not feature trees explicitly labeled or functioning as fruit-bearing apple trees. Therefore, this response is misleading and incorrect regarding the game\u2019s mechanics.\nConsidering these points, Answer A is more accurate and relevant to the actual gameplay mechanics of Minecraft. [A is better]\n"
         }
     },
-    "visual": {
-        "id": "8d244659-c5da-4c78-8bf5-c8d57c37b693",
-        "name": "visual",
-        "timestamp": "2024-09-02 16:51:32",
+    "visual-basic": {
+        "id": "eb896d37-0c7e-4551-9220-4f250c244d1b",
+        "name": "visual-basic",
+        "timestamp": "2024-09-11 19:02:17",
         "type": "visual",
         "task": {
-            "object": 5,
-            "info": 5,
-            "high level": 5,
-            "inventory": 5,
-            "spatial": 5
+            "scene": 11,
+            "object": 13,
+            "info": 7,
+            "inventory": 6,
+            "OCR": 6
         },
         "attrs": [
             "image_path",
             "question",
-            "answer",
-            "id"
+            "answer"
         ],
-        "num": 25,
+        "num": 43,
         "available": true,
-        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a few questions related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. A: [answer], [explanation]\n2. A: [answer], [explanation]\n####################\n",
+        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. [answer], [explanation]\n####################\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy and reasonable.\n",
         "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n"
-
+    },
+    "visual-advance": {
+        "id": "c906b5f8-1bbc-487d-b0eb-a61484877b71",
+        "name": "visual-advance",
+        "timestamp": "2024-09-11 19:02:17",
+        "type": "visual",
+        "task": {
+            "count": 5,
+            "spatial": 6,
+            "intention": 9
+        },
+        "attrs": [
+            "image_path",
+            "question",
+            "answer"
+        ],
+        "num": 20,
+        "available": true,
+        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. [answer], [explanation]\n####################\n",
+        "validate requirement prompt": "Your judgement should consider factors such as accuracy and reasonable.\n",
+        "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n"
     }
 }

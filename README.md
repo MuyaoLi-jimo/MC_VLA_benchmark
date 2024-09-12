@@ -4,8 +4,8 @@ export PYTHONPATH="/scratch2/limuyao/workspace/VLA_benchmark:$PYTHONPATH"
 conda install numpy==1.26.3
 ## 注册dataset
 + 未完成：从csv插入model中
-+ 先用python vla_eval/dataset/base.py 更新index.json
-+ 再手动在index.json和select_benchmark.py中加入类别
++ 先用python vla_eval/dataset/base.py 更新index.json(每一条的id，prompt，type)
++ 再手动在index.json和frontend中加入类别(type)
 + 最后在前端写入
 ## 注册model
 + 使用python vla_eval/model/insert_model.py 记得加入命令行参数

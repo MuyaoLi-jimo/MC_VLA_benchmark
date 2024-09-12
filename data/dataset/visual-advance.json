@@ -1,0 +1,133 @@
+{
+    "count": [
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/34.jpg",
+            "question": "How many zombies are visible in the scene?",
+            "answer": "2",
+            "id": "4ec34c9f-a2f5-451c-ab82-56fb781fe399"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/35.jpg",
+            "question": "How many types of blocks can be seen around the lava pool?",
+            "answer": "3, stone, ores, and lava.",
+            "id": "33d4c6e3-a5ea-4b56-8058-6d21be7421bc"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/36.jpg",
+            "question": "How many storage chests are visible in the room?",
+            "answer": "2",
+            "id": "af4cd5f2-30a7-4c2c-aaaf-54987cc6a51c"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/36.jpg",
+            "question": "How many sources of light are there in the room?",
+            "answer": "There are five visible sources of light from the magma blocks on the floor.",
+            "id": "a1d42ca8-6492-4221-a0d0-18c3f61496bb"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/42.jpg",
+            "question": "How many sheep are visible in the image?",
+            "answer": "3",
+            "id": "58597af7-4898-4c8f-a37c-db857f747e3c"
+        }
+    ],
+    "spatial": [
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/21.png",
+            "question": "Can the player now touch the left tree with the axe in their hand?",
+            "answer": "Yes, the player is close enough to touch the left tree with the axe.",
+            "id": "57bece5d-cd12-4b50-a83a-2deb5eb15968"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/21.png",
+            "question": "Can the player now touch the right tree with the axe in their hand?",
+            "answer": "No, the right tree is too far away from the player.",
+            "id": "714af144-446c-4898-9350-fa73844918ea"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/22.png",
+            "question": "Which is closer to the player, the zombie or the wooden house?",
+            "answer": "The zombie.",
+            "id": "3ea1b378-b479-43f2-8207-2a822325d176"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/23.png",
+            "question": "Which is closer to the player, the spider or the sheep\uff1f",
+            "answer": "The spider.",
+            "id": "09d7d393-a2a5-4d2b-a115-3f07c63d9aa9"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/24.png",
+            "question": "Where is the zombie\uff1f Right or left\uff1f",
+            "answer": "Right.",
+            "id": "d84de51d-3fa2-4bf5-8385-9c6c09d3d10a"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/25.png",
+            "question": "Where is the house? Right or left\uff1f",
+            "answer": "Left.",
+            "id": "b3d0db4e-b54e-4158-af0c-2faf2efd1be9"
+        }
+    ],
+    "intention": [
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/26.jpg",
+            "question": "What is the primary action the player is about to perform?",
+            "answer": "chopping down the tree.",
+            "id": "d0d157e1-41c7-4694-b8e7-0b54a8c0e7f1"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/27.jpg",
+            "question": "What is the player currently doing in the image?",
+            "answer": "The player is chopping a tree to gather wood.",
+            "explanation": "This is inferred from the position of the player\u2019s axe, which is aimed at a wooden block of the tree.",
+            "id": "4081e97d-eecd-4843-bbfc-a00a6de3e36c"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/28.jpg",
+            "question": "What might the player do next?",
+            "answer": "The player might continue to place cobblestone blocks to expand or heighten the structure.",
+            "id": "0ee20e80-b745-4cf7-b7cf-2e2287d95c16"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/29.jpg",
+            "question": "What is the player currently doing?",
+            "answer": "The player is farming, specifically, they are collecting carrots.",
+            "explanation": "Since the player has potatoes in their inventory and some carrots have already fallen to the ground.",
+            "id": "e295b85f-1c1c-46e6-8893-c32cb04e6b42"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/31.jpg",
+            "question": "What is the player currently building?",
+            "answer": "The player is building a Nether portal.",
+            "explanation": "To access the Nether dimension in Minecraft, players create a rectangular frame using obsidian. The arrangement seen here suggests that the player is in the process of completing this frame.",
+            "id": "9a5eb5a7-01a8-4e0d-b9ec-ceb8f575680c"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/33.jpg",
+            "question": "What is the player doing?",
+            "answer": "The player might be gather food by hunting pig.",
+            "explanation": "There is a pig on the screen. The player\u2019s hotbar items can suggest their immediate actions\u2014weapons indicate hunting",
+            "id": "e83d38a9-167f-4ee5-98bc-5989e2703f84"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/34.jpg",
+            "question": "What might the player\u2019s immediate action be upon seeing the zombies?",
+            "answer": "The player might intend to attack the zombies to defend themselves or to retreat to avoid damage.",
+            "id": "681c4115-0c8f-4691-b7e7-4359c58f40df"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/35.jpg",
+            "question": "What might the player\u2019s intention be?",
+            "answer": "The player might intend to mine the visible ores",
+            "id": "54f00cca-d912-46fe-b064-a5a2af87486a"
+        },
+        {
+            "image_path": "/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/image/37.jpg",
+            "question": "What is the player likely doing with the cobblestone block in their hand?",
+            "answer": "The player is probably repairing or expanding the cobblestone surface.",
+            "explanation": "Indicated by the cobblestone in their hand and the surroundings.",
+            "id": "94d0d96d-9007-4828-80a2-d49108175887"
+        }
+    ]
+}

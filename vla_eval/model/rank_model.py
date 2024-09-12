@@ -19,7 +19,9 @@ def rank(ranking_type:str="elo",choice:str="total",if_human=False):
         rich_print(rank_df,choice)
         rank_df = elo_rank(choice="reason",if_print_elo=True,if_human=if_human)
         rich_print(rank_df,choice)
-        rank_df = elo_rank(choice="visual",if_print_elo=True,if_human=if_human)
+        rank_df = elo_rank(choice="visual-basic",if_print_elo=True,if_human=if_human)
+        rich_print(rank_df,choice)
+        rank_df = elo_rank(choice="visual-advance",if_print_elo=True,if_human=if_human)
         rich_print(rank_df,choice)
     return
 

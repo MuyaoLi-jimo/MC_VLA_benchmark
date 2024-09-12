@@ -6,7 +6,7 @@ DATASET_FOLD = Path(__file__).parent.parent.parent / "data" / "dataset"
 
 def json_to_excel():
     
-    json_stem = "reason"
+    json_stem = "visual"
     json_name = f"{json_stem}.json"
     excel_name = f"{json_stem}.xlsx"
     json_path = DATASET_FOLD / json_name
@@ -15,7 +15,7 @@ def json_to_excel():
     utils.dump_excel_file(json_file,excel_path)
     
 def excel_to_json():
-    excel_stem = "reason"
+    excel_stem = "visual-basic"
     json_name = f"{excel_stem}.json"
     excel_name = f"{excel_stem}.xlsx"
     json_path = DATASET_FOLD / json_name

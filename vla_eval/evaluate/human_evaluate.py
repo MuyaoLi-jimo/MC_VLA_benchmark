@@ -1,7 +1,7 @@
 
 
 
-from vla_eval.evaluate import elo_evaluate,elo_validate
+from vla_eval.evaluate import elo_evaluate,validate
 from vla_eval.model.model import Model
 from vla_eval.dataset import dataset_wrapper
 from utils import utils
@@ -25,7 +25,7 @@ def get_validate_qa(setting_choice:str,human_model_ratings):
     model_A = Model(model_A_name)
     model_B = Model(model_B_name)
     dataset = dataset_wrapper.make(dataset_name)
-    validate_qa = elo_validate.sample_validate_qa(dataset,model_A,model_B)
+    validate_qa = validate.sample_validate_qa(dataset,model_A,model_B)
     return dataset_name,model_A_name,model_B_name,validate_qa
 
 def cal_human_elo(score,dataset_name:str,validate_qa:dict,model_A_name:str,model_B_name:str,human_model_ratings,human_history_jp):
@@ -33,7 +33,7 @@ def cal_human_elo(score,dataset_name:str,validate_qa:dict,model_A_name:str,model
     model_A = Model(model_A_name)
     model_B = Model(model_B_name)
     dataset = dataset_wrapper.make(dataset_name)
-    outcome = elo_validate.record_validate(score,dataset,validate_qa,model_A,model_B)
+    outcome = validate.record_validate(score,dataset,validate_qa,model_A,model_B)
     human_model_ratings,_,_,_ = elo_evaluate.cal_elo(outcome,human_model_ratings,model_A,model_B,dataset,if_human=True)
     outcome.update({"timestamp":timestamp})
     human_history_jp.dump_line(outcome)

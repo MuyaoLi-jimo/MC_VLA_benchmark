@@ -79,7 +79,6 @@ def offline_validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:
     return output_data
 
 
-
 def online_validate(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model,timestamp,judge_model:model.Model,batch_size=10):
     """负责比较两者，同时需要它把所有信息记录下来,并记录所有token使用情况(return即可) """
     modelA_log_path = LOG_FOLD / f"{timestamp}_{dataset.dataset_name}_{test_model_A.model_name}.jsonl"
@@ -185,6 +184,7 @@ def get_validate_qa(model_A_response,model_B_response,q_a,content_attrs:list):
     for content_attr in content_attrs:
         #"question,answer,explanation"
         input_source[content_attr] = q_a[content_attr]
+    input_source["task"] = q_a["label"][1]
     return input_source
     
 def get_shared_datas(datas_A:dict,datas_B:dict,shared_datas:dict,q_a_datas:dict,content_attrs:list):

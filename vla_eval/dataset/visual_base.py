@@ -32,14 +32,14 @@ class VisualBaseDataset(BaseDataset):
                 question = row["question"]
                 image_path = row["image_path"]
                 suffix = image_path.split(".")[-1]
-                base64_image = None
-                if model_attr["base"]=="llava_next": 
-                    image = cv2.imread(image_path)
-                    resized_image = cv2.resize(image, RESIZE_MAP[model_attr["base"]]) if image.shape[1]==640 else image
-                    # 将调整后的图像编码为JPEG格式（也可以选择PNG等其他格式）
-                    _, base64_image = cv2.imencode("."+suffix, resized_image)
-                else:
-                    base64_image = utils.encode_image_to_base64(image_path)
+                base64_image = utils.encode_image_to_base64(image_path)
+                #if model_attr.get("base","")=="llava_next": 
+                    #image = cv2.imread(image_path)
+                    #resized_image = cv2.resize(image, RESIZE_MAP[model_attr["base"]]) if image.shape[1]==640 else image
+                    ## 将调整后的图像编码为JPEG格式（也可以选择PNG等其他格式）
+                    #success, base64_image = cv2.imencode("."+suffix, resized_image)
+                    #if not success:
+                        #base64_image = utils.encode_image_to_base64(image_path)
                 if model_name in { "MiniCPM-V-2_6" ,"llava-1.5-13b-hf", "llava-1.5-7b-hf", "fuyu-8b","llava-v1.6-mistral-7b-hf"}:
                     input_question = {
                         "id":row["id"],

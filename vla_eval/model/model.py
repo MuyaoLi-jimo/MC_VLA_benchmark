@@ -356,14 +356,14 @@ class Model:
         print(f"Started {self.model_name} on GPU {devices_str} with PID {pid}. Logs are being written to {log_file}")
         return pid
         
-def get_avaliable_model_set(model_index:dict={},type="total"):
+def get_avaliable_model_set(model_index:dict={},type="total",dataset=""):
     """得到当前所有可用的数据 """
     if model_index=={}:
         model_index_path = Path(__file__).parent.parent.parent / "data" / "model" / "model.json"
         model_index = utils.load_json_file(model_index_path)
     avaliable_models = set()
     for model_name in model_index.keys():
-        if model_index[model_name]["avaliable"] and (type == "total" or model_index[model_name]["type"] == type):
+        if model_index[model_name]["avaliable"] and (type == "total" or model_index[model_name]["type"] == type) and (not dataset or dataset in set(model_index[model_name]["done"])):
             avaliable_models.add(model_name)
         
     return avaliable_models
@@ -393,9 +393,9 @@ def get_model_ratings(model_index:dict={},type="total",if_human=False):
     return model_ratings
         
 if __name__ == "__main__":
-    model_ratings = get_model_ratings()
-    print(type(model_ratings["gpt-4o-mini"].sigma))
-    
+    #model_ratings = get_model_ratings()
+    #print(type(model_ratings["gpt-4o-mini"].sigma))
+    print(get_avaliable_model_set(dataset="visual-basic"))
     #model = Model(model_name="llama3-llava-next-8b-hf")
     #model.launch(devices=["3"])
     #time.sleep(10)

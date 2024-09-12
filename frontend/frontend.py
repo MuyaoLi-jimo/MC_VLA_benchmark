@@ -64,7 +64,9 @@ cal_badvote = partial(cal_vote, 4,human_model_ratings,human_history_jp)
 def newround_response(setting_drop):
     dataset_name,A_name,B_name,validate_qa = get_validate_qa(setting_drop,human_model_ratings)
     if setting_drop=="random":
-        dataset_name = gr.Textbox(label= "setting name",value=dataset_name,visible=True, interactive=False)
+        dataset_name = gr.Textbox(label= "Setting name",value=dataset_name,visible=True, interactive=False)
+    else:
+        dataset_name = gr.Textbox(label= "Setting name",value=dataset_name,visible=False, interactive=False)
     gr.update(elem_id='model_a_from', visible=False)
     gr.update(elem_id='model_b_from', visible=False)
     
@@ -100,10 +102,10 @@ def newround_response(setting_drop):
         value="👎  Both are bad", visible=True, interactive=True
     )
     question = gr.Textbox(lines=len(validate_qa['question'])//100, label="Question", value = validate_qa['question'], interactive=True)
-    return dataset_name,question, A_name, validate_qa['A'], "[MASK]", B_name, validate_qa['B'], "[MASK]",validate_qa["id"],hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn# visible
+    return dataset_name ,validate_qa["task"] , question, A_name, validate_qa['A'], "[MASK]", B_name, validate_qa['B'], "[MASK]",validate_qa["id"],hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn# visible
  
 
-notice_markdown = """
+notice_markdown2 = """
 # ⚔️  Chatbot Arena ⚔️ : Benchmarking LLMs in the Wild
 
 ## 📜 Rules
@@ -120,10 +122,26 @@ You can evaluate the performance of the model from the following aspects:
 4. **Readability**: Is it coherent?
 5. **Executability**: Considering the characteristics of the game, is it executable?
 
+----
 ## 👇 Vote now!
 
 """
+notice_markdown3 = """
+# Welcome to Our Model Insert Interface!
 
+## Rules
+Before you start using our Gradio interface, please be aware of the following rules:
+1. **Limited Registration**: Do not register arbitrarily. At present, our testing can only be conducted using the Hugging Face version with inference through vllm. Models not tested with VLLM cannot be imported.
+2. **Model Documentation**: Prior to registration, make sure to review the official documentation of the model to understand its details and requirements.
+
+## Registration Process
+To ensure a smooth experience, please follow these steps when registering a model:
+1. **Form Filling**: Fill out the form by following the structure provided in the example. This will help you ensure that all required fields are correctly filled.
+2. **Start Registration**: Once you have filled out the form, initiate the registration process. Pay close attention to the right side of the interface for any error messages that might appear.
+3. **Error Handling**: If an error occurs, please consult the log file of the model inference for more details. You may need to address any issues and register again through the backend.
+
+Thank you for adhering to these guidelines to help maintain the quality and functionality of our platform.
+"""
 
 with gr.Blocks(title="MC Arena") as page:
     with gr.Tab("Elo Leaderboard"):
@@ -131,7 +149,7 @@ with gr.Blocks(title="MC Arena") as page:
             with gr.Row():
                 use_human_evaluate = gr.Checkbox(label="Human Evaluating", value=False)
                 update_leaderboard_button = gr.Button("Update Leaderboard")
-            choice = gr.Radio(["total", "knowledge", "reason", "visual"], label="benchmark", value="total", info="Which benchmark do you choose?")
+            choice = gr.Radio(["total", "knowledge", "reason", "visual-basic", "visual-advance"], label="benchmark", value="total", info="Which benchmark do you choose?")
             if_print_elo = gr.Checkbox(label="Print Elo Rating", value=False)
             output = gr.DataFrame(elo_rank(choice="total", if_print_elo=False))
             
@@ -146,15 +164,16 @@ with gr.Blocks(title="MC Arena") as page:
         )
     with gr.Tab("Human Elo Rating System"):
         # TODO:根据选择调整可见
-        gr.Markdown(notice_markdown)
+        gr.Markdown(notice_markdown2)
         with gr.Row():
             setting_drop = gr.Dropdown(
-                ["random", "knowledge","reason","visual"], 
-                label="evaluation setting", 
+                ["random", "knowledge","reason","visual-basic","visual-advance"], 
+                label="Evaluation Setting", 
                 value = "knowledge",
                 interactive=True
             )
-            hidden_dataset_name = gr.Textbox(value=init_dataset_name,visible=False, interactive=False)
+            hidden_dataset_name = gr.Textbox(label= "Setting name",value=init_dataset_name,visible=False, interactive=False)
+            task_name = gr.Textbox(label="Subtask",value=init_validate_qa["task"],visible=True, interactive=False)
             
         with gr.Row():
             #!先验：一开始处于knowledge界面
@@ -198,7 +217,7 @@ with gr.Blocks(title="MC Arena") as page:
 
         setting_drop.change(newround_response,
                             inputs=[setting_drop],
-                            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn])
+                            outputs=[hidden_dataset_name,task_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn])
 
 
         with gr.Row():
@@ -232,14 +251,15 @@ with gr.Blocks(title="MC Arena") as page:
         new_round_btn.click(
             fn = newround_response,
             inputs = [setting_drop],
-            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
+            outputs=[hidden_dataset_name,task_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
         skip_btn.click(
             fn = newround_response,
             inputs=[setting_drop],
-            outputs=[hidden_dataset_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
+            outputs=[hidden_dataset_name,task_name,instruction_box, hidden_A_name, model_A_response, model_A_name, hidden_B_name, model_B_response, model_B_name,hidden_idx,hidden_answer,hidden_explain,hidden_image_path,hidden_image,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn]
         )
     with gr.Tab("Insert Model"):
+        gr.Markdown(notice_markdown3)
         with gr.Row():
             with gr.Column():
                 model_name = gr.Text(label="Model name")
@@ -266,5 +286,5 @@ with gr.Blocks(title="MC Arena") as page:
             outputs=[status, message]
         )
 
-page.launch(share=True)
+page.launch(share=True,auth=("admin", "craftjarvis"))
             

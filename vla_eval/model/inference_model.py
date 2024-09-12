@@ -12,7 +12,7 @@ MODEL_INFERENCE_FOLD = _model.MODEL_FOLD / "outcome"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="mc-llava-next-vicuna-13b-lora-v1.6_4.8.28_0829-step_5500")
+    parser.add_argument("--model_name", type=str, default="MiniCPM-V-2_6")
     args = parser.parse_args()
     return args
 

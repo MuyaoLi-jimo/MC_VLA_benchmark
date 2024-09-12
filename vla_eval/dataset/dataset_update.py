@@ -123,4 +123,4 @@ def image_no_base64(dataset_name:str):
     utils.dump_json_file(dataset,dataset_path)
 
 if __name__ == "__main__":
-    update_index()
+    update_dataset_id("/scratch2/limuyao/workspace/VLA_benchmark/data/dataset/visual-advance.json")

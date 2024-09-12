@@ -17,7 +17,7 @@ from rich import print
 from pathlib import Path
 from tqdm import tqdm
 import trueskill 
-from vla_eval.evaluate import elo_validate,inference
+from vla_eval.evaluate import inference, validate
 from vla_eval.dataset import dataset_wrapper
 from vla_eval.dataset.base import BaseDataset
 from vla_eval.model import model,rank_model
@@ -32,7 +32,7 @@ ROUND_QUA = 0.3 #定义好比赛
 STOP_A = 5
 K = 32  #elo公式的更新参数
 
-def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gpt-4o"):
+def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gpt-4o-mini"):
     timestamp = utils.generate_timestamp()
     model_ratings = model.get_model_ratings()
     history_jp = utils.JsonlProcessor(HISTORY_PATH)
@@ -55,10 +55,10 @@ def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gp
         model_B = model.Model(model_B_name)
         outcome = None
         if np.random.choice([True,False]):
-            outcome = elo_validate.offline_validate(dataset,model_A,model_B,judge_model)
+            outcome = validate.offline_validate(dataset,model_A,model_B,judge_model)
             model_ratings,model_A,model_B,dataset = cal_elo(outcome,model_ratings,model_A,model_B,dataset)  #其实没必要这么写，但是闲的
         else:
-            outcome = elo_validate.offline_validate(dataset,model_B,model_A,judge_model)
+            outcome = validate.offline_validate(dataset,model_B,model_A,judge_model)
             model_ratings,model_B,model_A,dataset = cal_elo(outcome,model_ratings,model_B,model_A,dataset)
         outcome.update({"timestamp":timestamp})
         history_jp.dump_line(outcome)
@@ -146,7 +146,7 @@ def online_elo_evaluate(dataset_name:str, model_A_name:str,model_B_name:str="",j
     p_A = run_inference(dataset,model_A,timestamp)
     p_B = run_inference(dataset,model_B,timestamp)
     # 评估表现
-    validate_outcome = elo_validate.online_validate(dataset,model_A,model_B,timestamp,judge)
+    validate_outcome = validate.online_validate(dataset,model_A,model_B,timestamp,judge)
     # 计算得分
     cal_elos(validate_outcome["score"],model_A,model_B,dataset=dataset,motion=motion)
     
@@ -181,10 +181,10 @@ def sample_A_B_D(model_ratings:dict,model_A_name:str = "",model_B_name = "",data
     # 首先按照标准差来选择A：
     if model_file=={}:
         model_file = utils.load_json_file(MODEL_PATH)
-    avaliable_models = list(model_ratings.keys())
-    model_sigma = [model_ratings[avaliable_model].sigma for avaliable_model in avaliable_models ]
-    model_prob = np.exp(model_sigma) / np.sum(np.exp(model_sigma))
     if not model_A_name:
+        avaliable_models = list(model.get_avaliable_model_set(dataset=dataset_name))
+        model_sigma = [model_ratings[avaliable_model].sigma for avaliable_model in avaliable_models ]
+        model_prob = np.exp(model_sigma) / np.sum(np.exp(model_sigma))
         model_A_name = np.random.choice(avaliable_models, size=1, p=model_prob)[0]
     if not dataset_name:
         dataset_name = np.random.choice(model_file[model_A_name]["done"])
@@ -341,7 +341,7 @@ def cal_win_rate(score:int,model_A_name:str,model_B_name:str,model_win_rate:dict
 
 if __name__ == "__main__":
     #offline_elo_evaluate(model_A_name="")
-    history_elo_evaluate()
+    offline_elo_evaluate()
     #model_ratings = model.get_model_ratings()
     #print(sample_A_B_D(model_ratings))
     #dataset = dataset_wrapper.make("knowledge")
