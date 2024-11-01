@@ -23,9 +23,9 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,test_js
     test_jp = utils.JsonlProcessor(test_jsonl_path,if_backup=False) 
     test_jp.dump_restart()
     questions = database.get_questions(inference_model)
+    
     for task,task_questions in questions.items():
-        
-        inputs = create_input(task_questions,database)
+        inputs = create_input(task_questions,database,model_name=inference_model.model_name)
         try:
             outputs = inference_model.inference(inputs,batch_size=40)
         except Exception as e:
@@ -50,22 +50,32 @@ def inference(database:BaseDataset,inference_model:model.Model,timestamp,test_js
     return True
         
 
-def create_input(task_questions,database:BaseDataset):
+def create_input(task_questions,database:BaseDataset,model_name:str):
     """
     制造问题的输入，
     TODO:注意SYSTEM_PROMPT可以因任务而各异，这个后续再说 
     """
-    system_prompt = database.get_inference_prompt()
     input_questions = []
+    system_prompt = database.get_inference_prompt()
     for task_question in task_questions:
         input_question = dict()
         input_question["id"] = task_question["id"]
-        input_question["messages"] = copy.deepcopy([{
-            "role": "system",
-            "content":system_prompt
-            }])
-        input_question["messages"].append(copy.deepcopy(task_question["message"]))
-
+        if model_name in model.OPENAI_MODEL:
+            input_question["messages"] = copy.copy([{
+                "role": "system",
+                "content":system_prompt
+                }])
+            input_question["messages"].append(copy.copy(task_question["message"]))
+        else:
+            input_question["messages"] = [copy.copy(task_question["message"])]
+            content = input_question["messages"][0]["content"]
+            if isinstance(content,str):
+                input_question["messages"][0]["content"] = "[SYSTEM_PROMPT]: \n" + system_prompt + "\n[USER_PRMPT]: \n" + content
+            elif isinstance(content,list):
+                for c in content:
+                    if c["type"]=="text":
+                        c["text"] = "[SYSTEM_PROMPT]:\n" + system_prompt+ "\n[USER_PRMPT]:\n"+ c["text"]
+                input_question["messages"][0]["content"] = content
         input_questions.append(input_question)
     return input_questions
 

@@ -16,16 +16,18 @@ MODEL_INDEX_PATH = MODEL_ATTR_FOLD / "model.json"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="gpt-4o")
-    parser.add_argument("--model_path", type=str, default="openai/gpt-4o") #默认是MODEL_FOLD/model_name
-    parser.add_argument("--model_type", type=str, default="commercial")
+    parser.add_argument("--model_name", type=str, default="molmo-72b-0924")
+    parser.add_argument("--model_path", type=str, default="") #默认是MODEL_FOLD/model_name
+    parser.add_argument("--model_type", type=str, default="temp")  #pretrained
     parser.add_argument("--support_vision", type=bool, default=True)
     parser.add_argument("--chat_template",type=str, default="")
     parser.add_argument("--model_base",type=str,default="")
+    parser.add_argument("--port","-p", type=int, default=0)  #pretrained
+    parser.add_argument("--host","-i", type=str, default="localhost")  #pretrained
     args = parser.parse_args()
     return args
 
-def insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template=None,model_base=None):
+def insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template=None,model_base=None,model_host="localhost"):
     model_index = utils.load_json_file(MODEL_INDEX_PATH)
     if model_name in model_index:
         if model_name!="gpt-4o-mini":
@@ -40,7 +42,7 @@ def insert_model(model_name,model_path,model_type,support_vision,model_port,time
                 return False,e
             
     # 验证
-    if model_type != "temp":
+    if model_type not in { "temp" ,"commercial"}:
         try: 
             pid,_ = model.run_vllm_server(devices=[],device_num=1,model_path=model_path,log_path=log_path,port=9009,max_model_len=2048,gpu_memory_utilization=0.95)
         except Exception as e:
@@ -56,29 +58,29 @@ def insert_model(model_name,model_path,model_type,support_vision,model_port,time
         "runable":True,   #是否可以online推理
         "type":model_type,
         "support vision":support_vision,
-        "done":[],
-        "elo rating":{"total":{"mu":model.MY_MU,
+        "OE done":[],
+        "model elo rating":{"total":{"mu":model.MY_MU,
                                "sigma":model.MY_SIGMA,
                                "win":0,}},
-        "human rating":{"total":{"mu":model.MY_MU,
+        "human elo rating":{"total":{"mu":model.MY_MU,
                                "sigma":model.MY_SIGMA,
                                "win":0,}},
-        "task score":{},
+        "MCQ score":{},
+        "running state":{}
     }
     if chat_template!="":
         model_attr["template"] = chat_template
     if model_base:
         model_attr["base"] = model_base
-    model_attr["running"]=True
-    if model_type != "commercial":
-        model_attr["pid"] = pid
-        model_attr["port"] = 9009
-        model_attr["host"] = "localhost"
+    model_attr["running state"]["running"]=True
     if model_type == "temp":
-        model_attr["running"] =True
-        model_attr["pid"] = 0
-        model_attr["port"] = model_port
-        model_attr["host"] = "localhost"
+        model_attr["running state"]["pid"] = 0
+        model_attr["running state"]["port"] = model_port
+        model_attr["running state"]["host"] = model_host
+    elif model_type != "commercial":
+        model_attr["running state"]["pid"] = pid
+        model_attr["running state"]["port"] = 9009
+        model_attr["running state"]["host"] = model_host
     
     # 存入
     model_index = utils.load_json_file(MODEL_INDEX_PATH)
@@ -94,22 +96,25 @@ def insert_model(model_name,model_path,model_type,support_vision,model_port,time
     print(f"[bold blue]已完成 {model_name} 的推理")
     return True,"success"
 
-def insert_model_wrapper(model_name,model_path,model_type,support_vision,model_base,chat_template):
+def insert_model_wrapper(model_name,model_path,model_type,support_vision,model_base,chat_template,port,host):
     log_path = MODEL_ATTR_FOLD / "log" / f"{model_name}.log"  #放在这里是能方便的保证前端也能找到这个文件
     model_port = None
+    model_host = "localhost"
     timestamp = utils.generate_timestamp()
     model_path = str(model_path) if model_path else str(MODEL_FOLD / model_name)
     if model_type == "temp":
-        model_port = int(model_name)
-        model_name = model_name + "-" + f"{timestamp}"
+        model_port = int(port)
+        if not model_port:
+            raise ValueError(f"forget to write port id!, host name: {host}")
+        model_host = host
         model_path = ""
     if chat_template=="default":
         chat_template = "/scratch2/limuyao/workspace/VLA_benchmark/data/model/template/template_llava.jinja"
-    flag,message = insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template,model_base)
+    flag,message = insert_model(model_name,model_path,model_type,support_vision,model_port,timestamp,log_path,chat_template,model_base,model_host=model_host)
     return flag,message
     
 
 if __name__ == "__main__":
     args = parse_args() #得到参数
-    insert_model_wrapper(args.model_name,args.model_path,args.model_type,args.support_vision,args.model_base,args.chat_template)
+    insert_model_wrapper(args.model_name,args.model_path,args.model_type,args.support_vision,args.model_base,args.chat_template,args.port,args.host)
     

@@ -29,12 +29,10 @@ REQUIREMENT_PROMPT_2 = "Assuming you have just completed an evaluation, the next
 
 def sample_validate_qa(dataset:BaseDataset, test_model_A:model.Model,test_model_B:model.Model):
     """从某数据集中挑出一个问题，进行测评"""
-    dataset_content = dataset.get_dataset_content_as_dict()
-    dataset_content_ids = list(dataset_content.keys())
-    uuid = np.random.choice(dataset_content_ids)
+    q_a = dataset.sample()
+    uuid = q_a["id"]
     model_A_response = test_model_A.get_dataset_responses(dataset.dataset_name)[uuid]
     model_B_response = test_model_B.get_dataset_responses(dataset.dataset_name)[uuid]
-    q_a = dataset.get_answers()[uuid]
     input_source = get_validate_qa(model_A_response,model_B_response,q_a,content_attrs=dataset.dataset_attribute["attrs"])
     return input_source
 

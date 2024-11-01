@@ -1,17 +1,26 @@
+"""
+# v 2.2 更新base64
+"""
+
 import json
+import lmdb
 import numpy as np
 import openpyxl
 import pickle
 import rich
 import os
+import io
 import shutil
 import pathlib
 import uuid
 import base64
+import requests
 import cv2
+from PIL import Image
 from typing import Union
 import zipfile
 from datetime import datetime
+
 
 def generate_uuid():
     return str(uuid.uuid4())
@@ -361,8 +370,6 @@ def dump_pickle_file(pkl_file, file_path:Union[str , pathlib.PosixPath],if_print
 def load_txt_file(file_path:Union[str , pathlib.PosixPath]):
     if isinstance(file_path,pathlib.PosixPath):
         file_path = str(file_path)
-    txt_file = ""
-    
     if os.path.exists(file_path):
         try:
             with open(file_path, 'r') as f:
@@ -388,7 +395,6 @@ def dump_txt_file(file,file_path:Union[str , pathlib.PosixPath],if_print = True)
             rich.print(f"[green]创建{file_path}[/green]")
     except IOError as e:
         rich.print(f"[red]文件写入失败：{e}[/red]")
-
 
 def load_excel_file_to_dict(file_path:Union[str , pathlib.PosixPath],if_print = True):
     """存储成如下格式：
@@ -463,8 +469,6 @@ def dump_excel_file(file:dict, file_path:Union[str , pathlib.PosixPath],if_print
         rich.print(f"[yellow]更新{file_path}[/yellow]")
     elif if_print:
         rich.print(f"[green]创建{file_path}[/green]")
-        
-        
 
 ##############################################
     
@@ -508,11 +512,71 @@ def rm_folder(folder_path:Union[str , pathlib.PosixPath]):
     else:
         print(f"Folder '{folder_path}' does not exist or is not a directory.")
 
+################################################
+
+class LmdbProcessor:
+    def __init__(self,path:Union[str , pathlib.PosixPath],map_size = 10485760): #10mb
+        self.path = str(path)
+        self.map_size = map_size
+        self.env = lmdb.open(self.path,map_size=map_size)
+    
+    def insert(self,key:str,value):
+        key = key.encode()
+        value = pickle.dumps(value)
+        with self.env.begin(write=True) as txn:
+            txn.put(key, value)
+        
+    def delete(self,key:str):
+        key = key.encode()
+        try:
+            with self.env.begin(write=True) as txn:
+                txn.delete(key)
+            return True
+        except:
+            return False
+            
+    def get(self,key:str):
+        key = key.encode()
+        with self.env.begin() as txn:
+            # 读取数据
+            value = txn.get(key)
+        if value is not None:
+            value = pickle.loads(value)
+        return value
+    
+    def get_all_keys(self):
+            # 创建一个游标来遍历数据库
+        with self.env.begin() as txn:
+            cursor = txn.cursor()
+            
+            # 遍历所有的键
+            keys = []
+            for key, _ in cursor:
+                keys.append(key)
+        return keys
+        
+    def get_info(self):
+        with self.env.begin() as txn:
+            cursor = txn.cursor()
+            
+            # 遍历所有的键
+            info = {}
+            for key, value in cursor:
+                key = key.decode('utf-8')
+                if value is not None:
+                    value = pickle.loads(value)
+                    info[key] = value
+        return info
+        
+    def close(self):
+        self.env.close()
+        
 
 ################################################
 
+""" 
 def encode_image_to_base64(image:Union[str , pathlib.PosixPath, np.ndarray]):
-    """将数据处理为base64 """
+    #将数据处理为base64 
     if isinstance(image, str):
         image = pathlib.Path(image)
     if isinstance(image,np.ndarray):
@@ -523,6 +587,49 @@ def encode_image_to_base64(image:Union[str , pathlib.PosixPath, np.ndarray]):
         result = base64.b64encode(image_file.read()).decode('utf-8')
         
     return result
+"""
+
+def encode_image_to_base64(image:Union[str,pathlib.PosixPath,Image.Image,np.ndarray], format='PNG') -> str:
+    """Encode an image to base64 format, supports URL, numpy array, and PIL.Image."""
+
+    # Case 1: If the input is a URL (str)
+    image_encode = None
+    if isinstance(image, str) and image[:4]=="http":
+        try:
+            response = requests.get(image)
+            response.raise_for_status()
+            return base64.b64encode(response.content).decode('utf-8')
+        except requests.exceptions.RequestException as e:
+            raise ValueError(f"Failed to retrieve the image from the URL: {e}")
+    elif isinstance(image, str) and image[0]=='/':
+        image = pathlib.Path(image)
+        with image.open('rb') as image_file:
+            image_encode =  base64.b64encode(image_file.read()).decode('utf-8')
+        return image_encode
+    elif isinstance(image,pathlib.PosixPath):
+        with image.open('rb') as image_file:
+            image_encode =  base64.b64encode(image_file.read()).decode('utf-8')
+        return image_encode
+    # Case 3: If the input is a numpy array
+    elif isinstance(image, np.ndarray):
+        image = Image.fromarray(image)
+        buffer = io.BytesIO()
+        image.save(buffer, format=format)
+        buffer.seek(0)
+        image_bytes = buffer.read()
+        return base64.b64encode(image_bytes).decode('utf-8')
+
+    # Case 4: If the input is a PIL.Image
+    elif isinstance(image, Image.Image):
+        buffer = io.BytesIO()
+        image.save(buffer, format=format)
+        buffer.seek(0)
+        image_bytes = buffer.read()
+        return base64.b64encode(image_bytes).decode('utf-8')
+
+    # Raise an error if the input type is unsupported
+    else:
+        raise ValueError("Unsupported input type. Must be a URL (str), numpy array, or PIL.Image.")
 
 def image_crop_inventory(image):
     if type(image)==str:
@@ -541,7 +648,6 @@ def image_crop_inventory(image):
     return scene,hotbars
 
 ################################################
-
 
 if __name__ == "__main__":
     jp = JsonlProcessor("temp/1.jsonl")

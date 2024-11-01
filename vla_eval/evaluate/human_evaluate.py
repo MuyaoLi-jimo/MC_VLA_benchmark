@@ -28,7 +28,8 @@ def get_validate_qa(setting_choice:str,human_model_ratings):
     validate_qa = validate.sample_validate_qa(dataset,model_A,model_B)
     return dataset_name,model_A_name,model_B_name,validate_qa
 
-def cal_human_elo(score,dataset_name:str,validate_qa:dict,model_A_name:str,model_B_name:str,human_model_ratings,human_history_jp):
+def record_human_elo(score,dataset_name:str,validate_qa:dict,model_A_name:str,model_B_name:str,human_model_ratings,human_history_db:utils.LmdbProcessor):
+    """一个需要定时维护的elo rating 系统 并非实时更新  """
     timestamp = utils.generate_timestamp()
     model_A = Model(model_A_name)
     model_B = Model(model_B_name)
@@ -36,5 +37,5 @@ def cal_human_elo(score,dataset_name:str,validate_qa:dict,model_A_name:str,model
     outcome = validate.record_validate(score,dataset,validate_qa,model_A,model_B)
     human_model_ratings,_,_,_ = elo_evaluate.cal_elo(outcome,human_model_ratings,model_A,model_B,dataset,if_human=True)
     outcome.update({"timestamp":timestamp})
-    human_history_jp.dump_line(outcome)
-    return model_A_name,model_B_name,human_model_ratings,human_history_jp
+    human_history_db.insert(timestamp,outcome)
+    return model_A_name,model_B_name,human_model_ratings,human_history_db

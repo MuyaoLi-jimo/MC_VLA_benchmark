@@ -60,30 +60,30 @@ def elo_rank(choice:str = "total",if_print_elo=False,if_human=False)->pd.DataFra
     """
     model_index = utils.load_json_file(model.MODEL_INDEX_PATH) #model的
     print_rank_df = None
-    avaliable_dataset_names = dataset_wrapper.get_avaliable_dataset_names()
+    avaliable_dataset_names = dataset_wrapper.get_avaliable_dataset_names_list()
     if if_human:
-        key_elo_rating = "human rating"
+        key_elo_rating = "human elo rating"
     else:
-        key_elo_rating = "elo rating"
+        key_elo_rating = "model elo rating"
     if choice == "total":
         data = []
         for model_name, details in model_index.items():
             elo_ratings = details[key_elo_rating]
             total_elo_rating = elo_ratings["total"]["mu"] - 1 * elo_ratings["total"]["sigma"]
             win_rate = "{:.2f}".format(round(elo_ratings["total"]["win"] * 100, 2))
-            row = {"model name": model_name,"elo rating":total_elo_rating,"type":details["type"],"win-rate":win_rate}
+            row = {"model name": model_name,"model elo rating":total_elo_rating,"type":details["type"],"win-rate":win_rate}
             for dataset_name in avaliable_dataset_names:
                 row[dataset_name] = elo_ratings.get(dataset_name,{}).get("total", -NAN)
             data.append(row)
-        data_sorted = sorted(data, key=lambda x: x["elo rating"], reverse=True)
+        data_sorted = sorted(data, key=lambda x: x["model elo rating"], reverse=True)
         rank_df = pd.DataFrame(data_sorted) 
         rank_df = rank_df.replace(-NAN,np.nan)
-        rank_df['rank'] = rank_df["elo rating"].rank(method='min', ascending=False) #如果有重复的，按照最小值来
+        rank_df['rank'] = rank_df["model elo rating"].rank(method='min', ascending=False) #如果有重复的，按照最小值来
         for dataset_name in avaliable_dataset_names:
             rank_df[f"{dataset_name}_rank"] = rank_df[dataset_name].rank(method='min', ascending=False)
-        cols_name = ["rank", "model name", "type","elo rating","win-rate"] + [f"{dataset_name}" for dataset_name in avaliable_dataset_names]
+        cols_name = ["rank", "model name", "type","model elo rating","win-rate"] + [f"{dataset_name}" for dataset_name in avaliable_dataset_names]
         if not if_print_elo:
-            cols = ["rank", "model name", "type","elo rating","win-rate"] + [f"{dataset_name}_rank" for dataset_name in avaliable_dataset_names]
+            cols = ["rank", "model name", "type","model elo rating","win-rate"] + [f"{dataset_name}_rank" for dataset_name in avaliable_dataset_names]
             print_rank_df = rank_df[cols]
             print_rank_df.columns = cols_name
         else:
@@ -92,7 +92,7 @@ def elo_rank(choice:str = "total",if_print_elo=False,if_human=False)->pd.DataFra
 
     else: 
         data = []
-        if choice not in avaliable_dataset_names: #avaliable_dataset_names 是set
+        if choice not in set(avaliable_dataset_names): #avaliable_dataset_names 是set
             raise ValueError(f"{choice} is not available. Please choose from {avaliable_dataset_names}.")
         dataset = dataset_wrapper.make(choice)
         dataset_tasks = list(dataset.get_tasks())
@@ -131,4 +131,9 @@ def elo_rank(choice:str = "total",if_print_elo=False,if_human=False)->pd.DataFra
 
 
 if __name__ in "__main__":
-    rank(if_human=True)
+    #rank(if_human=True)
+    import time
+    from time import time
+    time1 = time()
+    print(elo_rank("total"))
+    print(time()-time1)

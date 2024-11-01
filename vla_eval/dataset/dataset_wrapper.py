@@ -16,14 +16,42 @@ def get_avaliable_dataset_names(dataset_index:dict={}):
         dataset_index = utils.load_json_file(DATASET_INDEX_PATH)
     dataset_names = set(dataset_index.keys())
     return dataset_names
+
+def get_avaliable_dataset_names_list(dataset_index:dict={}):
+    if dataset_index=={}: 
+        dataset_index = utils.load_json_file(DATASET_INDEX_PATH)
+    dataset_names = list(dataset_index.keys())
+    return dataset_names
+    
+def get_avaliable_datasets(dataset_index:dict={}):
+    if dataset_index=={}: 
+        dataset_index = utils.load_json_file(DATASET_INDEX_PATH)
+    avaliable_datasets = {}
+    for dataset_name in dataset_index.keys():
+        avaliable_datasets[dataset_name] = make(dataset_name)
+    return avaliable_datasets
     
 def get_dataset_type_map(dataset_index:dict={}):
+    """提供每个dataset对应的type """
     if dataset_index=={}: 
         dataset_index = utils.load_json_file(DATASET_INDEX_PATH)
     dataset_map = {}
     for dataset_name,value in dataset_index.items():
         dataset_map[dataset_name] = value["type"]
     return dataset_map
+
+def get_type_dataset_map(dataset_index:dict={}):
+    """找到type对应的datsets列表"""
+    if dataset_index=={}: 
+        dataset_index = utils.load_json_file(DATASET_INDEX_PATH)
+    dataset_map = get_dataset_type_map(dataset_index)
+    type_map = {}
+    for dataset,type in dataset_map.items:
+        if type_map.get(type,None):
+            type_map[type].append(dataset)
+        else:
+            type_map[type] = [dataset]
+    return type_map
 
 def make(dataset_name:str):
     """得到该验证集的api """
@@ -41,3 +69,6 @@ def make(dataset_name:str):
         raise AssertionError
     return dataset
 
+if __name__ == "__main__":
+    bd = make("reason")  
+    print(bd.sample("intuitive"))

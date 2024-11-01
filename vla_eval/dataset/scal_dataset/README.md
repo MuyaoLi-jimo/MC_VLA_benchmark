@@ -1,0 +1,7 @@
+- 首先写一个get_source_data函数，参数为type,  ✅
+- 还需要一个get_shots函数，参数为type,dataset（get_dataset_type_map）task，默认除了type都是random ✅
+- 根据source data，shots和task，写一个prompt，生成数据（q a） ✅
+- （可选）： 根据source，q，a生成explanation ✅
+- 将生成的数据放到reserve中（一个jsonl）✅
+- 人工检验qae是否合理，如果合理则提交到data中,如果一旦提交，清除model。json中该列的所有数据 ✅
+- 根据qae生成mcq（核心难点在于怎么防止重复利用oe的问题）

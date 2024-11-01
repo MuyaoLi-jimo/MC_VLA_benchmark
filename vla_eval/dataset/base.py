@@ -1,4 +1,5 @@
 import abc
+import numpy as np
 from pathlib import Path,PosixPath
 from vla_eval.model.model import Model
 from utils import utils
@@ -60,6 +61,19 @@ class BaseDataset(abc.ABC):
                 self.dataset_content_dict[row["id"]] = row
                 self.dataset_content_dict[row["id"]]["label"] = [self.dataset_name,task]
         return self.dataset_content_dict
+
+    def sample(self,type:str=""):
+        """从给定的范围中抽样一个，返回这个问题的全部信息"""
+        if not type:
+            dataset_content = self.get_dataset_content_as_dict()
+            dataset_content_ids = list(dataset_content.keys())
+            uuid = np.random.choice(dataset_content_ids)
+        else:
+            assert type in self.get_tasks()
+            uuid = np.random.choice(self.dataset_content[type])["id"]
+            
+        q_a = self.get_answers()[uuid]
+        return q_a
 
     @abc.abstractmethod
     def get_questions(self,model:Model):

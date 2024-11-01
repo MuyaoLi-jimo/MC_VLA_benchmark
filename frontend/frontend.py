@@ -5,17 +5,25 @@ import time
 from vla_eval.model.model import get_avaliable_model_set,get_model_ratings
 from vla_eval.model.insert_model import insert_model_wrapper   # 确保导入你需要的函数
 from vla_eval.model.rank_model import elo_rank
-from vla_eval.evaluate.human_evaluate import get_validate_qa,cal_human_elo
+from vla_eval.evaluate.human_evaluate import get_validate_qa,record_human_elo
 from vla_eval.evaluate.elo_evaluate import history_elo_evaluate
 from utils import utils
 
 DATA_FOLD = Path(__file__).parent.parent / "data"
 MODEL_PATH = DATA_FOLD / "model" / "model.json"
 HISTORY_PATH = DATA_FOLD / "history.jsonl"
-HUMAN_HISTORY_PATH = DATA_FOLD / "human_history.jsonl"
+HUMAN_HISTORY_PATH = DATA_FOLD / "human_history_database"
 
 human_model_ratings = get_model_ratings(if_human=True)
-human_history_jp = utils.JsonlProcessor(HUMAN_HISTORY_PATH)
+human_history_db = utils.LmdbProcessor(HUMAN_HISTORY_PATH,map_size=int(5e8))
+
+def history_elo_evaluate_wrapper_before(human_model_ratings,choice:str = "total",if_print_elo=False,if_human=False):
+    output,model_ratings = history_elo_evaluate(choice=choice,if_print_elo=if_print_elo,if_human=if_human)
+    if if_human:
+        human_model_ratings = model_ratings
+    return output
+
+history_elo_evaluate_wrapper = partial(history_elo_evaluate_wrapper_before,human_model_ratings )
 
 def update_leaderboard(choice, if_print_elo,if_human):
     # 根据选择的选项和是否打印Elo等级来获取更新的数据
@@ -39,9 +47,9 @@ def validate_qa_wrapper(hidden_idx,model_A_response,model_B_response,hidden_imag
         validate_qa["explanation"] = hidden_explain
     return validate_qa
    
-def cal_vote(score,human_model_ratings,human_history_jp,dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain,model_A_name,model_B_name):
+def cal_vote(score,human_model_ratings,human_history_db,dataset_name,hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain,model_A_name,model_B_name):
     validate_qa = validate_qa_wrapper(hidden_idx,model_A_response,model_B_response,hidden_image_path,question,hidden_answer,hidden_explain)
-    model_A_name,model_B_name,human_model_ratings,human_history_jp = cal_human_elo(score,dataset_name,validate_qa,model_A_name,model_B_name,human_model_ratings,human_history_jp)
+    model_A_name,model_B_name,human_model_ratings,human_history_db = record_human_elo(score,dataset_name,validate_qa,model_A_name,model_B_name,human_model_ratings,human_history_db)
     leftvote_btn = gr.Button(
         value="👈  A is better", visible=True, interactive=False
     )
@@ -56,10 +64,10 @@ def cal_vote(score,human_model_ratings,human_history_jp,dataset_name,hidden_idx,
     )
     return model_A_name,model_B_name,leftvote_btn,rightvote_btn,tie_btn,bothbad_btn
 
-cal_leftvote = partial(cal_vote, 3,human_model_ratings,human_history_jp)
-cal_rightvote = partial(cal_vote, 1,human_model_ratings,human_history_jp)
-cal_tievote = partial(cal_vote, 2,human_model_ratings,human_history_jp)
-cal_badvote = partial(cal_vote, 4,human_model_ratings,human_history_jp)
+cal_leftvote = partial(cal_vote, 3,human_model_ratings,human_history_db)
+cal_rightvote = partial(cal_vote, 1,human_model_ratings,human_history_db)
+cal_tievote = partial(cal_vote, 2,human_model_ratings,human_history_db)
+cal_badvote = partial(cal_vote, 4,human_model_ratings,human_history_db)
    
 def newround_response(setting_drop):
     dataset_name,A_name,B_name,validate_qa = get_validate_qa(setting_drop,human_model_ratings)
@@ -158,7 +166,7 @@ with gr.Blocks(title="MC Arena") as page:
             if_print_elo.change(update_leaderboard, inputs=[choice, if_print_elo,use_human_evaluate], outputs=output)
             use_human_evaluate.change(update_leaderboard, inputs=[choice, if_print_elo,use_human_evaluate], outputs=output)
         update_leaderboard_button.click(
-            fn=history_elo_evaluate,
+            fn=history_elo_evaluate_wrapper,
             inputs=[choice, if_print_elo,use_human_evaluate],
             outputs=output
         )
@@ -268,23 +276,27 @@ with gr.Blocks(title="MC Arena") as page:
                 model_type = gr.Radio(["finetune", "pretrained", "commercial", "temp"], label="Model type")
                 support_vision = gr.Checkbox(label="Support vision", value=True)
                 chat_template = gr.Text(label="Additional chat template")
+                model_port = gr.Text(label="Model Port", value="0")  # Changed to a string for gr.Text
+                model_host = gr.Text(label="Model Host", value="localhost")
                 insertb = gr.Button("Insert")
-            with gr.Column():
-                
-                gr.Examples(examples=[
-                    ["llama3-llava-next-8b-hf", "","llava_next", "pretrained", True, ""],
-                    ["llava-v1.6-vicuna-13b-hf","","llava_next","pretrained",True,"/scratch2/limuyao/workspace/VLA_benchmark/data/model/template/template_llava.jinja"],
-                    ["gpt-4o", "openai/gpt-4o","", "commercial", True, ""],
-                    ["10003","","llava_next","temp",True,""],
-                    ],
-                    inputs=[model_name, model_path, model_base,model_type,support_vision,chat_template],)
-                status, message = gr.Textbox(label="Status Message"), gr.Textbox(label="Error Message")
             
+            with gr.Column():
+                gr.Examples(
+                    examples=[
+                        ["llama3-llava-next-8b-hf", "", "llava_next", "pretrained", True, "", "0", "localhost"],
+                        ["llava-v1.6-vicuna-13b-hf", "", "llava_next", "pretrained", True, "/scratch2/limuyao/workspace/VLA_benchmark/data/model/template/template_llava.jinja", "0", "localhost"],
+                        ["gpt-4o", "openai/gpt-4o", "gpt", "commercial", True, "", "0", "localhost"],
+                        ["10003", "", "llava_next", "temp", True, "", "0", "localhost"]
+                    ],
+                    inputs=[model_name, model_path, model_base, model_type, support_vision, chat_template, model_port, model_host]
+                )
+                status = gr.Textbox(label="Status Message")
+                message = gr.Textbox(label="Error Message")
+        
         insertb.click(
             fn=insert_model_wrapper,
-            inputs=[model_name, model_path, model_type, support_vision, model_base, chat_template],
+            inputs=[model_name, model_path, model_type, support_vision, model_base, chat_template, model_port, model_host],
             outputs=[status, message]
         )
-
 page.launch(share=True,auth=("admin", "craftjarvis"))
             

@@ -17,7 +17,7 @@
         ],
         "num": 13,
         "available": true,
-        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a well-rounded, logical response and outline the thought process involved in reaching the conclusion,this is the general format:\n A: [explanation], [answer] \n####################\n",
+        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a well-rounded, logical response and outline the thought process involved in reaching the conclusion,this is the general format:\n A: [explanation], [answer]\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy, reasonable, criticality, creativity\n"
     },
     "knowledge": {
@@ -42,7 +42,7 @@
         ],
         "num": 58,
         "available": true,
-        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a precise and helpful response, this is the general format:\nA: [answer], [explanation]\n####################\n",
+        "inference prompt": "As an expert in Minecraft, you have a deep understanding of the game\u2019s mechanics, crafting recipes, and building strategies. A user has approached you with a question about Minecraft. Please provide a precise and helpful response, this is the general format:\nA: [answer], [explanation].\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy and relevance.\n",
         "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n",
         "validate shot prompt": {
@@ -72,7 +72,7 @@
         ],
         "num": 43,
         "available": true,
-        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. [answer], [explanation]\n####################\n",
+        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format: \n [answer], [explanation]\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy and reasonable.\n",
         "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n"
     },
@@ -93,7 +93,7 @@
         ],
         "num": 20,
         "available": true,
-        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format,（assume there are two questions as an example）: \n1. [answer], [explanation]\n####################\n",
+        "inference prompt":"As an expert in Minecraft, you have a deep understanding of the game's mechanics, crafting recipes, and building strategies. A user has approached you with a screenshot and a question related to it. Please provide precise and helpful response to answer each question, this is the general format: \n[answer], [explanation]\n",
         "validate requirement prompt": "Your judgement should consider factors such as accuracy and reasonable.\n",
         "validate example prompt": "For example, if you decide A\u2019s answer is better, you might say: A answered correctly, while B answered with made factual errors,  [A is better]. if you think there are no significant difference, you can say: Both A and B provided equally good responses, [Tie].\n"
     }

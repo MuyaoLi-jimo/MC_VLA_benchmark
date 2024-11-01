@@ -24,7 +24,6 @@ class VisualBaseDataset(BaseDataset):
         if self.questions:
             return self.questions
         model_name = model.model_name
-        model_attr =  model.model_attr
         self.questions = {}
         for task,rows in self.dataset_content.items():
             self.questions[task] = []
@@ -40,7 +39,7 @@ class VisualBaseDataset(BaseDataset):
                     #success, base64_image = cv2.imencode("."+suffix, resized_image)
                     #if not success:
                         #base64_image = utils.encode_image_to_base64(image_path)
-                if model_name in { "MiniCPM-V-2_6" ,"llava-1.5-13b-hf", "llava-1.5-7b-hf", "fuyu-8b","llava-v1.6-mistral-7b-hf"}:
+                if model_name in { "MiniCPM-V-2_6" ,"llava-1.5-13b-hf", "llava-1.5-7b-hf", "fuyu-8b","llava-v1.6-mistral-7b-hf"} or "molmo" in model_name:
                     input_question = {
                         "id":row["id"],
                         "message":{
@@ -67,7 +66,7 @@ class VisualBaseDataset(BaseDataset):
                             "content": [
                                 {
                                 "type": "text",
-                                "text": f"<image>{question}\n"
+                                "text": f"{question}<image>\n"
                                 },
                                 {
                                 "type": "image_url",

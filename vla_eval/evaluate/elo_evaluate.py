@@ -26,13 +26,13 @@ from utils import utils
 DATA_FOLD = Path(__file__).parent.parent.parent / "data"
 MODEL_PATH = DATA_FOLD / "model" / "model.json"
 HISTORY_PATH = DATA_FOLD / "history.jsonl"
-HUMAN_HISTORY_PATH = DATA_FOLD / "human_history.jsonl"
+HUMAN_HISTORY_PATH = DATA_FOLD / "human_history_database"
 ROUND_NUM = 5   #一场比赛寻找好对手的迭代次数
 ROUND_QUA = 0.3 #定义好比赛
 STOP_A = 5
 K = 32  #elo公式的更新参数
 
-def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gpt-4o-mini"):
+def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gpt-4o"):
     timestamp = utils.generate_timestamp()
     model_ratings = model.get_model_ratings()
     history_jp = utils.JsonlProcessor(HISTORY_PATH)
@@ -63,70 +63,75 @@ def offline_elo_evaluate(round_time=100,model_A_name:str="",judge_model_name="gp
         outcome.update({"timestamp":timestamp})
         history_jp.dump_line(outcome)
         
-    print("done")
+    print("OE done")
 
 def history_elo_evaluate(choice:str = "total",if_print_elo=False,if_human=False):
     """由历史记录重新计算所有模型的elo参数(只计算总榜), 顺带计算平局概率，胜率"""
-    if if_human:
-        history_jp = utils.JsonlProcessor(HUMAN_HISTORY_PATH)
-    else:
-        history_jp = utils.JsonlProcessor(HISTORY_PATH)
-    model_set = model.get_avaliable_model_set()
+    model_dict = model.get_avaliable_model_dict()
+    
     model_rating = {}
     model_win_rate = {}
-    for model_name in model_set:
+    model_elo_rating = {}
+    for model_name in model_dict.keys():
         model_rating[model_name] = init_trueskill_rating()
         model_win_rate[model_name] = {
             "total":0,
             "win_tie":0,
         }
-    draw_num = 0
-    while True:
-        line = history_jp.load_line()
-        if type(line) == type(None):
-            break
-        model_A_name = line["model_A"]
-        model_B_name = line["model_B"]
-        score = line["score"]
-        dataset_name = line["dataset"]
-        if score==2:
-            draw_num+=1
-        model_win_rate = cal_win_rate(score,model_A_name,model_B_name,model_win_rate)
-        model_rating[model_A_name],model_rating[model_B_name] = cal_trueskill_rating(score,model_rating[model_A_name],model_rating[model_B_name])
-    total_num = history_jp.len()
+        model_elo_rating[model_name] = {}
+        
+    draw_num = 0 #用于计算总的平局数，以调整TrueSkill超参
+    total_num = 0
+    if if_human:
+        avaliable_datasets = dataset_wrapper.get_avaliable_datasets()
+        history_db = utils.LmdbProcessor(HUMAN_HISTORY_PATH)
+        history_info = history_db.get_info()
+        for _,value in history_info.items():
+            model_A_name = value["model_A"]
+            model_B_name = value["model_B"]
+            score = value["score"]
+            if score==2 or score==4:
+                draw_num+=1
+            question_id = value["id"]
+            dataset_name = value["dataset"]
+            dataset = avaliable_datasets[dataset_name]
+            task = dataset.get_task(question_id)
+            model_win_rate = cal_win_rate(score,model_A_name,model_B_name,model_win_rate)
+            model_rating[model_A_name],model_rating[model_B_name] = cal_trueskill_rating(score,model_rating[model_A_name],model_rating[model_B_name],if_human=if_human)
+            model_elo_rating[model_A_name] = init_elo_rating(model_elo_rating[model_A_name],dataset=dataset,my_task=task)
+            model_elo_rating[model_B_name] = init_elo_rating(model_elo_rating[model_B_name],dataset=dataset,my_task=task)
+            model_elo_rating[model_A_name]["total"],model_elo_rating[model_B_name]["total"] = update_elo_rating(model_elo_rating[model_A_name]["total"],model_elo_rating[model_B_name]["total"],score)
+            model_elo_rating[model_A_name][task],   model_elo_rating[model_B_name][task]    = update_elo_rating(model_elo_rating[model_A_name][task],model_elo_rating[model_B_name][task],score)
+            model_dict[model_A_name].dump_dataset_elo_rating(model_elo_rating[model_A_name],dataset.dataset_name,if_human=if_human)
+            model_dict[model_B_name].dump_dataset_elo_rating(model_elo_rating[model_B_name],dataset.dataset_name,if_human=if_human)
+        total_num = len(history_info)
+    else:
+        history_jp = utils.JsonlProcessor(HISTORY_PATH)
+        while True:
+            line = history_jp.load_line()
+            if not line:
+                break
+            model_A_name = line["model_A"]
+            model_B_name = line["model_B"]
+            score = line["score"]
+            if score==2 or score==4:
+                draw_num+=1
+            model_win_rate = cal_win_rate(score,model_A_name,model_B_name,model_win_rate)
+            model_rating[model_A_name],model_rating[model_B_name] = cal_trueskill_rating(score,model_rating[model_A_name],model_rating[model_B_name],if_human=if_human)
+
+        total_num = history_jp.len()
     if total_num!=0:
         print(f"[cyan]平局数: {draw_num/total_num}")
     print(f"{model_rating}")
-    
-    
-    def upload_elo(model_rating:dict,if_human=False):
-        if not if_human:
-            key_elo_rating = "elo rating"
-        else:
-            key_elo_rating = "human rating"
-        model_file = utils.load_json_file(MODEL_PATH)
-        for model_name in model_set:
-            model_file[model_name][key_elo_rating]["total"]["mu"] = int(model_rating[model_name].mu)
-            model_file[model_name][key_elo_rating]["total"]["sigma"] = model_rating[model_name].sigma
-        utils.dump_json_file(model_file,MODEL_PATH)
         
-    def upload_win_rate(model_win_rate:dict,if_human=False):
-        if not if_human:
-            key_elo_rating = "elo rating"
-        else:
-            key_elo_rating = "human rating"
-        model_file = utils.load_json_file(MODEL_PATH)
-        for model_name in model_set:
-            if model_win_rate[model_name]["total"]==0:
-                model_file[model_name][key_elo_rating]["total"]["win"]=0
-            else:
-                model_file[model_name][key_elo_rating]["total"]["win"] = model_win_rate[model_name]["win_tie"]/model_win_rate[model_name]["total"]
-        utils.dump_json_file(model_file,MODEL_PATH)
+    for model_name in model_dict.keys():
         
-    upload_elo(model_rating,if_human)
-    upload_win_rate(model_win_rate,if_human)
+        model_dict[model_name].upload_total_elo_rating(model_rating[model_name],if_human=if_human,if_store=False)
+        win_rate = model_win_rate[model_name]["win_tie"]/model_win_rate[model_name]["total"] if model_win_rate[model_name]["total"]!=0 else 0
+        model_dict[model_name].upload_winrate(win_rate,if_human=if_human)
+
     rank_pd = rank_model.elo_rank(choice=choice,if_print_elo=if_print_elo,if_human=if_human)
-    return rank_pd
+    return rank_pd,model_rating
 
 def online_elo_evaluate(dataset_name:str, model_A_name:str,model_B_name:str="",judge_model_name = "gpt-4o",motion="detailed"):
     raise AssertionError("未更新，无法使用")
@@ -176,7 +181,7 @@ def run_inference(database:BaseDataset,inference_model:model.Model,timestamp):
     p.start()
     return p
         
-def sample_A_B_D(model_ratings:dict,model_A_name:str = "",model_B_name = "",dataset_name="", model_file:dict={}):
+def sample_A_B_D(model_ratings:dict,model_A_name:str = "",model_B_name = "",dataset_name="", model_file:dict={},if_human=False):
     "从model_rating中选出一组高质量的对局" 
     # 首先按照标准差来选择A：
     if model_file=={}:
@@ -187,12 +192,16 @@ def sample_A_B_D(model_ratings:dict,model_A_name:str = "",model_B_name = "",data
         model_prob = np.exp(model_sigma) / np.sum(np.exp(model_sigma))
         model_A_name = np.random.choice(avaliable_models, size=1, p=model_prob)[0]
     if not dataset_name:
-        dataset_name = np.random.choice(model_file[model_A_name]["done"])
+        dataset_name = np.random.choice(model_file[model_A_name]["OE done"])
     if not model_B_name:
+        if if_human:
+            env = model.HUMAN_ENV
+        else:
+            env = model.GPT_ENV
         for _ in range(ROUND_NUM): #超参数，最大尝试次数
             model_B_name = sample_B_model(model_A_name,dataset_name,model_file)
             # 看看是不是好的比赛
-            quality = trueskill.quality_1vs1(model_ratings[model_A_name],model_ratings[model_B_name],env=model.MY_ENV)
+            quality = trueskill.quality_1vs1(model_ratings[model_A_name],model_ratings[model_B_name],env=env)
             if quality > ROUND_QUA:
                 break
     return model_A_name,model_B_name,dataset_name
@@ -205,7 +214,7 @@ def sample_B_model(model_A_name:str,dataset_name:str,model_file:dict={}):
     for model_name in avaliable_model:
         if model_name == model_A_name:
             continue
-        if dataset_name not in set(model_file[model_name]["done"]):
+        if dataset_name not in set(model_file[model_name]["OE done"]):
             continue        
         model_set.add(model_name)
     model_B_name = np.random.choice(list(model_set))
@@ -225,8 +234,11 @@ def update_elo_rating(A_rating,B_rating,outcome):
     new_A_rating,new_B_rating = A_rating + update_A, B_rating - update_A
     return int(new_A_rating), int(new_B_rating)
 
-def init_trueskill_rating():
-    return model.MY_ENV.create_rating()
+def init_trueskill_rating(if_human = False):
+    if if_human:
+        return model.HUMAN_ENV.create_rating()
+    else:
+        return model.GPT_ENV.create_rating()
 
 def init_elo_rating(model_elo_rating:dict,dataset:BaseDataset,my_task:str="total"):
     if "total" not in model_elo_rating:
@@ -241,40 +253,40 @@ def init_elo_rating(model_elo_rating:dict,dataset:BaseDataset,my_task:str="total
             model_elo_rating[my_task] = 1000
     return model_elo_rating
 
-def cal_trueskill_rating(score,rate_A:trueskill.Rating,rate_B:trueskill.Rating):
+def cal_trueskill_rating(score,rate_A:trueskill.Rating,rate_B:trueskill.Rating,if_human=False):
+    if if_human:
+        env = model.HUMAN_ENV
+    else:
+        env = model.GPT_ENV
     if score==3: #赢了
-        rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,env=model.MY_ENV)
+        rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,env=env)
     elif score==2 or score==4: #平
-        rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,drawn=True,env=model.MY_ENV)
+        rate_A,rate_B = trueskill.rate_1vs1( rate_A,rate_B,drawn=True,env=env)
     elif score==1: #输了
-        rate_B,rate_A = trueskill.rate_1vs1( rate_B,rate_A,env=model.MY_ENV)
+        rate_B,rate_A = trueskill.rate_1vs1( rate_B,rate_A,env=env)
     else:
         print(f"score错误：{score}")
     return rate_A,rate_B
 
 def cal_elo(outcome:dict,model_rating:dict,model_A:model.Model,model_B:model.Model,dataset:BaseDataset,if_human = False):
-    if if_human:
-        key_elo_rating = "human rating"
-    else:
-        key_elo_rating = "elo rating"
         
-    model_A_elo_rating = model_A.model_attr[key_elo_rating].get(dataset.dataset_name,{})
-    model_B_elo_rating = model_B.model_attr[key_elo_rating].get(dataset.dataset_name,{})
+    model_A_elo_rating = model_A.get_dataset_elo_rating(dataset.dataset_name,if_human=if_human)
+    model_B_elo_rating = model_B.get_dataset_elo_rating(dataset.dataset_name,if_human=if_human)
     question_id = outcome["id"]
     task = dataset.get_task(question_id)
     score = outcome["score"]
     model_A_elo_rating = init_elo_rating(model_A_elo_rating,dataset=dataset,my_task=task)
     model_B_elo_rating = init_elo_rating(model_B_elo_rating,dataset=dataset,my_task=task)
 
-    model_rating[model_A.model_name],model_rating[model_B.model_name] = cal_trueskill_rating(score,model_rating[model_A.model_name],model_rating[model_B.model_name])
+    model_rating[model_A.model_name],model_rating[model_B.model_name] = cal_trueskill_rating(score,model_rating[model_A.model_name],model_rating[model_B.model_name],if_human=if_human)
     
     model_A_elo_rating["total"],model_B_elo_rating["total"] = update_elo_rating(model_A_elo_rating["total"],model_B_elo_rating["total"],score)
     model_A_elo_rating[task],   model_B_elo_rating[task]    = update_elo_rating(model_A_elo_rating[task],model_B_elo_rating[task],score)
-    model_A.model_attr[key_elo_rating][dataset.dataset_name] = model_A_elo_rating
-    model_B.model_attr[key_elo_rating][dataset.dataset_name] = model_B_elo_rating
-    
-    model_A.upload_elo_rating(model_rating[model_A.model_name],if_human)
-    model_B.upload_elo_rating(model_rating[model_B.model_name],if_human)
+    model_A.dump_dataset_elo_rating(model_A_elo_rating,dataset.dataset_name,if_human=if_human)
+    model_B.dump_dataset_elo_rating(model_B_elo_rating,dataset.dataset_name,if_human=if_human)
+    if not if_human: 
+        model_A.upload_total_elo_rating(model_rating[model_A.model_name],if_human)
+        model_B.upload_total_elo_rating(model_rating[model_B.model_name],if_human)
     
     return model_rating,model_A,model_B,dataset
     
@@ -293,8 +305,8 @@ def cal_elos(scores:dict,model_A:model.Model,model_B:model.Model,dataset:BaseDat
         else:
             task_scores[task] = [scores[id]]
     
-    model_A_elo_rating = model_A.model_attr["elo rating"]
-    model_B_elo_rating = model_B.model_attr["elo rating"]
+    model_A_elo_rating = model_A.model_attr["model elo rating"]
+    model_B_elo_rating = model_B.model_attr["model elo rating"]
     
     model_A_elo_rating = init_elo_rating(model_A_elo_rating,dataset=dataset)
     model_B_elo_rating = init_elo_rating(model_B_elo_rating,dataset=dataset)
@@ -321,8 +333,8 @@ def cal_elos(scores:dict,model_A:model.Model,model_B:model.Model,dataset:BaseDat
     
     #print(model_A_elo_rating)
     #print(model_B_elo_rating)
-    model_A.model_attr["elo rating"] = model_A_elo_rating
-    model_B.model_attr["elo rating"] = model_B_elo_rating
+    model_A.model_attr["model elo rating"] = model_A_elo_rating
+    model_B.model_attr["model elo rating"] = model_B_elo_rating
     model_A.upload_model_attr()
     model_B.upload_model_attr()
 
@@ -340,8 +352,10 @@ def cal_win_rate(score:int,model_A_name:str,model_B_name:str,model_win_rate:dict
 
 
 if __name__ == "__main__":
-    #offline_elo_evaluate(model_A_name="")
-    offline_elo_evaluate()
+    offline_elo_evaluate(model_A_name="molmo-7b-d-0924")
+    #history_elo_evaluate(if_human=True)
+    
+    
     #model_ratings = model.get_model_ratings()
     #print(sample_A_B_D(model_ratings))
     #dataset = dataset_wrapper.make("knowledge")
