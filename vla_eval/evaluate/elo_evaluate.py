@@ -352,7 +352,9 @@ def cal_win_rate(score:int,model_A_name:str,model_B_name:str,model_win_rate:dict
 
 
 if __name__ == "__main__":
-    offline_elo_evaluate(model_A_name="molmo-7b-d-0924")
+    offline_elo_evaluate(model_A_name="mc-llava_next_llama3_8b-LORA-embodied_v4_8_28-8_29-A800-c8-e3-b4-a4",round_time=50)
+    offline_elo_evaluate(round_time=50)
+
     #history_elo_evaluate(if_human=True)
     
     

@@ -1,8 +1,7 @@
 **/log*
 *test*
-**/temp*
-**outcome*
+**/temp
 *.bak
 *.xlsx
 **/hidden*
-*database*
+**__pycache__*

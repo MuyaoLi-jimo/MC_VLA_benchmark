@@ -16,13 +16,13 @@ MODEL_INDEX_PATH = MODEL_ATTR_FOLD / "model.json"
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str, default="molmo-72b-0924")
+    parser.add_argument("--model_name", type=str, default="mc-llava_next_llama3_8b-LORA-embodied_v4_8_28-8_29-A800-c8-e3-b4-a4")
     parser.add_argument("--model_path", type=str, default="") #默认是MODEL_FOLD/model_name
     parser.add_argument("--model_type", type=str, default="temp")  #pretrained
     parser.add_argument("--support_vision", type=bool, default=True)
     parser.add_argument("--chat_template",type=str, default="")
     parser.add_argument("--model_base",type=str,default="")
-    parser.add_argument("--port","-p", type=int, default=0)  #pretrained
+    parser.add_argument("--port","-p", type=int, default=9201)  #pretrained
     parser.add_argument("--host","-i", type=str, default="localhost")  #pretrained
     args = parser.parse_args()
     return args

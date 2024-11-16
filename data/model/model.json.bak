@@ -16,21 +16,21 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 1055,
-                "sigma": 32.3168873445911,
-                "win": 0.6459627329192547
+                "mu": 1064,
+                "sigma": 31.933615951497767,
+                "win": 0.6627218934911243
             },
             "knowledge": {
-                "total": 980,
-                "mine": 1014,
-                "craft": 980,
+                "total": 1004,
+                "mine": 1012,
+                "craft": 998,
                 "plant": 967,
-                "mobs": 1030,
+                "mobs": 1044,
                 "kill": 1042,
                 "enchant": 968,
                 "potion": 954,
                 "biomes": 1024,
-                "architecture": 971
+                "architecture": 972
             },
             "reason": {
                 "total": 1065,
@@ -40,17 +40,17 @@
                 "counterfactual": 997
             },
             "visual-basic": {
-                "total": 953,
-                "info": 945,
+                "total": 967,
+                "info": 947,
                 "inventory": 1024,
                 "object": 968,
-                "scene": 962
+                "scene": 980
             },
             "visual-advance": {
-                "total": 899,
+                "total": 922,
                 "spatial": 950,
-                "count": 1025,
-                "intention": 916
+                "count": 1039,
+                "intention": 917
             }
         },
         "human elo rating": {
@@ -280,33 +280,33 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 1275,
-                "sigma": 33.17288184460057,
-                "win": 0.8
+                "mu": 1260,
+                "sigma": 32.90538337909979,
+                "win": 0.8009259259259259
             },
             "knowledge": {
-                "total": 1238,
+                "total": 1249,
                 "mine": 1218,
                 "craft": 1216,
                 "plant": 1193,
                 "mobs": 1231,
                 "kill": 1128,
                 "enchant": 1182,
-                "potion": 1193,
+                "potion": 1201,
                 "biomes": 1148,
-                "architecture": 1236
+                "architecture": 1247
             },
             "reason": {
-                "total": 1291,
+                "total": 1279,
                 "intuitive": 1233,
                 "commonsense": 1144,
-                "counterfactual": 1096,
+                "counterfactual": 1092,
                 "math": 1092
             },
             "visual-basic": {
-                "total": 1137,
+                "total": 1104,
                 "object": 1168,
-                "scene": 1009,
+                "scene": 991,
                 "info": 1053,
                 "inventory": 919,
                 "OCR": 1025
@@ -320,13 +320,13 @@
         },
         "human elo rating": {
             "total": {
-                "mu": 1091,
-                "sigma": 66.07234651858249,
-                "win": 0.6363636363636364
+                "mu": 1100,
+                "sigma": 65.60112414035602,
+                "win": 0.6521739130434783
             },
             "reason": {
-                "total": 1045,
-                "mobs": 1013,
+                "total": 1058,
+                "mobs": 1028,
                 "plant": 1016,
                 "intuitive": 1016,
                 "inventory": 1016,
@@ -338,8 +338,8 @@
                 "object": 1016
             },
             "knowledge": {
-                "total": 1045,
-                "mobs": 1013,
+                "total": 1058,
+                "mobs": 1028,
                 "plant": 1016,
                 "intuitive": 1016,
                 "inventory": 1016,
@@ -351,8 +351,8 @@
                 "object": 1016
             },
             "visual-basic": {
-                "total": 1045,
-                "mobs": 1013,
+                "total": 1058,
+                "mobs": 1028,
                 "plant": 1016,
                 "intuitive": 1016,
                 "inventory": 1016,
@@ -364,8 +364,8 @@
                 "object": 1016
             },
             "visual-advance": {
-                "total": 1045,
-                "mobs": 1013,
+                "total": 1058,
+                "mobs": 1028,
                 "plant": 1016,
                 "intuitive": 1016,
                 "inventory": 1016,
@@ -398,23 +398,23 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 768,
-                "sigma": 35.147737768311984,
-                "win": 0.42718446601941745
+                "mu": 761,
+                "sigma": 35.06511683488475,
+                "win": 0.41509433962264153
             },
             "reason": {
-                "total": 758,
+                "total": 751,
                 "math": 908,
                 "intuitive": 847,
-                "counterfactual": 952,
+                "counterfactual": 938,
                 "commonsense": 927
             },
             "knowledge": {
-                "total": 704,
+                "total": 691,
                 "potion": 962,
                 "biomes": 961,
                 "kill": 946,
-                "craft": 960,
+                "craft": 933,
                 "mine": 904,
                 "mobs": 979,
                 "plant": 925,
@@ -424,14 +424,14 @@
         },
         "human elo rating": {
             "total": {
-                "mu": 876,
-                "sigma": 78.74229193393427,
-                "win": 0.13333333333333333
+                "mu": 869,
+                "sigma": 77.79419701331595,
+                "win": 0.125
             },
             "knowledge": {
-                "total": 931,
+                "total": 918,
                 "plant": 984,
-                "mine": 1000,
+                "mine": 984,
                 "commonsense": 984,
                 "intuitive": 985,
                 "architecture": 997,
@@ -440,9 +440,9 @@
                 "counterfactual": 968
             },
             "reason": {
-                "total": 931,
+                "total": 918,
                 "plant": 984,
-                "mine": 1000,
+                "mine": 984,
                 "commonsense": 984,
                 "intuitive": 985,
                 "architecture": 997,
@@ -476,15 +476,15 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 817,
-                "sigma": 34.255819763578614,
-                "win": 0.4406779661016949
+                "mu": 807,
+                "sigma": 33.78608550046253,
+                "win": 0.42857142857142855
             },
             "knowledge": {
-                "total": 577,
+                "total": 590,
                 "mine": 659,
                 "craft": 792,
-                "plant": 770,
+                "plant": 779,
                 "mobs": 697,
                 "kill": 843,
                 "enchant": 866,
@@ -493,18 +493,18 @@
                 "architecture": 739
             },
             "reason": {
-                "total": 789,
-                "commonsense": 922,
+                "total": 759,
+                "commonsense": 895,
                 "math": 900,
-                "intuitive": 904,
-                "counterfactual": 938
+                "intuitive": 893,
+                "counterfactual": 926
             },
             "visual-basic": {
-                "total": 999,
+                "total": 957,
                 "object": 1053,
-                "inventory": 986,
+                "inventory": 969,
                 "scene": 998,
-                "info": 975,
+                "info": 960,
                 "OCR": 985
             },
             "visual-advance": {
@@ -515,69 +515,69 @@
         },
         "human elo rating": {
             "total": {
-                "mu": 869,
-                "sigma": 64.29488306386592,
-                "win": 0.30434782608695654
+                "mu": 850,
+                "sigma": 63.14272466860877,
+                "win": 0.28
             },
             "knowledge": {
-                "total": 912,
+                "total": 888,
                 "mine": 984,
                 "craft": 1000,
                 "object": 1001,
                 "architecture": 984,
                 "inventory": 1015,
                 "scene": 984,
-                "math": 984,
+                "math": 968,
                 "potion": 984,
-                "intuitive": 968,
+                "intuitive": 953,
                 "spatial": 1000,
                 "intention": 999,
                 "OCR": 1000,
                 "commonsense": 969
             },
             "visual-basic": {
-                "total": 912,
+                "total": 888,
                 "mine": 984,
                 "craft": 1000,
                 "object": 1001,
                 "architecture": 984,
                 "inventory": 1015,
                 "scene": 984,
-                "math": 984,
+                "math": 968,
                 "potion": 984,
-                "intuitive": 968,
+                "intuitive": 953,
                 "spatial": 1000,
                 "intention": 999,
                 "OCR": 1000,
                 "commonsense": 969
             },
             "reason": {
-                "total": 912,
+                "total": 888,
                 "mine": 984,
                 "craft": 1000,
                 "object": 1001,
                 "architecture": 984,
                 "inventory": 1015,
                 "scene": 984,
-                "math": 984,
+                "math": 968,
                 "potion": 984,
-                "intuitive": 968,
+                "intuitive": 953,
                 "spatial": 1000,
                 "intention": 999,
                 "OCR": 1000,
                 "commonsense": 969
             },
             "visual-advance": {
-                "total": 912,
+                "total": 888,
                 "mine": 984,
                 "craft": 1000,
                 "object": 1001,
                 "architecture": 984,
                 "inventory": 1015,
                 "scene": 984,
-                "math": 984,
+                "math": 968,
                 "potion": 984,
-                "intuitive": 968,
+                "intuitive": 953,
                 "spatial": 1000,
                 "intention": 999,
                 "OCR": 1000,
@@ -609,9 +609,9 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 836,
-                "sigma": 33.931821502628345,
-                "win": 0.45081967213114754
+                "mu": 853,
+                "sigma": 33.28295689046933,
+                "win": 0.46875
             },
             "knowledge": {
                 "total": 608,
@@ -626,10 +626,10 @@
                 "architecture": 730
             },
             "reason": {
-                "total": 764,
+                "total": 790,
                 "math": 882,
                 "commonsense": 924,
-                "intuitive": 882,
+                "intuitive": 904,
                 "counterfactual": 937
             },
             "visual-basic": {
@@ -641,10 +641,10 @@
                 "OCR": 954
             },
             "visual-advance": {
-                "total": 1009,
+                "total": 1002,
                 "spatial": 998,
-                "intention": 1008,
-                "count": 1011
+                "intention": 1001,
+                "count": 1008
             }
         },
         "human elo rating": {
@@ -737,9 +737,9 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 996,
-                "sigma": 31.275377961340904,
-                "win": 0.6065573770491803
+                "mu": 1002,
+                "sigma": 30.954573414844305,
+                "win": 0.616580310880829
             },
             "reason": {
                 "total": 948,
@@ -749,28 +749,28 @@
                 "intuitive": 932
             },
             "visual-basic": {
-                "total": 942,
-                "scene": 946,
-                "info": 1035,
-                "object": 989,
+                "total": 956,
+                "scene": 932,
+                "info": 1049,
+                "object": 1001,
                 "inventory": 1010,
                 "OCR": 986
             },
             "knowledge": {
-                "total": 952,
+                "total": 957,
                 "architecture": 1057,
                 "mine": 1048,
                 "biomes": 1018,
-                "plant": 1025,
+                "plant": 1023,
                 "mobs": 968,
                 "kill": 1028,
-                "craft": 1009,
-                "enchant": 1000,
+                "craft": 992,
+                "enchant": 1016,
                 "potion": 1018
             },
             "visual-advance": {
-                "total": 958,
-                "count": 1018,
+                "total": 975,
+                "count": 1029,
                 "spatial": 935,
                 "intention": 998
             }
@@ -869,9 +869,9 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 1020,
-                "sigma": 32.7618012090298,
-                "win": 0.5703703703703704
+                "mu": 999,
+                "sigma": 32.37188718354073,
+                "win": 0.5563380281690141
             },
             "visual-basic": {
                 "total": 962,
@@ -882,8 +882,8 @@
                 "OCR": 985
             },
             "reason": {
-                "total": 899,
-                "math": 956,
+                "total": 895,
+                "math": 942,
                 "intuitive": 981,
                 "commonsense": 970,
                 "counterfactual": 961
@@ -901,27 +901,27 @@
                 "enchant": 1016
             },
             "visual-advance": {
-                "total": 988,
-                "intention": 1028,
-                "spatial": 983,
+                "total": 942,
+                "intention": 1041,
+                "spatial": 929,
                 "count": 984
             }
         },
         "human elo rating": {
             "total": {
-                "mu": 967,
-                "sigma": 65.58900487659741,
-                "win": 0.47619047619047616
+                "mu": 957,
+                "sigma": 65.10637697545442,
+                "win": 0.45454545454545453
             },
             "visual-basic": {
-                "total": 982,
+                "total": 966,
                 "math": 984,
                 "architecture": 1000,
                 "kill": 1000,
                 "object": 998,
                 "enchant": 1016,
                 "scene": 1000,
-                "spatial": 1015,
+                "spatial": 998,
                 "potion": 1016,
                 "mobs": 1000,
                 "intention": 970,
@@ -930,14 +930,14 @@
                 "OCR": 1000
             },
             "reason": {
-                "total": 982,
+                "total": 966,
                 "math": 984,
                 "architecture": 1000,
                 "kill": 1000,
                 "object": 998,
                 "enchant": 1016,
                 "scene": 1000,
-                "spatial": 1015,
+                "spatial": 998,
                 "potion": 1016,
                 "mobs": 1000,
                 "intention": 970,
@@ -946,14 +946,14 @@
                 "OCR": 1000
             },
             "knowledge": {
-                "total": 982,
+                "total": 966,
                 "math": 984,
                 "architecture": 1000,
                 "kill": 1000,
                 "object": 998,
                 "enchant": 1016,
                 "scene": 1000,
-                "spatial": 1015,
+                "spatial": 998,
                 "potion": 1016,
                 "mobs": 1000,
                 "intention": 970,
@@ -962,14 +962,14 @@
                 "OCR": 1000
             },
             "visual-advance": {
-                "total": 982,
+                "total": 966,
                 "math": 984,
                 "architecture": 1000,
                 "kill": 1000,
                 "object": 998,
                 "enchant": 1016,
                 "scene": 1000,
-                "spatial": 1015,
+                "spatial": 998,
                 "potion": 1016,
                 "mobs": 1000,
                 "intention": 970,
@@ -1005,24 +1005,24 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 992,
-                "sigma": 31.26122716071333,
-                "win": 0.5406698564593302
+                "mu": 1006,
+                "sigma": 31.196712353962003,
+                "win": 0.5509259259259259
             },
             "visual-basic": {
-                "total": 957,
-                "info": 1019,
-                "inventory": 1014,
+                "total": 954,
+                "info": 1018,
+                "inventory": 996,
                 "scene": 1064,
                 "object": 957,
-                "OCR": 984
+                "OCR": 1000
             },
             "knowledge": {
-                "total": 862,
+                "total": 900,
                 "craft": 940,
-                "mine": 1005,
+                "mine": 1020,
                 "architecture": 973,
-                "plant": 946,
+                "plant": 964,
                 "biomes": 983,
                 "potion": 969,
                 "mobs": 1000,
@@ -1030,10 +1030,10 @@
                 "kill": 1000
             },
             "reason": {
-                "total": 953,
+                "total": 990,
                 "math": 950,
                 "intuitive": 957,
-                "commonsense": 966,
+                "commonsense": 998,
                 "counterfactual": 1027
             },
             "visual-advance": {
@@ -1045,12 +1045,12 @@
         },
         "human elo rating": {
             "total": {
-                "mu": 1021,
-                "sigma": 65.71929012444829,
-                "win": 0.5714285714285714
+                "mu": 1010,
+                "sigma": 65.2128891712295,
+                "win": 0.5454545454545454
             },
             "knowledge": {
-                "total": 1005,
+                "total": 988,
                 "mine": 1016,
                 "mobs": 984,
                 "scene": 1001,
@@ -1061,10 +1061,11 @@
                 "intention": 1018,
                 "inventory": 984,
                 "math": 1000,
-                "OCR": 1000
+                "OCR": 1000,
+                "biomes": 984
             },
             "visual-basic": {
-                "total": 1005,
+                "total": 988,
                 "mine": 1016,
                 "mobs": 984,
                 "scene": 1001,
@@ -1075,10 +1076,11 @@
                 "intention": 1018,
                 "inventory": 984,
                 "math": 1000,
-                "OCR": 1000
+                "OCR": 1000,
+                "biomes": 984
             },
             "visual-advance": {
-                "total": 1005,
+                "total": 988,
                 "mine": 1016,
                 "mobs": 984,
                 "scene": 1001,
@@ -1089,10 +1091,11 @@
                 "intention": 1018,
                 "inventory": 984,
                 "math": 1000,
-                "OCR": 1000
+                "OCR": 1000,
+                "biomes": 984
             },
             "reason": {
-                "total": 1005,
+                "total": 988,
                 "mine": 1016,
                 "mobs": 984,
                 "scene": 1001,
@@ -1103,7 +1106,8 @@
                 "intention": 1018,
                 "inventory": 984,
                 "math": 1000,
-                "OCR": 1000
+                "OCR": 1000,
+                "biomes": 984
             }
         },
         "MCQ score": {},
@@ -1131,11 +1135,11 @@
         "model elo rating": {
             "total": {
                 "mu": 974,
-                "sigma": 31.862773566749315,
-                "win": 0.5771812080536913
+                "sigma": 31.554817054587648,
+                "win": 0.5786163522012578
             },
             "knowledge": {
-                "total": 868,
+                "total": 873,
                 "mine": 899,
                 "craft": 875,
                 "plant": 942,
@@ -1144,37 +1148,38 @@
                 "enchant": 953,
                 "potion": 895,
                 "biomes": 955,
-                "architecture": 1001
+                "architecture": 1000
             },
             "reason": {
-                "total": 867,
-                "counterfactual": 945,
+                "total": 858,
+                "counterfactual": 933,
                 "commonsense": 957,
                 "intuitive": 923,
                 "math": 947
             },
             "visual-basic": {
-                "total": 1076,
+                "total": 1082,
                 "scene": 1056,
                 "object": 1039,
-                "inventory": 996,
-                "info": 1004
+                "inventory": 1026,
+                "info": 987,
+                "OCR": 1015
             },
             "visual-advance": {
-                "total": 967,
-                "spatial": 1005,
-                "intention": 947,
-                "count": 1011
+                "total": 951,
+                "spatial": 991,
+                "intention": 965,
+                "count": 994
             }
         },
         "human elo rating": {
             "total": {
-                "mu": 1040,
-                "sigma": 65.1069231128386,
-                "win": 0.6666666666666666
+                "mu": 1038,
+                "sigma": 63.84837401674194,
+                "win": 0.6818181818181818
             },
             "knowledge": {
-                "total": 1008,
+                "total": 1007,
                 "craft": 984,
                 "inventory": 1013,
                 "intuitive": 1000,
@@ -1183,13 +1188,13 @@
                 "math": 1016,
                 "mobs": 1017,
                 "kill": 984,
-                "intention": 969,
+                "intention": 970,
                 "spatial": 1015,
                 "object": 1015,
                 "OCR": 1014
             },
             "visual-basic": {
-                "total": 1008,
+                "total": 1007,
                 "craft": 984,
                 "inventory": 1013,
                 "intuitive": 1000,
@@ -1198,13 +1203,13 @@
                 "math": 1016,
                 "mobs": 1017,
                 "kill": 984,
-                "intention": 969,
+                "intention": 970,
                 "spatial": 1015,
                 "object": 1015,
                 "OCR": 1014
             },
             "reason": {
-                "total": 1008,
+                "total": 1007,
                 "craft": 984,
                 "inventory": 1013,
                 "intuitive": 1000,
@@ -1213,13 +1218,13 @@
                 "math": 1016,
                 "mobs": 1017,
                 "kill": 984,
-                "intention": 969,
+                "intention": 970,
                 "spatial": 1015,
                 "object": 1015,
                 "OCR": 1014
             },
             "visual-advance": {
-                "total": 1008,
+                "total": 1007,
                 "craft": 984,
                 "inventory": 1013,
                 "intuitive": 1000,
@@ -1228,7 +1233,7 @@
                 "math": 1016,
                 "mobs": 1017,
                 "kill": 984,
-                "intention": 969,
+                "intention": 970,
                 "spatial": 1015,
                 "object": 1015,
                 "OCR": 1014
@@ -1257,16 +1262,16 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 1058,
-                "sigma": 34.549153384297334,
-                "win": 0.6218487394957983
+                "mu": 1043,
+                "sigma": 34.00521146643386,
+                "win": 0.608
             },
             "knowledge": {
-                "total": 1014,
+                "total": 1038,
                 "potion": 1045,
                 "craft": 1068,
-                "architecture": 1050,
-                "mobs": 976,
+                "architecture": 1063,
+                "mobs": 992,
                 "biomes": 1009,
                 "mine": 992,
                 "kill": 992,
@@ -1281,11 +1286,11 @@
                 "inventory": 1044
             },
             "reason": {
-                "total": 939,
-                "counterfactual": 992,
+                "total": 892,
+                "counterfactual": 965,
                 "commonsense": 951,
-                "intuitive": 968,
-                "math": 997
+                "intuitive": 953,
+                "math": 981
             }
         },
         "human elo rating": {
@@ -1349,9 +1354,9 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 812,
-                "sigma": 33.90899958445044,
-                "win": 0.3898305084745763
+                "mu": 808,
+                "sigma": 33.53117350245009,
+                "win": 0.38095238095238093
             },
             "visual-basic": {
                 "total": 770,
@@ -1361,28 +1366,28 @@
                 "scene": 929
             },
             "knowledge": {
-                "total": 722,
+                "total": 747,
                 "mobs": 931,
                 "kill": 963,
                 "mine": 969,
                 "biomes": 961,
-                "plant": 981,
+                "plant": 996,
                 "architecture": 954,
                 "craft": 952,
                 "potion": 977,
                 "enchant": 953
             },
             "reason": {
-                "total": 845,
-                "counterfactual": 966,
+                "total": 818,
+                "counterfactual": 951,
                 "math": 986,
-                "intuitive": 895,
-                "commonsense": 953
+                "intuitive": 883,
+                "commonsense": 938
             },
             "visual-advance": {
-                "total": 863,
-                "intention": 894,
-                "count": 1015,
+                "total": 838,
+                "intention": 869,
+                "count": 996,
                 "spatial": 950
             }
         },
@@ -1506,27 +1511,27 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 960,
-                "sigma": 32.84307575180214,
-                "win": 0.6320754716981132
+                "mu": 971,
+                "sigma": 32.323641985255634,
+                "win": 0.6460176991150443
             },
             "reason": {
-                "total": 929,
+                "total": 915,
                 "intuitive": 999,
-                "math": 942,
+                "math": 928,
                 "commonsense": 955,
                 "counterfactual": 1028
             },
             "visual-basic": {
-                "total": 973,
+                "total": 999,
                 "info": 1009,
-                "object": 1024,
+                "object": 1043,
                 "inventory": 1011,
-                "scene": 964,
+                "scene": 965,
                 "OCR": 999
             },
             "knowledge": {
-                "total": 887,
+                "total": 892,
                 "mine": 1048,
                 "kill": 986,
                 "plant": 979,
@@ -1537,17 +1542,35 @@
                 "architecture": 983
             },
             "visual-advance": {
-                "total": 953,
+                "total": 971,
                 "count": 997,
                 "spatial": 1005,
-                "intention": 959
+                "intention": 975
             }
         },
         "human elo rating": {
             "total": {
-                "mu": 1000,
-                "sigma": 333.33,
-                "win": 0
+                "mu": 1013,
+                "sigma": 156.2896173671542,
+                "win": 0.6666666666666666
+            },
+            "knowledge": {
+                "total": 998,
+                "mobs": 984,
+                "intuitive": 1014,
+                "intention": 998
+            },
+            "reason": {
+                "total": 998,
+                "mobs": 984,
+                "intuitive": 1014,
+                "intention": 998
+            },
+            "visual-advance": {
+                "total": 998,
+                "mobs": 984,
+                "intuitive": 1014,
+                "intention": 998
             }
         },
         "MCQ score": {},
@@ -1574,48 +1597,66 @@
         ],
         "model elo rating": {
             "total": {
-                "mu": 1167,
-                "sigma": 34.234165740251385,
-                "win": 0.8151260504201681
+                "mu": 1155,
+                "sigma": 33.591307537583845,
+                "win": 0.8120300751879699
             },
             "visual-basic": {
-                "total": 1021,
+                "total": 1058,
                 "info": 1027,
                 "scene": 1017,
-                "object": 980,
-                "inventory": 982,
+                "object": 1009,
+                "inventory": 998,
                 "OCR": 1056
             },
             "reason": {
-                "total": 1148,
-                "math": 1121,
-                "intuitive": 1105,
-                "commonsense": 993
+                "total": 1151,
+                "math": 1132,
+                "intuitive": 1116,
+                "commonsense": 989
             },
             "knowledge": {
-                "total": 1113,
+                "total": 1063,
                 "biomes": 1017,
-                "mobs": 1038,
-                "enchant": 1015,
+                "mobs": 1036,
+                "enchant": 997,
                 "kill": 1019,
                 "plant": 1041,
                 "craft": 1050,
                 "mine": 1017,
-                "potion": 1037,
+                "potion": 1019,
                 "architecture": 998
             },
             "visual-advance": {
-                "total": 1110,
-                "count": 1038,
-                "intention": 1045,
-                "spatial": 1057
+                "total": 1121,
+                "count": 1036,
+                "intention": 1067,
+                "spatial": 1054
             }
         },
         "human elo rating": {
             "total": {
-                "mu": 1000,
-                "sigma": 333.33,
-                "win": 0
+                "mu": 1307,
+                "sigma": 184.42444405903586,
+                "win": 0.6666666666666666
+            },
+            "visual-advance": {
+                "total": 1027,
+                "spatial": 1016,
+                "commonsense": 1000,
+                "mine": 1016
+            },
+            "reason": {
+                "total": 1027,
+                "spatial": 1016,
+                "commonsense": 1000,
+                "mine": 1016
+            },
+            "knowledge": {
+                "total": 1027,
+                "spatial": 1016,
+                "commonsense": 1000,
+                "mine": 1016
             }
         },
         "MCQ score": {},
@@ -1624,6 +1665,85 @@
             "pid": 0,
             "port": 9163,
             "host": "100.101.168.1"
+        }
+    },
+    "mc-llava_next_llama3_8b-LORA-embodied_v4_8_28-8_29-A800-c8-e3-b4-a4": {
+        "id": "8f9e9ac4-a459-4376-9d33-fc92da9e9fff",
+        "insert_time": "2024-11-12 08:20:25",
+        "path": "",
+        "avaliable": true,
+        "runable": true,
+        "type": "temp",
+        "support vision": true,
+        "OE done": [
+            "visual-advance",
+            "reason",
+            "knowledge",
+            "visual-basic"
+        ],
+        "model elo rating": {
+            "total": {
+                "mu": 1000,
+                "sigma": 33.50355787477187,
+                "win": 0.63
+            },
+            "visual-basic": {
+                "total": 956,
+                "inventory": 984,
+                "object": 933,
+                "info": 1011,
+                "scene": 1008,
+                "OCR": 967
+            },
+            "knowledge": {
+                "total": 889,
+                "mobs": 968,
+                "architecture": 971,
+                "craft": 1022,
+                "plant": 955,
+                "potion": 1008,
+                "enchant": 1001,
+                "mine": 985
+            },
+            "reason": {
+                "total": 1060,
+                "commonsense": 1007,
+                "math": 1029,
+                "counterfactual": 1077,
+                "intuitive": 999
+            },
+            "visual-advance": {
+                "total": 998,
+                "spatial": 1064,
+                "intention": 950,
+                "count": 1008
+            }
+        },
+        "human elo rating": {
+            "total": {
+                "mu": 1310,
+                "sigma": 184.25606829513237,
+                "win": 0.6666666666666666
+            },
+            "knowledge": {
+                "total": 1025,
+                "biomes": 1016,
+                "commonsense": 1000,
+                "math": 1015
+            },
+            "reason": {
+                "total": 1025,
+                "biomes": 1016,
+                "commonsense": 1000,
+                "math": 1015
+            }
+        },
+        "MCQ score": {},
+        "running state": {
+            "running": true,
+            "pid": 0,
+            "port": 9201,
+            "host": "100.124.100.98"
         }
     }
 }
